@@ -15,7 +15,7 @@ const SayHi = () => (
     點擊此處{" "}
     <Link
       aria-label="Send an E-Mail to hello@rathes.me"
-      href="mailto:hello@rathes.me"
+      href="mailto:ad546971975@icloud.com"
       underlined
     >
       與我聯繫
