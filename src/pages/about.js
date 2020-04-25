@@ -13,122 +13,69 @@ import { Separator } from "../components/Separator"
 
 const AboutMe = () => (
   <Layout>
-    <SEO title="About me" />
+    <SEO title="個人簡介" />
     <Box maxWidth="640px" marginTop={32}>
-      <Heading1>/raðiːs/</Heading1>
+      <Heading1>/ˈdəgləs/</Heading1>
       <Paragraph>
-        I’m Rathes Sachchithananthan, a web developer with interests not only in
-        engineering but also in product development & design, user & customer
-        experience, and most importantly in languages and cultures.
+        我是 Douglas，一個目前工作與生活在上海的 Web 開發，雖然立足於前端崗位，但我的個人視野從不局限於前端，同樣也會聚焦於後端 / Devops / 抑或是產品 / UI。
       </Paragraph>
       <Paragraph>
-        I started working as a web designer and web developer at a very young
-        age. I earned my first money as a web designer creating custom MySpace
-        layouts when I was just 14. In 2008, at the age of 16, I founded my own
-        company for web design and development. Since then, I have worked with
-        several clients doing quite a wide range of tasks.
+        開設這片自留地的主要原因在於，我希望在一個遠離 gfw 的地方描述與記錄一些自己的個人想法，同時不必因為一些
+        ‘不可名狀的原因’ 被迫自我閹割。因此，這裡的記錄可能並不僅限於開發，也可能會有一些除研發以外的隨想。
       </Paragraph>
       <Paragraph>
-        For more than 10 years, I have been working as a web developer doing
-        problem-solving as a back-end engineer using languages such as PHP,
-        Python or Node.js but also as a front-end developer working with
-        HTML/CSS and JavaScript.
+        這裡的內容會由以下三個部分組成：算法 / 研發 / 趨勢，其中由於個人職業與見解原因，可能會更傾向於研發部分。而研發部分的內容，則會傾向於 Node.js / JavaScript。畢竟我還是個前端嘛（逃）。
       </Paragraph>
       <Paragraph>
-        However, my real passion lies beyond software and development. I’m more
-        into solving problems for people, make their lives easier and connecting
-        them with each other. Alongside that, I’m passionate about learning new
-        languages and cultures.
-      </Paragraph>
-      <Paragraph>
-        Nowadays, I work as a front-end engineer at Hussle in London building
-        web applications using React.
-      </Paragraph>
-      <Paragraph>
-        Apart from that, I spent most of my time working on smaller side
-        projects at Aheenam. Right now, I’m working on providing a platform for
-        people to learn my mother language Tamil.
+        我一直堅信一點，分享知識是鞏固 / 獲取新知識的最好方法。因此我會定期記錄一些日常開發中解決問題的方法供各位參考。同樣的，我熱衷於為開源事業作出自己的一份貢獻，如果有優質開源項目需要貢獻人手，歡迎隨時與我聯繫。
       </Paragraph>
 
       <Box marginTop={32} element="section">
-        <Heading2>What I read</Heading2>
+        <Heading2>當前閱讀書單</Heading2>
         <Paragraph>
-          Books play an important part in my life. Just sitting on my couch or
-          bed and reading a novel can be really inspiring.
+          計算機學科發展了這麼多年，書籍與文檔是用於記錄知識的重要載體。這裡會列出我最近正在讀的一些書籍 / 文章，作為個人記錄使用。
         </Paragraph>
         <Paragraph>
-          I do fancy crime novels with interesting detective characters from
-          good old Sherlock Holmes to Harry Hole. But I read basically any kind
-          of book that can broaden one’s horizons.
+          這份書單會以開發相關內容為主，同樣會在一定時期加入一些非開發類別的書籍 / 文章。
         </Paragraph>
         <Paragraph>
-          Actually, I dream of having my own library one day where I can invite
-          everybody to pick up a nice book and read.
+          我希望有朝一日，這份書單能發展成一份龐大的書籍記錄，為後來的開發者提供一些有效的幫助，讓他們能夠少走一些我走過的彎路。
         </Paragraph>
         <Box marginTop={12}>
-          <List title="Reading List 2020">
-            <List.Item
-              subtitle="by Cody McFadyen"
-              link="https://amzn.to/2tw7Zxp"
-            >
-              Shadow Man (Smoky Barrett, Band 1)
+          <List title="2020 閱讀清單">
+            <List.Item subtitle="Robert Sedgewick, Kevin Wayne" link="https://www.ituring.com.cn/book/875">
+              算法（第4版）
             </List.Item>
             <List.Item
-              subtitle="by Ransom Riggs"
-              link="https://amzn.to/2MYAfj6"
+              subtitle="高德纳"
+              link="https://www.ituring.com.cn/book/925"
             >
-              Library of Souls: The Third Novel of Miss Peregrine's Peculiar
-              Children
-            </List.Item>
-            <List.Item
-              subtitle="by Sir Arthur Conan Doyle"
-              link="https://amzn.to/37vaKhk"
-            >
-              Sherlock Holmes: A Study in Scarlet
-            </List.Item>
-            <List.Item
-              subtitle="by Charlotte Link"
-              link="https://amzn.to/2U8dFbw"
-            >
-              Die letzte Spur (The last track)
+              计算机程序设计艺术 卷4A：组合算法（一）
             </List.Item>
           </List>
           <Separator />
-          <List title="Currently reading">
-            <List.Item subtitle="by Eric Ries" link="https://amzn.to/2uresu3">
-              The Lean Startup: How Today's Entrepreneurs Use Continuous
-              Innovation to Create Radically Successful Businesses
+          <List title="正在閱讀">
+            <List.Item subtitle="Robert Sedgewick, Kevin Wayne" link="https://www.ituring.com.cn/book/875">
+              算法（第4版）
             </List.Item>
             <List.Item
-              subtitle="by George R. R. Martin"
-              link="https://amzn.to/2Rngm82"
+              subtitle="高德纳"
+              link="https://www.ituring.com.cn/book/925"
             >
-              A Game of Thrones: A Song of Ice and Fire
+              计算机程序设计艺术 卷4A：组合算法（一）
             </List.Item>
           </List>
         </Box>
       </Box>
 
       <Box marginTop={32} element="section">
-        <Heading2>What I write</Heading2>
+        <Heading2>個人隨筆</Heading2>
         <Paragraph>
-          From time to time I also write. It can be work related topics that I
-          share in the{" "}
+          自大二開始，我就一直在折騰自己的 Blog 系統，當前的 Blog 系统已经是第四时代的产物了。{" "}
           <Link element={RouterLink} to="/writings" underlined color="white">
-            writing section
+            个人随笔
           </Link>{" "}
-          of this website but I also write to empty my mind and eternalize
-          ideas.
-        </Paragraph>
-        <Paragraph>
-          I have several ideas for some crime novel and I even developed my
-          detective character “Chris Garner”. I want to publish my first short
-          stories soon.
-        </Paragraph>
-        <Paragraph>
-          Before I can do that I have to finish my current book which is called
-          “A guide to basic Tamil Grammar”. I’m writing that book as an entry
-          point for my learning platform.
+          部分記敘了我自大三以來的一些技術實現和隨想，當然剔除了以前我寫的不太好的黑歷史（逃）。
         </Paragraph>
       </Box>
       <Box element="section" marginTop={32} marginBottom={32}>

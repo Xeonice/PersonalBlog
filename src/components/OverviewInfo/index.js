@@ -31,35 +31,24 @@ const OverviewInfo = () => (
     display="flex"
     justifyContent="space-between"
     marginTop={4}
-    maxWidth="375px"
+    maxWidth="200px"
   >
     <Box>
       <Separator />
-      <Title color="silver">Working at</Title>
+      <Title color="silver">工作地</Title>
       <Info color="white" href="https://www.hussle.com" element={TextBody}>
-        Hussle
+        上海 - 青浦
       </Info>
     </Box>
     <Box>
       <Separator />
-      <Title color="silver">Living in</Title>
+      <Title color="silver">Github</Title>
       <Info
         color="white"
         element={TextBody}
-        href="https://goo.gl/maps/9kKByTYJhSz"
+        href="https://github.com/Xeonice"
       >
-        Ghent, BE
-      </Info>
-    </Box>
-    <Box>
-      <Separator />
-      <Title color="silver">Follow me</Title>
-      <Info
-        color="white"
-        element={TextBody}
-        href="https://twitter.com/rswebdesigner"
-      >
-        @rswebdesigner
+        @Xeonice
       </Info>
     </Box>
   </Box>

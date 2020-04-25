@@ -23,33 +23,24 @@ const Writings = ({ data }) => {
       <Box maxWidth="640px" marginTop={32} element="section">
         <SEO title="Writings" />
         <Paragraph>
-          From time to time, I do write. Sometime on my blog, but also on other
-          blogs such as on{" "}
-          <Link color="white" href="https://medium.com/@rathes" underlined>
-            Medium
-          </Link>
-          . The topics, I write about are diverse. Obviously, I write about the
-          web, but also about non-web topics like my mother tongue Tamil or even
-          about movies or anime.
+          在大二開始的 Blog 折騰生涯中，我已經更換了好幾個 Blog 系統，如 Ghost / WordPress / Hexo 之類的。最終還是回歸到了簡潔且對前端友好的 Gatsby 體系下，畢竟能寫 React 的 Blog 系統才是好系統（逃）。
         </Paragraph>
         <Paragraph>
-          I do write in English, German and Tamil. So if you do not understand
-          the title, it may be that you do not speak the language. If you want
-          me to translate a specific article, just drop a message{" "}
+          我平日的一大愛好就是折騰一些小工具，尤其是那種能提升日常開發效率，從而提升摸魚時間的小工具。另一大愛好就是打主機遊戲，如果希望進行交流的話，可以通過以下途徑找到我{" "}
           <Link
             color="white"
-            href="https://twitter.com/rswebdesigner"
+            href="https://twitter.com/_DouglasDong_"
             underlined
           >
-            @rswebdesigner
+            @_DouglasDong_
           </Link>
         </Paragraph>
 
         <Box marginTop={32} element="section">
           <Box marginTop={12}>
-            <List title="Books & Whitepapers">
+            <List title="開源書籍">
               <List.Item link="https://learn-tamil.com">
-                A Guide To Basic Tamil Grammar
+                DataSet Tutorial
               </List.Item>
             </List>
           </Box>

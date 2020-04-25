@@ -20,9 +20,9 @@ const NotFoundPage = () => (
       </Paragraph>
       <Paragraph>
         <List>
-          <List.Item link="/">The homepage</List.Item>
-          <List.Item link="/writings">My blog posts</List.Item>
-          <List.Item link="/about">Information about myself</List.Item>
+          <List.Item link="/">首頁</List.Item>
+          <List.Item link="/writings">個人隨筆</List.Item>
+          <List.Item link="/about">個人簡介</List.Item>
         </List>
       </Paragraph>
     </Box>

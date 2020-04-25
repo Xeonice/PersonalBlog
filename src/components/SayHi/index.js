@@ -12,14 +12,15 @@ const SayHi = () => (
     lineHeight={1.194444444444}
     textColor="white"
   >
-    Work inquiry, question or something else?{" "}
+    點擊此處{" "}
     <Link
       aria-label="Send an E-Mail to hello@rathes.me"
       href="mailto:hello@rathes.me"
       underlined
     >
-      Say hi!
+      與我聯繫
     </Link>
+    ，進行一些更為深入的探討。
   </Box>
 )
 

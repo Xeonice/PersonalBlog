@@ -7,8 +7,6 @@ import SayHi from "../components/SayHi"
 import Link from "../components/Link"
 import { Box } from "../components/Box"
 import { Paragraph, Heading2 } from "../components/Typography"
-import List from "../components/List/List"
-import { Separator } from "../components/Separator"
 
 const Work = ({ data }) => {
   return (
@@ -16,76 +14,28 @@ const Work = ({ data }) => {
       <Box maxWidth="640px" marginTop={32} element="section">
         <SEO title="Work" />
         <Paragraph>
-          I work as a front-end engineer at Hussle right now but I also work on
-          other side projects that are not only development related. If you want
-          to see my development related things, I recommend that you visit my{" "}
+          我目前供職於一家專注於服務中小型企業的公司，縣目前於公司中台體系負責一些前端基建的相關工作，最終目標在於能夠利用公司龐大的後端資源實現更為快捷的交付。當然我也在 Github 上有那麼一部分產出，如果感興趣的話，可以讀一讀我的
+          {" "}
           <Link color="white" href="https://github.com/rathesDot" underlined>
-            Github profile
+            Github 個人賬號
           </Link>
-          .
+          {" "}。
         </Paragraph>
         <Box marginTop={32} element="section">
-          <Heading2>Learn Tamil Online</Heading2>
+          <Heading2>DataSet 教程</Heading2>
           <Paragraph>
-            The side project I am working on right now is to provide a platform
-            for people that want to learn my mother language Tamil.
+            當前這個項目，是為了改良我司正在使用的 Choerodon-ui 體系的相關文檔。當前的文檔存在各種各樣的潛在問題，讓交付人員無法輕鬆快捷的迅速上手整個項目。
           </Paragraph>
           <Paragraph>
-            In a first step, I'm working on a small book that I will use as the
-            foundation to build an app and a community around learning the
-            language Tamil and also learning about the Tamil culture and
-            history.
+            因此，我正在致力於書寫一份針對 DataSet 的交互文檔，使新人在接觸這一文檔體系時能夠擁有更加平滑的學習曲線。在這一文檔完成後，我會將其放在個人隨筆中。
           </Paragraph>
           <Paragraph>
-            Learn more about the project on{" "}
-            <Link color="white" underlined href="https://learn-tamil.com">
-              https://learn-tamil.com
+            感興趣的話，可以了解以下我們正在使用的這套{" "}
+            <Link color="white" underlined href="https://choerodon.github.io/choerodon-ui/index-cn">
+              Choerodon-ui
             </Link>
+            {" "} 體系。
           </Paragraph>
-        </Box>
-        <Box marginTop={32} element="section">
-          <Heading2>Public Speaking</Heading2>
-          <Paragraph>
-            In January 2019, I gave my first tech-related talk. Since it was an
-            exciting experience, I will hopefully fill up this list with a few
-            more talks, not only about tech-related stuff but also about society
-            related things as I did a few times in the past already.
-          </Paragraph>
-          <Paragraph>
-            If you want me to give a talk at your meetup, conference, or even
-            private events, feel free to message me. You can find the abstracts
-            of my current talks below. Each of them is possible as a 20-, 30-,
-            and 45-minutes talk.
-          </Paragraph>
-          <List title="Tech Talks">
-            <List.Item
-              link={data.rddUk.publicURL}
-              subtitle="February 2019 at PHP UK Unconference"
-            >
-              Introduction to Readme Driven Development
-            </List.Item>
-            <List.Item
-              link={data.rdd.publicURL}
-              subtitle="January 2019 at PHP Gent"
-            >
-              Introduction to Readme Driven Development
-            </List.Item>
-          </List>
-          <Separator />
-          <List title="Abstracts">
-            <List.Item
-              link="/talks/meetings"
-              subtitle="Developing a meeting culture that employees will love"
-            >
-              You probably don’t need that meeting
-            </List.Item>
-            <List.Item
-              link="/talks/managing-time"
-              subtitle="A talk about what people call time management"
-            >
-              You can't manage time
-            </List.Item>
-          </List>
         </Box>
         <Box element="section" marginTop={32} marginBottom={32}>
           <SayHi />

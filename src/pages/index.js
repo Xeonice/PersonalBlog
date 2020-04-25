@@ -22,7 +22,7 @@ const Introduction = styled.h1`
 
 const IndexPage = () => (
   <Layout>
-    <SEO title="Home" />
+    <SEO title="首页" />
     <Box
       element="section"
       display="flex"
@@ -30,8 +30,7 @@ const IndexPage = () => (
       justifyContent="center"
     >
       <Introduction>
-        Hi there, I’m Rathes Sachchithananthan and I’m a web developer currently
-        living in Belgium
+        Hello，歡迎來到 Douglas 的自留地，一個持續奮鬥在搬磚路上的 Web 開發
       </Introduction>
       <OverviewInfo />
     </Box>

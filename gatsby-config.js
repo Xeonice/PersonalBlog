@@ -20,9 +20,9 @@ const markdownPlugins = [
 
 module.exports = {
   siteMetadata: {
-    title: `Web Developer — Rathes Sachchithananthan`,
+    title: `前端開發 — DouglaDong`,
     description: `I am a former freelancing Web Designer and Web Developer. Currently you can find me working at Aheenam, the agency I started to provide digital solutions for anyone. Get in touch with me using social media!`,
-    author: `@rswebdesigner`,
+    author: `@_douglasdong_`,
     siteUrl: `https://rathes.me`,
   },
   plugins: [

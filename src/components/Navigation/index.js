@@ -66,7 +66,7 @@ const Navigation = () => {
         element={RouterLink}
         to="/about"
       >
-        About
+        個人簡介
       </MenuItem>
       <Separator />
       <MenuItem
@@ -74,7 +74,7 @@ const Navigation = () => {
         href={data.resume.publicURL}
         aria-label="Resume"
       >
-        Resume
+        個人簡歷
       </MenuItem>
       <Separator />
       <MenuItem
@@ -82,7 +82,7 @@ const Navigation = () => {
         element={RouterLink}
         to="/work"
       >
-        Work
+        工作
       </MenuItem>
       <Separator />
       <MenuItem
@@ -90,7 +90,7 @@ const Navigation = () => {
         element={RouterLink}
         to="/writings"
       >
-        Writings
+        文章
       </MenuItem>
     </Box>
   )
