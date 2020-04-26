@@ -38,16 +38,16 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-plugin-mdx",
-      options: {
-        gatsbyRemarkPlugins: markdownPlugins,
-      },
-    },
-    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `src`,
         path: `${__dirname}/src/content`,
+      },
+    },
+    {
+      resolve: "gatsby-plugin-mdx",
+      options: {
+        gatsbyRemarkPlugins: markdownPlugins,
       },
     },
     `gatsby-plugin-react-helmet`,
