@@ -83,7 +83,7 @@ locale: zh_CN
 
 但這一发現明顯不符合常理，因為操作上千條 `issue` 時，本身就存在高昂的性能成本。`60 fps` 的前提是將每個整體渲染流程（js 執行 + css 重繪）的執行時間控制在 17ms 之內。如果 `beautiful-dnd` 沒有采用 `Virtualized List` 的話，根本不可能在 17 ms 之內完成近千條 `issue` 的操作。也就是說，`beautiful-dnd` 采用了另一種不同於 `Virtualized List` 的神奇方案減輕渲染負擔。
 
-查閱官方文檔後，我发現了這篇文章：[Dragging React performance forward](https://medium.com/@alexandereardon/dragging-react-performance-forward-688b30d40a33 "Dragging React performance forward")
+查閱官方文檔後，我发現了這篇文章：[Dragging React performance forward](https://medium.com/@alexandereardon/dragging-react-performance-forward-688b30d40a33)
 
 這篇文章詳細解釋了 `React-beautiful-dnd` 為了做到極致拖拽性能所采取的一些獨特設計方案，總體來看有以下兩個技巧：
 
