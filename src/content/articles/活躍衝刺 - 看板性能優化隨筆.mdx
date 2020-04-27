@@ -83,7 +83,7 @@ locale: zh_CN
 
 但這一发現明顯不符合常理，因為操作上千條 `issue` 時，本身就存在高昂的性能成本。`60 fps` 的前提是將每個整體渲染流程（js 執行 + css 重繪）的執行時間控制在 17ms 之內。如果 `beautiful-dnd` 沒有采用 `Virtualized List` 的話，根本不可能在 17 ms 之內完成近千條 `issue` 的操作。也就是說，`beautiful-dnd` 采用了另一種不同於 `Virtualized List` 的神奇方案減輕渲染負擔。
 
-查閱官方文檔後，我发現了這篇文章：[Dragging React performance forward](https://medium.com/@alexandereardon/dragging-react-performance-forward-688b30d40a33)
+查閱官方文檔後，我发現了這篇文章：[Dragging React performance forward](https://medium.com/@alexandereardon/dragging-react-performance-forward-688b30d40a33 "Dragging React performance forward")
 
 這篇文章詳細解釋了 `React-beautiful-dnd` 為了做到極致拖拽性能所采取的一些獨特設計方案，總體來看有以下兩個技巧：
 
@@ -103,7 +103,7 @@ locale: zh_CN
 
 ### 我們在使用 React-beautiful-dnd 沒有註意到的盲點
 
-首先要說的是，`React-beautiful-dnd` 是有一個暗坑的。雖然這個暗坑的規避方式被醒目的標記在了官方文檔上，但是我們的開发明顯在當初開发的時候並沒有註意到這一點。具體來說就是這篇文檔：[Droppable](#)(https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/api/droppable.md)，這篇文檔中標題為 `Recommended <Droppable /> performance optimisation` 這一部分記錄了一個潛在的影響性能的問題，就是 `<Droppable>` 組件會導致重渲染，如果沒有在下一層組件設定 `shouldComponentUpdate`，就會導致下面的所有子組件全部重渲染。解決方案自然是在 `shouldComponentUpdate` 中對比 `this.props` 與 `nextProps`，相同時不執行更新。
+首先要說的是，`React-beautiful-dnd` 是有一個暗坑的。雖然這個暗坑的規避方式被醒目的標記在了官方文檔上，但是我們的開发明顯在當初開发的時候並沒有註意到這一點。具體來說就是這篇文檔：[Droppable](https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/api/droppable.md "Recommended <Droppable /> performance optimisation")，這篇文檔中標題為 `Recommended <Droppable /> performance optimisation` 這一部分記錄了一個潛在的影響性能的問題，就是 `<Droppable>` 組件會導致重渲染，如果沒有在下一層組件設定 `shouldComponentUpdate`，就會導致下面的所有子組件全部重渲染。解決方案自然是在 `shouldComponentUpdate` 中對比 `this.props` 與 `nextProps`，相同時不執行更新。
 
 ### 規避數組元素變動時導致的數組全渲染
 
