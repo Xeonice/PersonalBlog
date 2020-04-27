@@ -1,0 +1,142 @@
+---
+id: 201903081
+title: "React diff 算法"
+date: 2019-03-08T13:45:00+02:00
+author: Douglas
+template: post
+description: Web 界面是由 DOM 樹構成的，當頁面发生變化時，對應到 DOM 樹中就是某個節點发生了變化。
+image: ../images/blog/meeting.jpg
+categories:
+  - JavaScript
+locale: zh_CN
+---
+
+# 為什麽要用 diff 算法？
+
+`Web` 界面是由 `DOM` 樹構成的，當頁面发生變化時，對應到 `DOM` 樹中就是某個節點发生了變化。傳統的 [diff 算法](https://grfia.dlsi.ua.es/ml/algorithms/references/editsurvey_bille.pdf) 通過循環遞歸對節點進行依次對比，時間覆雜度為 `O(n^3)`。意味著如果我們展示 1000 個節點，就需要做 `1,000^3 = 1,000,000,000` 次操作。這種實現在數據量極大的情況下對前端是絕對不可接受的。而且其中考慮到的相當一部分特殊情況也屬於前端大部分時候不需要去考慮的部分，比如 `不相交路徑問題、子林問題、NP 完全問題`。
+
+也就是說，`React` 如果單純引入正統的 `Diff` 算法，不僅會做很多冗余運算，而且還會極大程度上拖慢前端渲染的性能。因此，`React` 針對前端渲染的情況做了大膽假設與推斷，運用正統 `Diff` 算法中的一部分子集完成了一套針對於前端的高效 `Diff` 算法。
+
+# React 所實現的 Diff 算法
+
+`React` 這套算法的實現並不覆雜，其時間覆雜度僅為 O(n)，主要依賴於以下幾條 `diff` 策略。
+
+1. `Web UI` 中跨節點的操作很少，幾乎可以忽略不計
+2. 擁有相同類的兩個組件會生成相似的樹形結構，擁有不同類的兩個組件將會生成不同的樹形結構。
+3. 對於同一層級的一組子節點，它們可以通過唯一 `Id` 進行區分
+
+基於以上三條策略，`React` 分別對 `tree-diff`、`component-diff`、`element-diff` 進行了優化。
+
+## tree-diff
+
+既然跨節點操作可以忽略不計，那麽我們完全可以忽略跨節點操作的情況，僅考慮同一層的節點變化情況，這樣的同層比較就將原先 `O(n^3)` 的算法覆雜度縮減到了 `O(n)`（PS：`React` 所實現的 `diff` 算法高效的原因僅僅是因為其需要考慮的情況較少，並不是說正統的 `diff` 算法劣於 `React-diff` 算法）
+
+![](https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.49.13.png)
+
+`React` 通過 `updateDepth` 對 `Virtul-DOM 樹` 進行層級控制，只會對同一層級的節點進行比較，當发現節點已不存在，則該節點及其子節點都會被刪掉，不會用於進一步的比較。這樣只需要做一次遍歷，就可以完成整個 `DOM樹` 的比較。
+
+那麽，如果出現跨層級的 `DOM` 節點移動的話，`React` 會如何進行處理呢？
+
+![](https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.50.03.png)
+
+直覺上來說，上圖的 `Diff` 操作應該只涉及兩個節點，即 `A.parentNode.remove` 與 `B.append(A)`，但是由於 `React` 只監聽同一層的節點變換，所以它會先刪除整個 `A` 節點及其子樹，然後在 `D` 節點上重新生成 `A` 節點與其整個子樹。其操作應該是 `Create A` =\> `Create B` =\> `Create C` =\> `Delete A`。如果是跨層級移動一個調用棧很深的節點的話，就會導致很明顯的性能問題。
+
+> 註意：保持穩定的 `DOM` 結構，不做跨層級 `DOM` 操作有助於性能提升。例如，用 `CSS` 隱藏或顯示節點，而不是真的隱藏或添加 `DOM` 節點。
+
+## component-diff
+
+`React` 基於組件構建應用，對於組件間的比較采用的策略也同樣簡單高效。
+
+* 如果是同一類型的組件，按照原先策略繼續比較
+* 如果不是，則將該組件判斷為 `dirty component`，從而替換整個組件下的子節點
+* 對於同一類型的組件，有可能其 `Virtual DOM` 沒有任何變化，如果能夠確切的知道這點那可以節省大量的 `diff` 運算時間，因此 React 允許用戶通過 `shouldComponentUpdate()` 來判斷該組件是否需要進行 `diff`。
+
+![](https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.50.32.png)
+
+如上圖，當 `componentD` 轉為 `componentG` 的時候，即使這兩個組件結構相似，一旦 `React` 判斷這兩個組件為不同類型的組件，就不會比較兩者的結構，而是直接刪除 `componentD`，並新建 `componentG` 以及其子節點。（PS：這也許是使用 `React-beautiful-dnd` 時必須使用 `shouldComponentUpdate` 規避 `Draggable` 下的所有子組件渲染的原因。因為 `Draggable` 內的組件進行了變化）
+
+# element-diff
+
+組件位於同一層級時，React-diff 提供了三種節點操作，分別為 `INSERT_MARKUP（插入）`、`MOVE_EXISTING（移動）` 和 `REMOVE_NODE（刪除）`。
+
+* `INSERT_MARKUP`，新的節點不在老的節點集合中，即全新的節點，需要對新節點執行插入操作
+* `MOVE_EXISTING`，在老集合中有 `component` 類型，且 `element` 是可更新的類型，`generateComponentChildern` 已調用 `receiveComponent`，這種情況下 `prevChild=nextChild`，就需要調用移動操作，可以覆用以前的 `DOM` 節點
+* `REMOVE_NODE`，老 `component` 類型，在新集合中也有，但對應的 `element` 不同則不能直接覆用和更新，需要執行刪除操作。或者老的 `component` 不在新集合里的，也需要執行刪除操作。
+
+## 為什麽需要 element-diff 原則？
+
+如下圖，老集合中包含節點：`A、B、C、D`，更新後的新集合包含節點 `B、A、D、C`，此時新老集合進行 `diff` 差異化對比，发現 `B != A`，則創建並插入 `B` 至新集合，刪除老集合 `A`，以此類推，創建 `A`、`D` 和 `C`，刪除 `B`、`C`、和 `D`。
+
+![](https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2018.35.34-1.png)
+
+React 发現這類操作繁瑣冗余，因為這些都是相同的節點。但由於位置发生變化，導致需要進行繁雜低效的刪除、創建操作，其實上只需要進行位置移動即可。
+
+針對這一現象，React 提出優化策略，允許開发者對同一層級的同組子節點，添加唯一 `key` 進行區分，雖然只是小小的改動，性能上卻发生了翻天覆地的變化。
+
+如下圖所示，新老集合進行 `diff` 差異化對比，通過 `key` 发現新老集合中的節點都是相同的節點，因此無需進行節點刪除和創建，只需要將老集合中節點的位置進行移動，更新為新集合中節點的位置，此時 React 給出的 `diff` 結果為：`B、D 不進行任何操作，A、C 進行移動操作`
+
+![](https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2018.36.12.png)
+
+> PS：我們用 `map` 方法將一組節點集合加入頁面時，如果貪圖省事將 `key` 設定為數組的 `index`，React 就會立即在控制台爆出 `warning`，其主要原因就在於，當我們對該數組進行操作時，如果刪除或移動數組中任意一個節點，都會無可避免的導致 `index` 的變動。如果用經常變動的 `index` 作為 `key` 來標示節點，每次對數組進行操作後就會導致幾乎所有的 `key` 變動，從而誤導 React 對所有節點進行更新。
+
+## element-diff 是如何運作的？
+
+首先先對新集合的節點進行循環便利，`for(name in nextChildren)`,通過唯一 `key` 可以判斷新老集合中是否存在相同的節點，`if (prefChild === nextChild)`，存在相同節點時，進行移動操作。
+
+移動前需要將當前節點在老集合中的位置與 `lastIndex` 進行比較，`if(child._mountIndex < lastIndex)` 則進行節點移動操作，否則不執行該操作。這是一種順序優化手段，`lastIndex` 一直在更新，表示訪問過的節點在老集合中最右的位置（即最大的位置）。**如果新集合中當前訪問的節點比 lastIndex 大，說明當前訪問節點在老集合中就比上一個節點位置靠後，則該節點不會影響其他節點的位置，因此不用添加到差異隊列中，即不執行移動操作。只有當訪問的節點比 `lastIndex` 小的時候，才需要進行移動操作。**
+
+ PS：下文中的 `lastIndex` 均指原數組元素更新後生成的當前 `index`
+
+###  新老集合中存在相同節點但位置不同
+
+ 以上圖為例，可以更為清晰直觀的描述 diff 的差異對比流程
+
+*  從新集合中取得 B，判斷老集合中存在相同節點 B，通過對比節點位置判斷是否進行移動操作，B 在老集合中的位置 `B._mountIndex = 1`，此時 `lastIndex = 0`，不滿足 `child._mountIndex < lastIndex` 的條件，因此不對 B 進行移動操作，更新 `lastIndex = Math.max(prevChild._mountIndex, lastIndex)`，其中 `prevChild._mountIndex` 表示 B 在老集合中的位置，則 `lastIndex = 1`，並將 B 的位置更新為新集合中的位置 `prevChild._mountIndex = nextIndex`，此時新集合中 `B._mountIndex = 0`，`nextIdnex ++` 進入下一個節點的判斷
+*  從新集合中取得 A，判斷老集合中存在相同節點 A，通過對比節點位置判斷是否進行移動操作，A 在老集合中的位置 `A._mountIndex = 0`，此時 `lastIndex = 1`，滿足 `child._mountIndex < lastIndex` 的條件，因此對 A 進行移動操作 `enqueueMove(this, child._mountIndex, toIndex)`，其中 `toIndex` 其實就是 `nextIndex`，表示 A 需要移動到的位置；更新 `lastIndex = Math.max(prevChild._mountIndex, lastIndex)`，則 `lastIndex = 1`，並將 A 的位置更新為新集合中的位置 `prevChild._mountIndex = nextIndex`，此時新集合中 `A._mountIndex = 1`，`nextIndex++` 進入下一個節點的判斷。
+*  從新集合中取得 D，判斷老集合中存在相同節點 D，通過對比節點位置判斷是否進行移動操作，D 在老集合中的位置 `D._mountIndex = 3`，此時 `lastIndex = 1`，不滿足 `child._mountIndex < lastIndex` 的條件，因此不對 D 進行移動操作；更新 `lastIndex = Math.max(prevChild._mountIndex = nextIndex)`，則 `lastIndex = 3`，並將 D 的位置更新為新集合中的位置 `prevChild._mountIndex = nextIndex`，此時新集合中 `D._mountIndex = 2`，`nextIndex++` 進入下一個節點的判斷
+
+*  從新集合中取得 C，判斷老集合中存在相同節點 C，通過對比節點位置判斷是否進行移動操作，C 在老集合中的位置 `C._mountIndex = 2`，此時 `lastIndex = 3`，滿足 `child._mountIndex < lastIndex` 的條件，因此對 C 進行移動操作 `enqueueMove(this, child._mountIndex, toIndex)`；更新 `lastIndex = Math.max(prevChild._mountIndex, lastIndex)`，則 `lastIndex ＝ 3`，並將 C 的位置更新為新集合中的位置 `prevChild._mountIndex = nextIndex`，此時新集合中 `C._mountIndex = 3`，`nextIndex++` 進入下一個節點的判斷，由於 C 已經是最後一個節點，因此 diff 到此完成。
+
+
+如果新集合中有新加入的節點且老集合中存在需要刪除的節點，`React diff` 又是如何對比運作的呢？
+
+### 新集合有新加入節點，老集合中存在需要刪除的節點
+
+以下圖為例：
+
+![](https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.23.19.png)
+
+
+* 從新集合中取得 B，判斷老集合中存在相同節點 B，由於 B 在老集合中的位置 `B._mountIndex = 1`，此時 `lastIndex = 0`，因此不對 B 進行移動操作；更新 `lastIndex ＝ 1`，並將 B 的位置更新為新集合中的位置 `B._mountIndex = 0`，`nextIndex++` 進入下一個節點的判斷。
+
+* 從新集合中取得 E，判斷老集合中不存在相同節點 E，則創建新節點 E；更新 `lastIndex ＝ 1`，並將 E 的位置更新為新集合中的位置，`nextIndex++` 進入下一個節點的判斷。
+
+* 從新集合中取得 C，判斷老集合中存在相同節點 C，由於 C 在老集合中的位置 `C._mountIndex = 2`，`lastIndex = 1`，此時 `C._mountIndex > lastIndex`，因此不對 C 進行移動操作；更新 `lastIndex ＝ 2`，並將 C 的位置更新為新集合中的位置，`nextIndex++` 進入下一個節點的判斷。
+
+* 從新集合中取得 A，判斷老集合中存在相同節點 A，由於 A 在老集合中的位置`A._mountIndex = 0`，`lastIndex = 2`，此時 `A._mountIndex < lastIndex`，因此對 A 進行移動操作；更新 `lastIndex ＝ 2`，並將 A 的位置更新為新集合中的位置，`nextIndex++` 進入下一個節點的判斷。
+
+* 當完成新集合中所有節點 diff 時，最後還需要對老集合進行循環遍歷，判斷是否存在新集合中沒有但老集合中仍存在的節點，发現存在這樣的節點 D，因此刪除節點 D，到此 diff 全部完成。
+
+### React Diff 的不足
+
+如下圖所示，新集合的節點更新為：D、A、B、C，與老集合對比只有 D 節點移動，而 A、B、C 仍然保持原有的順序，理論上 diff 應該只需對 D 進行移動操作，然而由於 D 在老集合中的位置是最大的，導致其他節點的 `_mountIndex < lastIndex`，造成 D 沒有執行移動操作，而是 A、B、C 全部移動到 D 節點後面。
+
+![](https://imagetemp.oss-cn-beijing.aliyuncs.com/2019-03-28-%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202019-03-28%2022.57.15.png)
+
+> 建議：在開发過程中，盡量減少類似將最後一個節點移動到列表首部的操作，當節點數量過大或更新操作過於頻繁時，在一定程度上會影響 React 的渲染性能
+
+# 總結
+
+* React 通過制定大膽的 diff 策略，將 `O(n^3)` 覆雜度的問題轉換成 `O(n)` 覆雜度的問題
+* React 通過分層求異的方法，對 `tree diff` 進行算法優化
+* React 通過相同類生成相似樹形結構，不同類生成不同樹形結構的策略，對 `component diff` 進行算法優化
+* React 通過設置唯一 key 的策略，對 `element diff` 進行算法優化
+* 建議：在開发組件時，保持穩定的 DOM 結構會有助於性能的提升（前端鐵則）
+* 建議：在開发過程中，盡量減少類似將最後一個節點移動到列表首部的操作，當節點數量過大或更新操作過於頻繁時，在一定程度上會影響 React 的渲染性能（可以將節點移動的操作轉換為 CSS 位置變動的操作，如利用 `transform` 變動節點 `position` 坐標）
+
+# 參考資料
+
+本篇文章為閱讀 Pure render 发布的 diff 算法解析後，在原有文章上添加了一些自有註解的產物，非原創文章。
+
+[React 源碼剖析系列 － 不可思議的 react diff](https://zhuanlan.zhihu.com/p/20346379 "React 源碼剖析系列 － 不可思議的 react diff")
+
