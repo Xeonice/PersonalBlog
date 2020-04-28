@@ -31,7 +31,7 @@ module.exports = {
       options: {
         fonts: [
           {
-            family: `Lato`,
+            family: `Noto Serif SC`,
             variants: [`400`, `600`],
           },
         ],
@@ -71,8 +71,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `douglasdong's blog`,
+        short_name: `douglasdong`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
@@ -81,6 +81,15 @@ module.exports = {
       },
     },
     `gatsby-plugin-styled-components`,
+    {
+      resolve: 'gatsby-plugin-use-dark-mode',
+      options: {
+        classNameDark: 'dark-mode',
+        classNameLight: 'light-mode',
+        storageKey: 'darkMode',
+        minify: true,
+      },
+    },
     `gatsby-plugin-sitemap`,
     `gatsby-plugin-offline`,
   ],

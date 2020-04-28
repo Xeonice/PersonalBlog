@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useLayoutEffect } from "react"
 import PropTypes from "prop-types"
 import styled, { ThemeProvider } from "styled-components"
 
@@ -8,6 +8,12 @@ import { Box } from "../Box"
 
 import Global from "./global"
 import theme from "../../../theme"
+import ThemeButton from "../ThemeButton"
+
+const HeaderContainer = styled.div`
+  display: 'flex';
+  justify-content: 'space-between';
+`
 
 const MainContainer = styled(Box)`
   padding: 40px ${props => props.theme.spacing["4"]};
@@ -21,25 +27,54 @@ const MainContainer = styled(Box)`
   }
 `
 
-const Layout = ({ children }) => (
-  <ThemeProvider theme={theme}>
-    <Global />
-    <MainContainer
-      backgroundColor="black"
-      display="flex"
-      element="main"
-      flexDirection="column"
-      fontFamily="default"
-      justifyContent="space-between"
-      minHeight="100vh"
-      textColor="silver"
-    >
-      <Navigation />
-      {children}
-      <Footer />
-    </MainContainer>
-  </ThemeProvider>
-)
+const Layout = ({ children }) => {
+  const [isDark, setIsDark] = useState(undefined);
+  useLayoutEffect(() => {
+    // 当页面加载完毕时才有 localStorage
+    setIsDark(localStorage.getItem('darkMode') === 'true');
+  }, []);
+  // 如果非暗色模式的话，对其进行反色处理
+  const lightModeTheme = isDark ? {} : {
+    colors: {
+      black: {
+        lightest: "#bababa",
+        lighter: "#d5d5d5",
+        light: "#e9e9e9",
+        default: "#fff",
+      },
+      silver: {
+        default: "#787878",
+        darker: "#989898",
+        darkest: "#555",
+      },
+      white: {
+        default: "#111",
+      },
+    },
+  }
+  return typeof isDark === "boolean" && (
+    <ThemeProvider theme={{
+      ...theme,
+      ...lightModeTheme,
+    }}>
+      <Global />
+      <MainContainer
+        backgroundColor="black"
+        display="flex"
+        element="main"
+        flexDirection="column"
+        fontFamily="default"
+        justifyContent="space-between"
+        minHeight="100vh"
+        textColor="silver"
+      >
+        <Navigation setIsDark={setIsDark} />
+        {children}
+        <Footer />
+      </MainContainer>
+    </ThemeProvider>
+  )
+}
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,

@@ -1,6 +1,9 @@
 import { createGlobalStyle } from "styled-components"
 
 export const Global = createGlobalStyle`
+* {
+  transition: background-color 0.5s ease;
+}
 html {
   -webkit-text-size-adjust: 100%;
   box-sizing: border-box;

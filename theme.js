@@ -17,7 +17,7 @@ export default {
   },
   fontFamily: {
     default: [
-      "Lato",
+      "Noto Serif SC",
       "-apple-system",
       "BlinkMacSystemFont",
       '"Segoe UI"',
