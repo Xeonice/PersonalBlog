@@ -6,6 +6,7 @@ import Logo from "../Logo"
 
 import Link from "../Link"
 import { Box } from "../Box"
+import ThemeButton from "../ThemeButton"
 
 const Separator = styled.span`
   display: inline-block;
@@ -39,7 +40,7 @@ const MenuItem = styled(Link)`
   }
 `
 
-const Navigation = () => {
+const Navigation = ({ setIsDark }) => {
   const data = useStaticQuery(graphql`
     query {
       resume: file(relativePath: { eq: "files/resume.pdf" }) {
@@ -92,6 +93,7 @@ const Navigation = () => {
       >
         文章
       </MenuItem>
+      <ThemeButton onChange={setIsDark} />
     </Box>
   )
 }

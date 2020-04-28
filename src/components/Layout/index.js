@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useLayoutEffect } from "react"
 import PropTypes from "prop-types"
 import styled, { ThemeProvider } from "styled-components"
 
@@ -9,6 +9,11 @@ import { Box } from "../Box"
 import Global from "./global"
 import theme from "../../../theme"
 import ThemeButton from "../ThemeButton"
+
+const HeaderContainer = styled.div`
+  display: 'flex';
+  justify-content: 'space-between';
+`
 
 const MainContainer = styled(Box)`
   padding: 40px ${props => props.theme.spacing["4"]};
@@ -23,8 +28,11 @@ const MainContainer = styled(Box)`
 `
 
 const Layout = ({ children }) => {
-  debugger;
-  const [isDark, setIsDark] = useState(localStorage.getItem('darkMode') === 'true');
+  const [isDark, setIsDark] = useState(undefined);
+  useLayoutEffect(() => {
+    // 当页面加载完毕时才有 localStorage
+    setIsDark(localStorage.getItem('darkMode') === 'true');
+  }, []);
   // 如果非暗色模式的话，对其进行反色处理
   const lightModeTheme = isDark ? {} : {
     colors: {
@@ -44,7 +52,7 @@ const Layout = ({ children }) => {
       },
     },
   }
-  return (
+  return typeof isDark === "boolean" && (
     <ThemeProvider theme={{
       ...theme,
       ...lightModeTheme,
@@ -60,10 +68,7 @@ const Layout = ({ children }) => {
         minHeight="100vh"
         textColor="silver"
       >
-        <ThemeButton
-          onChange={setIsDark}
-        />
-        <Navigation />
+        <Navigation setIsDark={setIsDark} />
         {children}
         <Footer />
       </MainContainer>
