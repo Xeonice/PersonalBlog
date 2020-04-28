@@ -8,12 +8,6 @@ import { Box } from "../Box"
 
 import Global from "./global"
 import theme from "../../../theme"
-import ThemeButton from "../ThemeButton"
-
-const HeaderContainer = styled.div`
-  display: 'flex';
-  justify-content: 'space-between';
-`
 
 const MainContainer = styled(Box)`
   padding: 40px ${props => props.theme.spacing["4"]};
