@@ -3,6 +3,7 @@ import styled from "styled-components"
 import anime from 'animejs/lib/anime.es.js';
 
 const Logo = styled.div`
+  flex: 2;
   svg {
     display: block;
     margin: 0 auto;
@@ -16,7 +17,7 @@ const Logo = styled.div`
   }
 `
 
-const AnimeLogo = ({ width, height }) => {
+const AnimeLogo = ({ width, height, flex }) => {
   const paths = [
     {id: '#path5419', d: 'm 574.27172,479 0,-15.65736 -32.82996,4.54569 z'},
     {id: '#path4232', d: 'm 574.27172,479 -23.23351,25.75889 -9.59645,-36.87056 z'},
@@ -118,7 +119,6 @@ const AnimeLogo = ({ width, height }) => {
   const timeline = anime.timeline({ autoplay: true, direction: 'alternate', loop: true });
 
   useLayoutEffect(() => {
-    debugger;
     paths.forEach(function(path, index) {
       timeline
         .add({
@@ -142,7 +142,7 @@ const AnimeLogo = ({ width, height }) => {
   }, [])
 
   return (
-    <Logo className="AnimeLogo">
+    <Logo className="AnimeLogo" flex={1}>
       <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 700 600">
         <path id="path5419" d="m 627.55727,563.46269 -34.09265,-47.72968 39.14342,27.7792 z"/>
         <path id="path4232" d="m 602.30346,512.19745 -8.83884,3.53556 39.14342,27.7792 z"/>

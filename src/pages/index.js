@@ -36,7 +36,7 @@ const IndexPage = () => (
         flexDirection="column"
         justifyContent="center"
         alignItems="space-between"
-        flex={1}
+        flex={3}
       >
         <Introduction>
           Hello，歡迎來到 Douglas 的自留地，一個持續奮鬥在搬磚路上的 Web 開發
