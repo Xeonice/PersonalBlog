@@ -40,6 +40,8 @@ const Element = styled.div`
       : undefined};
   ${props =>
     props.alignItems ? `align-items: ${props.alignItems}` : undefined};
+  ${props =>
+    props.flex ? `flex: ${props.flex}` : undefined}; 
 `
 
 const Box = ({
@@ -63,6 +65,7 @@ const Box = ({
   paddingLeft,
   textColor,
   textTint = "default",
+  flex,
   ...props
 }) => {
   return (
@@ -78,6 +81,7 @@ const Box = ({
       fontWeight={fontWeight}
       flexDirection={flexDirection}
       justifyContent={justifyContent}
+      flex={flex}
       lineHeight={lineHeight}
       marginTop={marginTop}
       marginBottom={marginBottom}

@@ -5,6 +5,7 @@ import Layout from "../components/Layout"
 import SEO from "../components/SEO"
 import OverviewInfo from "../components/OverviewInfo"
 import { Box } from "../components/Box"
+import AnimeLogo from "../components/AnimeLogo"
 
 const Introduction = styled.h1`
   color: ${(props) => props.theme.colors.white.default};
@@ -26,13 +27,23 @@ const IndexPage = () => (
     <Box
       element="section"
       display="flex"
-      flexDirection="column"
-      justifyContent="center"
+      // flexDirection="column"
+      // justifyContent="center"
+      alignItems="space-between"
     >
-      <Introduction>
-        Hello，歡迎來到 Douglas 的自留地，一個持續奮鬥在搬磚路上的 Web 開發
-      </Introduction>
-      <OverviewInfo />
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="space-between"
+        flex={1}
+      >
+        <Introduction>
+          Hello，歡迎來到 Douglas 的自留地，一個持續奮鬥在搬磚路上的 Web 開發
+        </Introduction>
+        <OverviewInfo />
+      </Box>
+      <AnimeLogo width={640} height={480} />
     </Box>
   </Layout>
 )

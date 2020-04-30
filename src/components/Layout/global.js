@@ -12,6 +12,11 @@ html {
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   line-height: 1.5;
 }
+@media (max-width: 1200px) {
+  .AnimeLogo {
+    display: none;
+  }
+}
 
 h1 {
   font-size: 2em;

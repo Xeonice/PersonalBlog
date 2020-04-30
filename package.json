@@ -7,6 +7,7 @@
   "dependencies": {
     "@mdx-js/mdx": "^1.5.9",
     "@mdx-js/react": "^1.5.9",
+    "animejs": "^3.2.0",
     "babel-plugin-styled-components": "^1.10.6",
     "gatsby": "^2.19.45",
     "gatsby-image": "^2.2.44",
@@ -30,6 +31,7 @@
     "prismjs": "^1.19.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
+    "react-anime": "^3.0.3",
     "react-dom": "^16.13.0",
     "react-helmet": "^5.2.1",
     "styled-components": "^5.0.1",
