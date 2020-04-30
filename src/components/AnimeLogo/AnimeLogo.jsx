@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect } from "react"
 import styled from "styled-components"
 import anime from 'animejs/lib/anime.es.js';
-gst
+
 const Logo = styled.div`
   svg {
     display: block;
