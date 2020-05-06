@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import Typist from 'react-typist';
 
 import Layout from "../components/Layout"
 import SEO from "../components/SEO"
@@ -37,7 +38,11 @@ const IndexPage = () => (
         flex={3}
       >
         <Introduction>
-          Hello，欢迎来到 Douglas 的自留地，一个持续奋斗在搬砖路上的 Web 开发
+          <Typist
+            avgTypingDelay={160}
+          >
+            Hello，欢迎来到 Douglas 的自留地，一个持续奋斗在搬砖路上的 Web 开发
+          </Typist>
         </Introduction>
         <OverviewInfo />
       </Box>

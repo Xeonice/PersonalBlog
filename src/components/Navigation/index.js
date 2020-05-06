@@ -67,7 +67,7 @@ const Navigation = ({ setIsDark }) => {
         element={RouterLink}
         to="/about"
       >
-        個人簡介
+        个人简介
       </MenuItem>
       <Separator />
       <MenuItem
@@ -75,7 +75,7 @@ const Navigation = ({ setIsDark }) => {
         href={data.resume.publicURL}
         aria-label="Resume"
       >
-        個人簡歷
+        个人简历
       </MenuItem>
       <Separator />
       <MenuItem
