@@ -43,7 +43,7 @@ const MenuItem = styled(Link)`
 const Navigation = ({ setIsDark }) => {
   const data = useStaticQuery(graphql`
     query {
-      resume: file(relativePath: { eq: "files/resume.pdf" }) {
+      resume: file(relativePath: { eq: "files/唐和辉 - 18602149227.pdf" }) {
         publicURL
       }
     }

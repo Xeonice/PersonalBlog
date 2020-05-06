@@ -23,10 +23,10 @@ const Writings = ({ data }) => {
       <Box maxWidth="640px" marginTop={32} element="section">
         <SEO title="Writings" />
         <Paragraph>
-          在大二開始的 Blog 折騰生涯中，我已經更換了好幾個 Blog 系統，如 Ghost / WordPress / Hexo 之類的。最終還是回歸到了簡潔且對前端友好的 Gatsby 體系下，畢竟能寫 React 的 Blog 系統才是好系統（逃）。
+          在大二开始的 Blog 折腾生涯中，我已经更换了好几个 Blog 系统，如 Ghost / WordPress / Hexo 之类的。最终还是回归到了简洁且对前端友好的 Gatsby 体系下，毕竟能写 React 的 Blog 系统才是好系统（逃）。
         </Paragraph>
         <Paragraph>
-          我平日的一大愛好就是折騰一些小工具，尤其是那種能提升日常開發效率，從而提升摸魚時間的小工具。另一大愛好就是打主機遊戲，如果希望進行交流的話，可以通過以下途徑找到我{" "}
+          我平日的一大爱好就是折腾一些小工具，尤其是那种能提升日常开发效率，从而提升摸鱼时间的小工具。另一大爱好就是打主机游戏，如果希望进行交流的话，可以通过以下途径找到我{" "}
           <Link
             color="white"
             href="https://twitter.com/_DouglasDong_"
@@ -38,9 +38,9 @@ const Writings = ({ data }) => {
 
         <Box marginTop={32} element="section">
           <Box marginTop={12}>
-            <List title="開源書籍">
-              <List.Item link="https://learn-tamil.com">
-                DataSet Tutorial
+            <List title="开源项目">
+              <List.Item link="https://github.com/Xeonice/vscode-dataset-extension">
+                vscode-dataset-extension
               </List.Item>
             </List>
           </Box>

@@ -27,8 +27,6 @@ const IndexPage = () => (
     <Box
       element="section"
       display="flex"
-      // flexDirection="column"
-      // justifyContent="center"
       alignItems="space-between"
     >
       <Box
@@ -39,7 +37,7 @@ const IndexPage = () => (
         flex={3}
       >
         <Introduction>
-          Hello，歡迎來到 Douglas 的自留地，一個持續奮鬥在搬磚路上的 Web 開發
+          Hello，欢迎来到 Douglas 的自留地，一个持续奋斗在搬砖路上的 Web 开发
         </Introduction>
         <OverviewInfo />
       </Box>
