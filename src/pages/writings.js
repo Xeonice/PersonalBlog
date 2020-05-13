@@ -39,7 +39,7 @@ const Writings = ({ data }) => {
         <Box marginTop={32} element="section">
           <Box marginTop={12}>
             <List title="开源项目">
-              <List.Item link="https://github.com/Xeonice/vscode-dataset-extension">
+              <List.Item link="https://marketplace.visualstudio.com/items?itemName=handMS.c7n-dataset-plugin">
                 vscode-dataset-extension
               </List.Item>
             </List>

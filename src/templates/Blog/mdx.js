@@ -67,7 +67,7 @@ export default ({ data }) => {
         <MDXRenderer>{post.body}</MDXRenderer>
         <Box element="footer" marginTop={32} marginBottom={32}>
           <Link element={RouterLink} color="white" underlined to="/writings">
-            back to articles
+            返回文章列表
           </Link>
         </Box>
       </Box>
