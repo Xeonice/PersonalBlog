@@ -7,13 +7,14 @@ import {
   Paragraph,
   Heading3,
   Heading4,
+  InlineCode,
 } from "./src/components/Typography"
 import { Separator } from "./src/components/Separator"
 import { OrderedList } from "./src/components/List"
 import { Quote } from "./src/components/Quote"
 import Link from "./src/components/Link"
 
-import "prism-themes/themes/prism-atom-dark.css"
+import "prism-themes/themes/prism-vsc-dark-plus.css"
 
 const components = {
   h1: Heading1,
@@ -24,6 +25,7 @@ const components = {
   p: Paragraph,
   ol: OrderedList,
   blockquote: Quote,
+  inlineCode: InlineCode,
   a: ({ children, ...props }) => (
     <Link underlined color="white" {...props}>
       {children}

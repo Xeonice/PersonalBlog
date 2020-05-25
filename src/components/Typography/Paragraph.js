@@ -4,7 +4,7 @@ import TextBody from "./TextBody"
 
 const Element = styled(TextBody)`
   font-weight: 400;
-  line-height: 2.4;
+  line-height: 1.8;
   color: ${props =>
     props.color
       ? props.theme.colors[props.color][props.tint]

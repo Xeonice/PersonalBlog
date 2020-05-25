@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react"
+import React, { useLayoutEffect } from "react"
 import styled from "styled-components"
 import anime from 'animejs/lib/anime.es.js';
 
@@ -139,7 +139,7 @@ const AnimeLogo = ({ width, height, flex }) => {
           easing: 'easeInOutQuad'
         },
       }, 2000 + 10 * paths.length);
-  }, [])
+  }, [paths, timeline])
 
   return (
     <Logo className="AnimeLogo" flex={1}>

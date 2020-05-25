@@ -43,6 +43,10 @@ const Layout = ({ children }) => {
       },
       white: {
         default: "#111",
+        darker: "#F7F7F7",
+      },
+      blue: {
+        default: 'rgb(51, 51, 51)',
       },
     },
   }

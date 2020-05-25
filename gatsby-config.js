@@ -4,7 +4,9 @@ const markdownPlugins = [
     resolve: `gatsby-remark-prismjs`,
     options: {
       aliases: {},
+      classPrefix: "language-",
       showLineNumbers: false,
+      noInlineHighlight: true,
     },
   },
   {

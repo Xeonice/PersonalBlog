@@ -22,6 +22,7 @@ const SEO = ({ description, lang, meta, title }) => {
     <Helmet
       htmlAttributes={{
         lang,
+        class: "han-init"
       }}
       title={title}
       titleTemplate={`%s | ${data.site.siteMetadata.title}`}
@@ -31,12 +32,16 @@ const SEO = ({ description, lang, meta, title }) => {
           content: metaDescription,
         },
         {
+          name: 'viewport',
+          content: "width=device-width, initial-scale=1"
+        },
+        {
           property: `og:title`,
           content: title,
         },
         {
           property: `og:site_name`,
-          content: `rathes.me`,
+          content: `DouglasDong's blog`,
         },
         {
           property: `og:description`,
@@ -68,7 +73,7 @@ const SEO = ({ description, lang, meta, title }) => {
 }
 
 SEO.defaultProps = {
-  lang: `en`,
+  lang: `zh`,
   meta: [],
   description: ``,
 }

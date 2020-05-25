@@ -7,7 +7,7 @@ const QuoteContainer = styled(Box)`
   p {
     margin: 0;
     color: ${props => props.theme.colors.white.default};
-    font-size: ${props => props.theme.fontSize["2xl"]};
+    font-size: ${props => props.theme.fontSize["lg"]};
     line-height: 1.35;
   }
 `

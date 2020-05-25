@@ -4,7 +4,8 @@ import styled from "styled-components"
 const Element = styled.h1`
   font-size: ${props => props.theme.fontSize["2xl"]};
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 1.1;
+  margin-bottom: ${props => props.theme.spacing[8]};
   color: ${props =>
     props.color
       ? props.theme.colors[props.color][props.tint]

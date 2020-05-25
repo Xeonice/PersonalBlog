@@ -11,8 +11,12 @@ export default {
       darker: "#676767",
       darkest: "#AAA",
     },
+    blue: {
+      default: '#8DB6DE',
+    },
     white: {
       default: "#FFF",
+      darker: "rgb(19, 22, 31)",
     },
   },
   fontFamily: {

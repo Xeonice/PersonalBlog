@@ -5,6 +5,7 @@ import Heading2 from "./Heading2"
 import Heading3 from "./Heading3"
 import Heading4 from "./Heading4"
 import Paragraph from "./Paragraph"
+import InlineCode from './InlineCode';
 
 export {
   TextSmall,
@@ -14,4 +15,5 @@ export {
   Heading3,
   Heading4,
   Paragraph,
+  InlineCode
 }
