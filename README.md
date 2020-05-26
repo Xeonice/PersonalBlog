@@ -1,27 +1,13 @@
-# My personal website rathes.me
+# DouglasDong 的个人 Blog
 
-This is the code base for my website at [rathes.me](https://rathes.me).
-
-> **Note:** If you are looking for the website project based on Laravel, head over to [rathesDot/rathes.de](https://github.com/rathesDot/rathes.de). However, that project is not going to be maintained anymore.
+该站点基于 [rathes.me](https://rathes.me) 改造，并针对中文排版进行了部分修改
 
 ---
 
 ## Features
 
-This website uses [Gatsby](https://www.gatsbyjs.org), an open source framework based on React to build websites and apps. The blog is a bunch of markdown files (stored in `src/content/`) that a Gatsby plugin transforms into pages. Additionally, the blog list is populated with some links to external articles.
+该站点基于 [Gatsby](https://www.gatsbyjs.org) 构建，并利用 [Styled Components](https://styled-components.com/) 进行 CSS in JS 的相关集成。
 
-For the styling part, this website makes use of [Styled Components](https://styled-components.com/), a CSS-in-JS solution.
+## 部署
 
-## Testing
-
-[Jest](https://jestjs.io/) is used for testing purposes. Run
-
-```sh
-npm test
-```
-
-to run the tests.
-
-## Deployment
-
-This site is deployed on [netlify](https://www.netlify.com/), so whenever code is pushed to master in this repository, the changed are deployed continuously.
+该站点采用 jenkins 进行持续集成，并部署于私人服务器上
