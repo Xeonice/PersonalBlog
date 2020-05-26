@@ -60,7 +60,7 @@ const Navigation = ({ setIsDark }) => {
         aria-label="Home"
         activeStyle={{ color: theme.colors.white.default }}
         cover
-        direction="bottom"
+        direction="left"
         bg="#3F51B5"
       >
         <Logo />
@@ -71,7 +71,7 @@ const Navigation = ({ setIsDark }) => {
         element={RouterLink}
         to="/about"
         cover
-        direction="bottom"
+        direction="left"
         bg="#3F51B5"
       >
         个人简介
@@ -82,7 +82,7 @@ const Navigation = ({ setIsDark }) => {
         href={data.resume.publicURL}
         aria-label="Resume"
         cover
-        direction="bottom"
+        direction="left"
         bg="#3F51B5"
       >
         个人简历
@@ -93,7 +93,7 @@ const Navigation = ({ setIsDark }) => {
         element={RouterLink}
         to="/work"
         cover
-        direction="bottom"
+        direction="left"
         bg="#3F51B5"
       >
         工作
@@ -104,7 +104,7 @@ const Navigation = ({ setIsDark }) => {
         element={RouterLink}
         to="/writings"
         cover
-        direction="bottom"
+        direction="left"
         bg="#3F51B5"
       >
         文章
