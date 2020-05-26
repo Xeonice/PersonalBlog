@@ -1,7 +1,7 @@
 {
   "name": "gatsby-starter-default",
   "private": true,
-  "description": "This is the website forked from rathes.me",
+  "description": "This is the website forked from rathes",
   "version": "0.1.0",
   "author": "Rathes Sachchithananthan <hello@rathes.me>",
   "dependencies": {
