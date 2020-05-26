@@ -20,6 +20,7 @@
     "gatsby-plugin-sharp": "^2.4.13",
     "gatsby-plugin-sitemap": "^2.2.30",
     "gatsby-plugin-styled-components": "^3.1.21",
+    "gatsby-plugin-transition-link": "^1.18.0",
     "gatsby-plugin-twitter": "^2.1.21",
     "gatsby-plugin-use-dark-mode": "^1.1.2",
     "gatsby-remark-images": "^3.1.50",
@@ -34,6 +35,7 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-helmet": "^5.2.1",
+    "react-spring": "^8.0.27",
     "react-typist": "^2.0.5",
     "styled-components": "^5.0.1",
     "use-dark-mode": "^2.3.1"

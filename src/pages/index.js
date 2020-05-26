@@ -46,7 +46,6 @@ const IndexPage = () => (
         </Introduction>
         <OverviewInfo />
       </Box>
-      <AnimeLogo width={640} height={480} />
     </Box>
   </Layout>
 )

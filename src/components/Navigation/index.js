@@ -1,5 +1,6 @@
 import React from "react"
-import { Link as RouterLink, graphql, useStaticQuery } from "gatsby"
+import { graphql, useStaticQuery } from "gatsby"
+import RouterLink from 'gatsby-plugin-transition-link/AniLink'
 import styled, { useTheme } from "styled-components"
 
 import Logo from "../Logo"
@@ -58,6 +59,9 @@ const Navigation = ({ setIsDark }) => {
         to="/"
         aria-label="Home"
         activeStyle={{ color: theme.colors.white.default }}
+        cover
+        direction="bottom"
+        bg="#3F51B5"
       >
         <Logo />
       </MenuItem>
@@ -66,6 +70,9 @@ const Navigation = ({ setIsDark }) => {
         activeStyle={{ color: theme.colors.white.default }}
         element={RouterLink}
         to="/about"
+        cover
+        direction="bottom"
+        bg="#3F51B5"
       >
         个人简介
       </MenuItem>
@@ -74,6 +81,9 @@ const Navigation = ({ setIsDark }) => {
         activeStyle={{ color: theme.colors.white.default }}
         href={data.resume.publicURL}
         aria-label="Resume"
+        cover
+        direction="bottom"
+        bg="#3F51B5"
       >
         个人简历
       </MenuItem>
@@ -82,6 +92,9 @@ const Navigation = ({ setIsDark }) => {
         activeStyle={{ color: theme.colors.white.default }}
         element={RouterLink}
         to="/work"
+        cover
+        direction="bottom"
+        bg="#3F51B5"
       >
         工作
       </MenuItem>
@@ -90,6 +103,9 @@ const Navigation = ({ setIsDark }) => {
         activeStyle={{ color: theme.colors.white.default }}
         element={RouterLink}
         to="/writings"
+        cover
+        direction="bottom"
+        bg="#3F51B5"
       >
         文章
       </MenuItem>

@@ -23,7 +23,7 @@ const markdownPlugins = [
 module.exports = {
   siteMetadata: {
     title: `前端开发 — DouglaDong`,
-    description: `I am a former freelancing Web Designer and Web Developer. Currently you can find me working at Aheenam, the agency I started to provide digital solutions for anyone. Get in touch with me using social media!`,
+    description: `Hello，欢迎来到 Douglas 的自留地，一个持续奋斗在搬砖路上的 Web 开发`,
     author: `@_douglasdong_`,
     siteUrl: `https://douglasdong.com`,
   },
@@ -92,6 +92,7 @@ module.exports = {
         minify: true,
       },
     },
+    `gatsby-plugin-transition-link`,
     `gatsby-plugin-sitemap`,
     `gatsby-plugin-offline`,
   ],
