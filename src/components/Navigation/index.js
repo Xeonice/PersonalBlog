@@ -72,7 +72,7 @@ const Navigation = ({ setIsDark }) => {
         paintDrip
         hex="#3F51B5"
       >
-        个人简介
+        個人簡介
       </MenuItem>
       <Separator />
       <MenuItem
@@ -82,7 +82,7 @@ const Navigation = ({ setIsDark }) => {
         paintDrip
         hex="#3F51B5"
       >
-        个人简历
+        個人簡歷
       </MenuItem>
       <Separator />
       <MenuItem
