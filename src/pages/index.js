@@ -1,4 +1,5 @@
 import React from "react"
+import { TransitionState } from 'gatsby-plugin-transition-link';
 import styled from "styled-components"
 import Typist from 'react-typist';
 
@@ -6,7 +7,7 @@ import Layout from "../components/Layout"
 import SEO from "../components/SEO"
 import OverviewInfo from "../components/OverviewInfo"
 import { Box } from "../components/Box"
-import AnimeLogo from "../components/AnimeLogo"
+import AnimeContainer from "../components/AnimeContainer"
 
 const Introduction = styled.h1`
   color: ${(props) => props.theme.colors.white.default};
@@ -23,31 +24,37 @@ const Introduction = styled.h1`
 `
 
 const IndexPage = () => (
-  <Layout>
-    <SEO title="首页" />
-    <Box
-      element="section"
-      display="flex"
-      alignItems="space-between"
-    >
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="space-between"
-        flex={3}
-      >
-        <Introduction>
-          <Typist
-            avgTypingDelay={160}
+  <TransitionState>
+    {({ transitionStatus }) => (
+      <Layout>
+        <SEO title="首页" />
+        <Box
+          element="section"
+          display="flex"
+          alignItems="space-between"
+        >
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="space-between"
+            flex={3}
           >
-            Hello，欢迎来到 Douglas 的自留地，一个持续奋斗在搬砖路上的 Web 开发
-          </Typist>
-        </Introduction>
-        <OverviewInfo />
-      </Box>
-    </Box>
-  </Layout>
+            <AnimeContainer toggle={transitionStatus === 'entered'}>
+              <Introduction>
+                <Typist
+                  avgTypingDelay={160}
+                >
+                  Hello，欢迎来到 Douglas 的自留地，一个持续奋斗在搬砖路上的 Web 开发
+                </Typist>
+              </Introduction>
+              <OverviewInfo />
+            </AnimeContainer>
+          </Box>
+        </Box>
+      </Layout>
+    )}
+  </TransitionState>
 )
 
 export default IndexPage
