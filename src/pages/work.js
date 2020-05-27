@@ -21,7 +21,7 @@ const Work = ({ data }) => {
               <Paragraph>
                 我目前供职于一家专注于服务中小型企业的公司，县目前于公司中台体系负责一些前端基建的相关工作，最终目标在于能够利用公司庞大的后端资源实现更为快捷的交付。当然我也在 Github 上有那么一部分产出，如果感兴趣的话，可以读一读我的
                 {" "}
-                <Link color="white" href="https://github.com/rathesDot" underlined>
+                <Link color="white" href="https://github.com/Xeonice" underlined>
                   Github 个人帐号
                 </Link>
                 {" "}。
