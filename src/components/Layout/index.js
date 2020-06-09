@@ -13,11 +13,11 @@ const MainContainer = styled(Box)`
   padding: 40px ${props => props.theme.spacing["4"]};
 
   @media (min-width: 768px) {
-    padding: 60px 0 32px 60px;
+    padding: 60px 32px;
   }
 
   @media (min-width: 1200px) {
-    padding: 110px 0 32px 110px;
+    padding: 110px 32px;
   }
 `
 

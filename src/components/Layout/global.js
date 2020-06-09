@@ -19,7 +19,6 @@ html {
 }
 @media (min-width: 768px) {
   .mode-toggle-control {
-    margin-right: 1rem !important;
     width: 56px !important;
     height: 27px !important;
   }
