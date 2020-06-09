@@ -1,0 +1,15 @@
+.mode-toggle-control {
+  cursor: pointer;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  background-color: transparent;
+  margin-left: auto;
+}
+
+.mode-toggle-control div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

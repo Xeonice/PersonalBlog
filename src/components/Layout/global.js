@@ -17,6 +17,19 @@ html {
     display: none;
   }
 }
+@media (min-width: 768px) {
+  .mode-toggle-control {
+    margin-right: 1rem !important;
+    width: 56px !important;
+    height: 27px !important;
+  }
+  .mode-click-container {
+    width: 92px !important;
+    height: 92px !important;
+    margin-top: -33px !important;
+    margin-left: -18px !important;
+  }
+}
 
 h1 {
   font-size: 2em;

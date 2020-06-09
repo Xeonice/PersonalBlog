@@ -1,94 +1,69 @@
-import React from 'react';
-import styled from "styled-components"
+import React, { useRef, useEffect, useState } from "react";
 import useDarkMode from 'use-dark-mode';
+import Lottie from "lottie-react-web";
+import './index.css';
 
-const DarkModeToggleContainer = styled.div`
-  display: flex;
-  margin-left: auto;
-  padding-right: 1.5rem;
-  & > button {
-    font-size: 1.2em;
-    background: none;
-    border: none;
-    color: #ffe600;
-    cursor: pointer;
-    transition: color 0.3s ease;
-    &:last-child {
-      color: #666;
+const options = Object.freeze({
+  animationData: require("./animationData.json"),
+  autoplay: false,
+  loop: true
+});
+
+const NightModeToggle = ({ size = 36, checked = false, onChange, speed = 1.3, darkMode, ...extraProps }) => {
+  const ref = useRef();
+  const [progress, setProgress] = useState(() => 0);
+  useEffect(() => {
+    if (progress >= 0.5) {
+      if (checked) {
+        ref.current.anim.pause();
+      } else if (ref.current.anim.isPaused) {
+        ref.current.anim.play();
+      }
+    } else if (!checked) {
+      ref.current.anim.pause();
     }
-
-    &:focus {
-      outline: none;
+  }, [checked, progress]);
+  useEffect(() => (!!checked && ref.current.anim.play()) || undefined, []);
+  const [eventListeners] = useState(() => [
+    {
+      eventName: "enterFrame",
+      callback: ({ currentTime, totalTime }) =>
+        setProgress(currentTime / totalTime)
     }
-  }
-`
-
-const ToggleControl = styled.div`
-  position: relative;
-  width: 58px;
-  height: 24px;
-  padding: 0 4px;
-  display: flex;
-  align-items: center;
-`
-
-const DmcCheck = styled.input`
-  width: 50px;
-  height: 26px;
-  background: #555;
-  position: absolute;
-  border-radius: 12px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  cursor: pointer;
-  vertical-align: 2px;
-  outline: none;
-
-  &:checked + label {
-    left: 29px;
-  }
-
-  &:focus-visible {
-    outline: solid 2px white;
-  }
-
-  & + label {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    position: absolute;
-    left: 5px;
-    background: #fff;
-    background-color: #f6f6f6;
-    z-index: 100;
-  }
-`
-
-const Icon = styled.span`
-  position: absolute;
-  z-index: 50;
-  left: ${(props) => props.left || 'inherit'};
-  right: ${(props) => props.right || 'inherit'};
-  cursor: pointer;
-`
-
-const Toggle = ({ darkMode, checked, onChange }) => (
-  <ToggleControl className="toggle-control">
-    <Icon onClick={darkMode.disable} left="8px">☀</Icon>
-    <DmcCheck
-      type="checkbox"
-      checked={checked}
-      onChange={onChange}
-      id="dmcheck"
-    />
-    <label htmlFor="dmcheck" />
-    <Icon onClick={darkMode.enable} right="8px">☾</Icon>
-  </ToggleControl>
-);
+  ]);
+  return (
+    <button
+      onClick={() => ref.current.anim.isPaused && onChange(!checked)}
+      className="mode-toggle-control"
+      style={{
+        width: size,
+        height: size * 0.47,
+        padding: 0,
+      }}
+      aria-hidden='true'
+    >
+      <div
+        className="mode-click-container"
+        style={{
+          marginTop: size * -0.595,
+          marginLeft: size * -0.32,
+          width: size * 1.65,
+          height: size * 1.65
+        }}
+      >
+        <Lottie
+          key="$preventGlitches"
+          ref={ref}
+          speed={speed}
+          isClickToPauseDisabled
+          eventListeners={eventListeners}
+          forceSegments
+          options={options}
+        />
+      </div>
+    </button>
+  );
+};
 
 const DarkModeToggle = ({ onChange }) => {
   const darkMode = useDarkMode(true, {
@@ -96,9 +71,7 @@ const DarkModeToggle = ({ onChange }) => {
   });
 
   return (
-    <DarkModeToggleContainer>
-      <Toggle checked={darkMode.value} onChange={darkMode.toggle} darkMode={darkMode} />
-    </DarkModeToggleContainer>
+    <NightModeToggle checked={darkMode.value} onChange={darkMode.toggle} darkMode={darkMode} />
   );
 };
 

@@ -29,6 +29,7 @@
     "gatsby-transformer-remark": "^2.6.59",
     "gatsby-transformer-sharp": "^2.3.19",
     "gsap": "^3.2.6",
+    "lottie-react-web": "^2.1.4",
     "prism-react-renderer": "^1.1.1",
     "prism-themes": "^1.4.0",
     "prismjs": "^1.19.0",
@@ -54,7 +55,7 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "develop": "gatsby develop -p 8002",
+    "develop": "gatsby develop",
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
