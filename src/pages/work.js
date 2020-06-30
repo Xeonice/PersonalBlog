@@ -32,7 +32,11 @@ const Work = ({ data }) => {
                   当前这个项目，是为了改良我司正在使用的 Choerodon-ui 体系的相关文档。当前的文档存在各种各样的潜在问题，让交付人员无法轻松快捷的迅速上手整个项目。
                 </Paragraph>
                 <Paragraph>
-                  因此，我正在致力于改善开发过程中被忽视的这一点，主要入手方向在于自定义 IDE 和更有好的交互文档，目前已经完成了针对 vscode 的插件。
+                  因此，我正在致力于改善开发过程中被忽视的这一点，主要入手方向在于自定义 IDE 和更有好的交互文档，目前已经完成了针对 vscode 的插件，教程网站也随着 ui 新官网的上线而完成。具体可以看看{" "}
+                  <Link color="white" underlined href="https://choerodon.gitee.io/choerodon-ui/zh/tutorials/introduction/">
+                    Choerodon-ui 教程
+                  </Link>
+                  {" "}。
                 </Paragraph>
                 <Paragraph>
                   感兴趣的话，可以了解以下我们正在使用的这套{" "}
