@@ -45,7 +45,7 @@ const OverviewInfo = () => (
       <Title color="silver">Github</Title>
       <Info
         color="white"
-        element={TextBody}
+        element={Link}
         href="https://github.com/Xeonice"
       >
         @Xeonice
