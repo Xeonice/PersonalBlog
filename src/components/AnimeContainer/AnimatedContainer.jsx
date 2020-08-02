@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTrail, animated } from 'react-spring'
 
 const config = { mass: 20, tension: 2000, friction: 400 }

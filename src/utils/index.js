@@ -5,6 +5,7 @@ export const extractBlogPosts = (data) => {
         title: post.frontmatter.title,
         date: post.frontmatter.date,
         link: post.fields.slug,
+        categories: post.frontmatter.categories,
       }
     }),
   ]

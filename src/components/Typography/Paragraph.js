@@ -9,7 +9,7 @@ const Element = styled(TextBody)`
     props.color
       ? props.theme.colors[props.color][props.tint]
       : props.theme.colors.silver.default};
-  margin-top: ${props => props.theme.spacing[3]};
+  margin-top: ${props => props.theme.spacing[8]};
   margin-bottom: ${props => props.theme.spacing[6]};
 `
 

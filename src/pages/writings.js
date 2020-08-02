@@ -55,7 +55,7 @@ const Writings = ({ data }) => {
                     <Box marginTop={12}>
                       <List title={key} key={key}>
                         {posts.map((post, index) => (
-                          <List.Item link={post.link} key={index}>
+                          <List.Item link={post.link} key={index} subtitle={post.categories[0]}>
                             {post.title}
                           </List.Item>
                         ))}
@@ -84,6 +84,7 @@ export const query = graphql`
           frontmatter {
             title
             date(formatString: "DD MMMM, YYYY")
+            categories
           }
           fields {
             slug

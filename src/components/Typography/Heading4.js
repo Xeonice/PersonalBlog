@@ -11,6 +11,8 @@ const Element = styled.h4`
     props.color
       ? props.theme.colors[props.color][props.tint]
       : props.theme.colors.white.default};
+  margin-top: ${props => props.theme.spacing[8]};
+  margin-bottom: ${props => props.theme.spacing[6]};
 `
 
 const Heading4 = ({ children, element, color, tint = "default", ...props }) => (

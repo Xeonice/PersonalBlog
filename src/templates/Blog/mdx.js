@@ -9,6 +9,7 @@ import { Box } from "../../components/Box"
 import { Heading1 } from "../../components/Typography"
 
 import Img from "gatsby-image"
+import Tag from "../../components/Tag"
 
 export default ({ data }) => {
   const post = data.mdx
@@ -59,6 +60,16 @@ export default ({ data }) => {
       />
       <Box maxWidth="640px" marginTop={32}>
         <Heading1>{post.frontmatter.title}</Heading1>
+        <Box marginBottom={8} justifyContent="space-between" display="flex">
+          <Box>
+            {post.frontmatter.date}
+          </Box>
+          <Box>
+            {post.frontmatter.categories.map((category) => (
+              <Tag color="silver">{category}</Tag>
+            ))}
+          </Box>
+        </Box>
         <Box marginBottom={4} marginTop={4}>
           {post.frontmatter.image && (
             <Img fluid={post.frontmatter.image.childImageSharp.fluid} />
@@ -90,6 +101,11 @@ export const query = graphql`
       frontmatter {
         title
         locale
+        categories
+        date(
+          formatString: "L LT"
+          locale: "zh-cn"
+        )
         image {
           publicURL
           childImageSharp {
