@@ -4,7 +4,7 @@ import styled from "styled-components"
 const Element = styled.code`
   font-size: ${props => props.theme.fontSize["base"]};
   margin-bottom: ${props => props.theme.spacing[8]};
-  background-color: ${props => props.theme.colors.white.darker};
+  background-color: ${props => props.theme.colors.black.lighter};
   color: ${props => props.theme.colors.blue.default};
 `
 

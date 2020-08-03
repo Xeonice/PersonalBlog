@@ -34,7 +34,7 @@ const Layout = ({ children }) => {
         lightest: "#bababa",
         lighter: "#d5d5d5",
         light: "#e9e9e9",
-        default: "#fff",
+        default: "#eee",
       },
       silver: {
         default: "#787878",
@@ -43,7 +43,7 @@ const Layout = ({ children }) => {
       },
       white: {
         default: "#111",
-        darker: "#F7F7F7",
+        darker: "#0A0A0A",
       },
       blue: {
         default: 'rgb(51, 51, 51)',

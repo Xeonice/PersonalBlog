@@ -16,7 +16,7 @@ export default {
     },
     white: {
       default: "#FFF",
-      darker: "rgb(19, 22, 31)",
+      darker: "#F5F5F5",
     },
     cyan: {
       default: '#2BB6C9',
