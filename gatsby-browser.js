@@ -10,7 +10,7 @@ import {
   InlineCode,
 } from "./src/components/Typography"
 import { Separator } from "./src/components/Separator"
-import { OrderedList } from "./src/components/List"
+import { OrderedList, UnOrderedList } from "./src/components/List"
 import { Quote } from "./src/components/Quote"
 import Link from "./src/components/Link"
 
@@ -24,6 +24,7 @@ const components = {
   hr: Separator,
   p: Paragraph,
   ol: OrderedList,
+  ul: UnOrderedList,
   blockquote: Quote,
   inlineCode: InlineCode,
   a: ({ children, ...props }) => (

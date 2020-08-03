@@ -48,6 +48,9 @@ const Layout = ({ children }) => {
       blue: {
         default: 'rgb(51, 51, 51)',
       },
+      cyan: {
+        default: '#2BB6C9',
+      },
     },
   }
   return typeof isDark === "boolean" && (

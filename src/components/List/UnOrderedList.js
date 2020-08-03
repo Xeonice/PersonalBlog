@@ -4,9 +4,9 @@ import styled from "styled-components"
 import { Box } from "../Box"
 
 const OrderedListWrapper = styled(Box)`
-  list-style-type: decimal;
   list-style-position: outside;
   list-style-image: none;
+  list-style: disc;
 
   > li:not(:last-child) {
     margin: 0 0 ${props => props.theme.spacing[4]} 0;
@@ -27,7 +27,7 @@ const OrderedListWrapper = styled(Box)`
 
 const OrderedList = ({ children, ...props }) => (
   <OrderedListWrapper
-    element="ol"
+    element="ul"
     marginTop={8}
     marginBottom={8}
     padding={6}

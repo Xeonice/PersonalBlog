@@ -18,6 +18,9 @@ export default {
       default: "#FFF",
       darker: "rgb(19, 22, 31)",
     },
+    cyan: {
+      default: '#2BB6C9',
+    },
   },
   fontFamily: {
     default: [
