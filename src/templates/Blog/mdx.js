@@ -60,7 +60,7 @@ export default ({ data }) => {
       />
       <Box maxWidth="640px" marginTop={32}>
         <Heading1>{post.frontmatter.title}</Heading1>
-        <Box marginBottom={8} justifyContent="space-between" display="flex">
+        <Box marginBottom={8} justifyContent="space-between" alignItems="center" display="flex">
           <Box>
             {post.frontmatter.date}
           </Box>
