@@ -108,8 +108,8 @@ module.exports = {
         `,
         feeds: [
           {
-            serialize: ({ query: { site, allMarkdownRemark } }) => {
-              return allMarkdownRemark.edges.map(edge => {
+            serialize: ({ query: { site, allMdx } }) => {
+              return allMdx.edges.map(edge => {
                 return Object.assign({}, edge.node.frontmatter, {
                   description: edge.node.excerpt,
                   date: edge.node.frontmatter.date,
@@ -121,9 +121,7 @@ module.exports = {
             },
             query: `
               {
-                allMarkdownRemark(
-                  sort: { order: DESC, fields: [frontmatter___date] },
-                ) {
+                allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
                   edges {
                     node {
                       excerpt
@@ -131,7 +129,7 @@ module.exports = {
                       fields { slug }
                       frontmatter {
                         title
-                        date
+                        date(formatString: "DD MMMM, YYYY")
                       }
                     }
                   }
@@ -139,7 +137,7 @@ module.exports = {
               }
             `,
             output: "/rss.xml",
-            title: "Your Site's RSS Feed",
+            title: "Douglas's Blog Feed",
             // optional configuration to insert feed reference in pages:
             // if `string` is used, it will be used to create RegExp and then test if pathname of
             // current page satisfied this regular expression;

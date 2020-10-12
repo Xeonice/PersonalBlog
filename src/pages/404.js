@@ -11,12 +11,10 @@ const NotFoundPage = () => (
     <SEO title="404: Not found" />
     <Box maxWidth="640px">
       <Heading1>
-        Looks like you are looking for a page that does not exist.
+        看起来你正在找一个不存在的页面啊。
       </Heading1>
       <Paragraph>
-        If you came here from a Google Search, feel free to go back and try a
-        different search term. Otherwise, here are some things that you might
-        have been looking for:
+        假如你从搜索引擎进入到这里的话，可以试试其他的关键词，可能是搜索引擎的收录有问题。否则，你可以试试下面的链接是不是你想要的：
       </Paragraph>
       <Paragraph>
         <List>
