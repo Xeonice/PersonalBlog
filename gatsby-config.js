@@ -101,7 +101,7 @@ module.exports = {
         // baidu analytics siteId
         siteId: "28fe8d73f47b19d74e80749243c130dc",
         // Put analytics script in the head instead of the body [default:false]
-        head: false,
+        head: true,
       },
     },
   ],
