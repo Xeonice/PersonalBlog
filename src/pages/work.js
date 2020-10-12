@@ -33,14 +33,14 @@ const Work = ({ data }) => {
                 </Paragraph>
                 <Paragraph>
                   因此，我正在致力于改善开发过程中被忽视的这一点，主要入手方向在于自定义 IDE 和更有好的交互文档，目前已经完成了针对 vscode 的插件，教程网站也随着 ui 新官网的上线而完成。具体可以看看{" "}
-                  <Link color="white" underlined href="https://choerodon.gitee.io/choerodon-ui/zh/tutorials/introduction/">
+                  <Link color="white" underlined href="https://open-hand.github.io/choerodon-ui/zh/tutorials/introduction">
                     Choerodon-ui 教程
                   </Link>
                   {" "}。
                 </Paragraph>
                 <Paragraph>
                   感兴趣的话，可以了解以下我们正在使用的这套{" "}
-                  <Link color="white" underlined href="https://choerodon.github.io/choerodon-ui/index-cn">
+                  <Link color="white" underlined href="https://open-hand.github.io/choerodon-ui/zh">
                     Choerodon-ui
                   </Link>
                   {" "} 体系。
