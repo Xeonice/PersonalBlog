@@ -13,11 +13,11 @@ locale: zh_CN
 
 作为一个 RSS Reader 的忠实信奉者，自己的 Blog 没有 RSS 订阅功能实在说不过去，所以最近花了半天时间给 Blog 添加了 RSS 订阅功能，这里做一个简单的记叙。
 
-首先，我们需要找到 [gatsby-plugin-feed] 这个插件，然后执行 `npm install gatsby-plugin-feed`。
+首先，我们需要找到 [gatsby-plugin-feed](https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-plugin-feed) 这个插件，然后执行 `npm install gatsby-plugin-feed`。
 
 然后，Copy 下面 **How To Use** 部分的配置到 `plugins` 数组中，然后根据自己的需求去修改 `feeds` 下面的 `serialize` 和 `query` 部分。
 
-这里因为我使用的是 [ gatsby-plugin-mdx ]，所以要修改原先的查询参数 `allMarkdownRemark` 至 `allMdx`，其余的基本可以维持不变。
+这里因为我使用的是 [gatsby-plugin-mdx](https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-plugin-mdx)，所以要修改原先的查询参数 `allMarkdownRemark` 至 `allMdx`，其余的基本可以维持不变。
 
 如果有需要变更 `rss.xml` 文件的需求，直接改 `serialize` 部分即可。
 
