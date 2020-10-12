@@ -95,5 +95,14 @@ module.exports = {
     `gatsby-plugin-transition-link`,
     `gatsby-plugin-sitemap`,
     `gatsby-plugin-offline`,
+    {
+      resolve: `gatsby-plugin-baidu-analytics`,
+      options: {
+        // baidu analytics siteId
+        siteId: "381279f888e646c9a4386fba79ee174b",
+        // Put analytics script in the head instead of the body [default:false]
+        head: false,
+      },
+    },
   ],
 }
