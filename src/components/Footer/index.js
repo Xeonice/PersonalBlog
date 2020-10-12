@@ -1,4 +1,5 @@
 import React from "react"
+import { Link as RouterLink } from 'gatsby';
 import Link from "../Link"
 import styled from "styled-components"
 
@@ -21,10 +22,10 @@ const Footer = () => (
   <Box>
     <Box>
       <TextSmall color="silver">&copy; 2020 — Douglas</TextSmall>
-      {/*<Separator />*/}
-      {/*<TextSmall color="silver" element={Link} to="/legal">*/}
-      {/*  Legal Information*/}
-      {/*</TextSmall>*/}
+      <Separator />
+      <TextSmall color="silver" element={RouterLink} to="/rss.xml">
+        rss
+      </TextSmall>
     </Box>
     <Box>
       <TextSmall color="silver">友情连接</TextSmall>
