@@ -1,5 +1,5 @@
 import React from "react"
-import styled from "styled-components"
+import styled from '@emotion/styled';
 
 const Element = styled.div`
   ${props =>
@@ -17,12 +17,6 @@ const Element = styled.div`
   ${props =>
     props.textColor
       ? `color: ${props.theme.colors[props.textColor][props.textTint]};`
-      : undefined}
-  ${props =>
-    props.backgroundColor
-      ? `background-color: ${
-          props.theme.colors[props.backgroundColor][props.backgroundTint]
-        };`
       : undefined}
   display: ${props =>
     props.displayElement ? `${props.displayElement};` : undefined};
@@ -46,7 +40,6 @@ const Element = styled.div`
 
 const Box = ({
   alignItems,
-  backgroundColor,
   backgroundTint = "default",
   children,
   display = "block",
@@ -72,7 +65,6 @@ const Box = ({
     <Element
       as={element || "div"}
       alignItems={alignItems}
-      backgroundColor={backgroundColor}
       backgroundTint={backgroundTint}
       children={children}
       displayElement={display}

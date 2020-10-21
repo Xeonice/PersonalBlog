@@ -52,7 +52,7 @@ const Writings = ({ data }) => {
 
                 {blogPosts.map(([key, posts]) => {
                   return (
-                    <Box marginTop={12}>
+                    <Box key={key} marginTop={12}>
                       <List title={key} key={key}>
                         {posts.map((post, index) => (
                           <List.Item link={post.link} key={index} subtitle={post.categories[0]}>

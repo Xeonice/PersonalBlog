@@ -1,7 +1,7 @@
 import React from "react"
 
 import { Box } from "../Box"
-import styled from "styled-components"
+import styled from '@emotion/styled';
 
 const QuoteContainer = styled(Box)`
   position: relative;

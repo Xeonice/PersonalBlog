@@ -19,6 +19,7 @@ const markdownPlugins = [
     },
   },
 ]
+const isEnvDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
   siteMetadata: {
@@ -83,15 +84,6 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-plugin-use-dark-mode',
-      options: {
-        classNameDark: 'dark-mode',
-        classNameLight: 'light-mode',
-        storageKey: 'darkMode',
-        minify: true,
-      },
-    },
-    {
       resolve: `gatsby-plugin-feed`,
       options: {
         query: `
@@ -153,5 +145,12 @@ module.exports = {
     `gatsby-plugin-transition-link`,
     `gatsby-plugin-sitemap`,
     `gatsby-plugin-offline`,
+    `gatsby-plugin-theme-ui`,
+    {
+      resolve: `gatsby-plugin-emotion`,
+      options: {
+        displayName: isEnvDev,
+      },
+    },
   ],
 }

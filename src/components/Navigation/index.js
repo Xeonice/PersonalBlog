@@ -1,7 +1,8 @@
 import React from "react"
+import { useThemeUI } from 'theme-ui';
 import { graphql, useStaticQuery } from "gatsby"
 import RouterLink from 'gatsby-plugin-transition-link/AniLink'
-import styled, { useTheme } from "styled-components"
+import styled from '@emotion/styled';
 
 import Logo from "../Logo"
 
@@ -41,7 +42,7 @@ const MenuItem = styled(Link)`
   }
 `
 
-const Navigation = ({ setIsDark }) => {
+const Navigation = () => {
   const data = useStaticQuery(graphql`
     query {
       resume: file(relativePath: { eq: "files/唐和辉 - 18602149227.pdf" }) {
@@ -50,7 +51,7 @@ const Navigation = ({ setIsDark }) => {
     }
   `)
 
-  const theme = useTheme()
+  const { theme } = useThemeUI()
 
   return (
     <Box display="flex" alignItems="center" element="nav">
@@ -104,7 +105,13 @@ const Navigation = ({ setIsDark }) => {
       >
         文章
       </MenuItem>
-      <ThemeButton onChange={setIsDark} />
+      <Box
+        display="flex"
+        justifyContent="flex-end"
+        flex={1}
+      >
+        <ThemeButton />
+      </Box>
     </Box>
   )
 }

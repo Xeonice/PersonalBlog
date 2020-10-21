@@ -1,16 +1,18 @@
-import React, { useState, useLayoutEffect } from "react"
+/** @jsx jsx */
+import React, { useEffect } from "react"
 import PropTypes from "prop-types"
-import styled, { ThemeProvider } from "styled-components"
+import { useColorMode, jsx } from 'theme-ui';
+import { Global } from '@emotion/core';
+import styled from "@emotion/styled"
 
 import Navigation from "../Navigation"
 import Footer from "../Footer"
 import { Box } from "../Box"
 
-import Global from "./global"
-import theme from "../../../theme"
+import globalStyles from "./global"
 
 const MainContainer = styled(Box)`
-  padding: 40px ${props => props.theme.spacing["4"]};
+  padding: 40px ${({ theme }) => theme.spacing["4"]};
 
   @media (min-width: 768px) {
     padding: 60px 32px;
@@ -22,45 +24,21 @@ const MainContainer = styled(Box)`
 `
 
 const Layout = ({ children }) => {
-  const [isDark, setIsDark] = useState(undefined);
-  useLayoutEffect(() => {
-    // 当页面加载完毕时才有 localStorage
-    setIsDark(localStorage.getItem('darkMode') === 'true');
-  }, []);
-  // 如果非暗色模式的话，对其进行反色处理
-  const lightModeTheme = isDark ? {} : {
-    colors: {
-      black: {
-        lightest: "#bababa",
-        lighter: "#d5d5d5",
-        light: "#e9e9e9",
-        default: "#eee",
-      },
-      silver: {
-        default: "#787878",
-        darker: "#989898",
-        darkest: "#555",
-      },
-      white: {
-        default: "#111",
-        darker: "#0A0A0A",
-      },
-      blue: {
-        default: 'rgb(51, 51, 51)',
-      },
-      cyan: {
-        default: '#2BB6C9',
-      },
-    },
-  }
+  const [colorMode] = useColorMode();
+  const isDark = colorMode === `dark`;
+
+  useEffect(() => {
+    window.parent.postMessage({ theme: colorMode }, '*');
+  }, [colorMode]);
+
   return typeof isDark === "boolean" && (
-    <ThemeProvider theme={{
-      ...theme,
-      ...lightModeTheme,
-    }}>
-      <Global />
+    <React.Fragment>
+      <Global styles={globalStyles} />
       <MainContainer
-        backgroundColor="black"
+        sx={{
+          bg: theme => theme.colors.black.default,
+          transition: theme => theme.colorModeTransition,
+        }}
         display="flex"
         element="main"
         flexDirection="column"
@@ -69,11 +47,11 @@ const Layout = ({ children }) => {
         minHeight="100vh"
         textColor="silver"
       >
-        <Navigation setIsDark={setIsDark} />
+        <Navigation />
         {children}
         <Footer />
       </MainContainer>
-    </ThemeProvider>
+    </React.Fragment>
   )
 }
 

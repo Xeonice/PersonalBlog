@@ -20,21 +20,21 @@ const AboutMe = () => (
         <SEO title="個人簡介" />
         <Box maxWidth="640px" marginTop={32}>
           <AnimeContainer toggle={transitionStatus === 'entered'}>
-            <Heading1>/ˈdəgləs/</Heading1>
-            <Paragraph>
+            <Heading1 key="heading1">/ˈdəgləs/</Heading1>
+            <Paragraph key="paragraph1">
               我是 Douglas，一个目前工作与生活在上海的 Web 开发，虽然立足于前端岗位，但我的个人视野从不局限于前端，同样也会聚焦于后端 / Devops / 抑或是产品 / UI。
             </Paragraph>
-            <Paragraph>
+            <Paragraph key="paragraph2">
               开设这片自留地的主要原因在于，我希望在一个远离 gfw 的地方描述与记录一些自己的个人想法，同时不必因为一些 ‘不可名状的原因’ 被迫自我阉割。因此，这里的记录可能并不仅限于开发，也可能会有一些除研发以外的随想。
             </Paragraph>
-            <Paragraph>
+            <Paragraph key="paragraph3">
               这里的内容会由以下三个部分组成：算法 / 研发 / 趋势，其中由于个人职业与见解原因，可能会更倾向于研发部分。而研发部分的内容，则会倾向于 Node.js / JavaScript。毕竟我还是个前端嘛（逃）。
             </Paragraph>
-            <Paragraph>
+            <Paragraph key="paragraph4">
               我一直坚信一点，分享知识是巩固 / 获取新知识的最好方法。因此我会定期记录一些日常开发中解决问题的方法供各位参考。同样的，我热衷于为开源事业作出自己的一份贡献，如果有优质开源项目需要贡献人手，欢迎随时与我联系。
             </Paragraph>
 
-            <Box marginTop={32} element="section">
+            <Box marginTop={32} element="section" key="section">
               <Heading2>当前阅读书单</Heading2>
               <Paragraph>
                 计算机学科发展了这么多年，书籍与文档是用于记录知识的重要载体。这里会列出我最近正在读的一些书籍 / 文章，作为个人记录使用。

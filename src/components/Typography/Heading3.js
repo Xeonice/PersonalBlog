@@ -1,5 +1,5 @@
 import React from "react"
-import styled from "styled-components"
+import styled from '@emotion/styled';
 
 const Element = styled.h3`
   font-size: ${props => props.theme.fontSize.sm};

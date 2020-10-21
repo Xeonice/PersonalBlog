@@ -1,7 +1,7 @@
 import React from "react"
 import { Link as RouterLink } from 'gatsby';
 import Link from "../Link"
-import styled from "styled-components"
+import styled from '@emotion/styled';
 
 import TextSmall from "../Typography/TextSmall"
 import { Box } from "../Box"
@@ -9,9 +9,9 @@ import { Box } from "../Box"
 const Separator = styled.span`
   display: inline-block;
   margin: 0 8px;
-  color: ${props => props.theme.colors.silver.default};
-  font-size: ${props => props.theme.fontSize.xs};
-  font-family: ${props => props.theme.fontFamily.default};
+  color: ${({ theme }) => theme.colors.silver.default};
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  font-family: ${({ theme }) => theme.fontFamily.default};
 
   &:before {
     content: "/";

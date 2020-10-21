@@ -1,6 +1,6 @@
 import React from "react"
 import { TransitionState } from 'gatsby-plugin-transition-link';
-import styled from "styled-components"
+import styled from '@emotion/styled';
 import Typist from 'react-typist';
 
 import Layout from "../components/Layout"

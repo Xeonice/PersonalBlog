@@ -1,6 +1,6 @@
-import { createGlobalStyle } from "styled-components"
+import { css } from "@emotion/core"
 
-export const Global = createGlobalStyle`
+export const Global = theme => css`
 * {
   transition: background-color 0.5s ease;
 }
@@ -195,7 +195,7 @@ button {
 }
 
 button:focus {
-  outline: 5px auto 0;
+  outline: none;
 }
 
 ol,
@@ -287,8 +287,8 @@ textarea::placeholder {
 }
 
 .gatsby-highlight {
-  margin-bottom: ${props => props.theme.spacing[6]};
-  margin-top: ${props => props.theme.spacing[6]};
+  margin-bottom: ${theme.spacing[6]};
+  margin-top: ${theme.spacing[6]};
 }
 `
 

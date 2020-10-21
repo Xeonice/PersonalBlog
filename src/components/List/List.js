@@ -1,5 +1,5 @@
 import React from "react"
-import styled from "styled-components"
+import styled from '@emotion/styled';
 import { Link as RouterLink } from "gatsby"
 
 import { Heading4, TextBody, TextSmall } from "../Typography"

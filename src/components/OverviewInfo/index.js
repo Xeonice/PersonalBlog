@@ -1,5 +1,5 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react';
+import styled from '@emotion/styled';
 
 import { TextBody, TextSmall } from "../Typography"
 import Link from "../Link"
@@ -10,7 +10,6 @@ const Separator = styled.span`
   display: block;
   margin: 16px 0;
   height: 2px;
-  background-color: ${props => props.theme.colors.black.lighter};
 `
 
 const Title = styled(TextSmall)`
