@@ -17,7 +17,7 @@ const Separator = styled.span`
   font-size: ${props => props.theme.fontSize.lg};
   font-family: ${props => props.theme.fontFamily.default};
 
-  @media (max-width: 374px) {
+  @media (max-width: 574px) {
     margin: 0 4px;
     font-size: ${props => props.theme.fontSize.base};
   }
@@ -54,64 +54,69 @@ const Navigation = () => {
   const { theme } = useThemeUI()
 
   return (
-    <Box display="flex" alignItems="center" element="nav">
-      <MenuItem
-        element={RouterLink}
-        to="/"
-        aria-label="Home"
-        activeStyle={{ color: theme.colors.white.default }}
-        paintDrip
-        hex="#3F51B5"
-      >
-        <Logo />
-      </MenuItem>
-      <Separator />
-      <MenuItem
-        activeStyle={{ color: theme.colors.white.default }}
-        element={RouterLink}
-        to="/about"
-        paintDrip
-        hex="#3F51B5"
-      >
-        個人簡介
-      </MenuItem>
-      <Separator />
-      <MenuItem
-        activeStyle={{ color: theme.colors.white.default }}
-        href={data.resume.publicURL}
-        aria-label="Resume"
-        paintDrip
-        hex="#3F51B5"
-      >
-        個人簡歷
-      </MenuItem>
-      <Separator />
-      <MenuItem
-        activeStyle={{ color: theme.colors.white.default }}
-        element={RouterLink}
-        to="/work"
-        paintDrip
-        hex="#3F51B5"
-      >
-        工作
-      </MenuItem>
-      <Separator />
-      <MenuItem
-        activeStyle={{ color: theme.colors.white.default }}
-        element={RouterLink}
-        to="/writings"
-        paintDrip
-        hex="#3F51B5"
-      >
-        文章
-      </MenuItem>
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="space-between"
+      element="nav"
+    >
       <Box
         display="flex"
-        justifyContent="flex-end"
         flex={1}
+        alignItems="center"
       >
-        <ThemeButton />
+        <MenuItem
+          element={RouterLink}
+          to="/"
+          aria-label="Home"
+          activeStyle={{ color: theme.colors.white.default }}
+          paintDrip
+          hex="#3F51B5"
+        >
+          <Logo />
+        </MenuItem>
+        <Separator />
+        <MenuItem
+          activeStyle={{ color: theme.colors.white.default }}
+          element={RouterLink}
+          to="/about"
+          paintDrip
+          hex="#3F51B5"
+        >
+          個人簡介
+        </MenuItem>
+        <Separator />
+        <MenuItem
+          activeStyle={{ color: theme.colors.white.default }}
+          href={data.resume.publicURL}
+          aria-label="Resume"
+          paintDrip
+          hex="#3F51B5"
+        >
+          個人簡歷
+        </MenuItem>
+        <Separator />
+        <MenuItem
+          activeStyle={{ color: theme.colors.white.default }}
+          element={RouterLink}
+          to="/work"
+          paintDrip
+          hex="#3F51B5"
+        >
+          工作
+        </MenuItem>
+        <Separator />
+        <MenuItem
+          activeStyle={{ color: theme.colors.white.default }}
+          element={RouterLink}
+          to="/writings"
+          paintDrip
+          hex="#3F51B5"
+        >
+          文章
+        </MenuItem>
       </Box>
+      <ThemeButton />
     </Box>
   )
 }
