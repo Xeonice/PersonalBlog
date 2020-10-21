@@ -27,14 +27,12 @@
     "gatsby-plugin-theme-ui": "^0.3.0",
     "gatsby-plugin-transition-link": "^1.18.0",
     "gatsby-plugin-twitter": "^2.1.21",
-    "gatsby-plugin-use-dark-mode": "^1.1.2",
     "gatsby-remark-images": "^3.1.50",
     "gatsby-remark-prismjs": "^3.3.36",
     "gatsby-source-filesystem": "^2.1.56",
     "gatsby-transformer-remark": "^2.6.59",
     "gatsby-transformer-sharp": "^2.3.19",
     "gsap": "^3.2.6",
-    "lottie-react-web": "^2.1.4",
     "prism-react-renderer": "^1.1.1",
     "prism-themes": "^1.4.0",
     "prismjs": "^1.19.0",
@@ -45,8 +43,7 @@
     "react-spring": "^8.0.27",
     "react-typist": "^2.0.5",
     "styled-components": "^5.0.1",
-    "theme-ui": "^0.3.1",
-    "use-dark-mode": "^2.3.1"
+    "theme-ui": "^0.3.1"
   },
   "devDependencies": {
     "babel-jest": "^25.0.0",
