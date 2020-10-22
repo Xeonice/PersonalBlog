@@ -1,7 +1,8 @@
-import React from "react"
+import * as React from "react"
 import styled from '@emotion/styled';
+import { ElementProps } from '.';
 
-const Element = styled.code`
+const Element = styled.code<ElementProps>`
   font-size: ${props => props.theme.fontSize["base"]};
   margin-bottom: ${props => props.theme.spacing[8]};
   background-color: ${props => props.theme.colors.black.lighter};

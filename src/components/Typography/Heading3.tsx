@@ -1,7 +1,8 @@
-import React from "react"
+import * as React from "react"
 import styled from '@emotion/styled';
+import { ElementProps } from '.';
 
-const Element = styled.h3`
+const Element = styled.h3<ElementProps>`
   font-size: ${props => props.theme.fontSize.sm};
   font-weight: 600;
   line-height: 1.45;

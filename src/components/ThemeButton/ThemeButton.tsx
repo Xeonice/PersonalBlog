@@ -9,9 +9,9 @@ import IconWrapper from '../IconWrapper';
 const strActiveLightMode = '打开 Light Mode';
 const strActiveDarkMode = '打开 Dark Mode';
 
-export default function ModeSwitch() {
+export default function ModeSwitch(): React.ReactElement {
   const [colorMode, setColorMode] = useColorMode();
-  const isDark = colorMode === `dark`;
+  const isDark: boolean = colorMode === `dark`;
 
   const toggleColorMode = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

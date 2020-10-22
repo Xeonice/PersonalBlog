@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 
 import { Box } from "../Box"
 import styled from '@emotion/styled';
@@ -24,7 +24,7 @@ const QuoteContainer = styled(Box)`
   }
 `
 
-const Quote = ({ children }) => (
+const Quote: React.FunctionComponent = ({ children }) => (
   <QuoteContainer
     element="blockquote"
     marginTop={8}

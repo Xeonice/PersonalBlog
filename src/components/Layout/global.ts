@@ -1,6 +1,7 @@
 import { css } from "@emotion/core"
+import { Theme } from "../../gatsby-plugin-theme-ui"
 
-export const Global = theme => css`
+export const Global = (theme: Theme) => css`
 * {
   transition: background-color 0.5s ease;
 }

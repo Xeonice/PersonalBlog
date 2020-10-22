@@ -9,8 +9,9 @@ import Logo from "../Logo"
 import Link from "../Link"
 import { Box } from "../Box"
 import ThemeButton from "../ThemeButton"
+import { Theme } from "../../gatsby-plugin-theme-ui"
 
-const Separator = styled.span`
+const Separator = styled.span<{ theme: Theme }>`
   display: inline-block;
   margin: 0 8px;
   color: ${props => props.theme.colors.silver.default};
@@ -42,7 +43,7 @@ const MenuItem = styled(Link)`
   }
 `
 
-const Navigation = () => {
+const Navigation: React.FunctionComponent = () => {
   const data = useStaticQuery(graphql`
     query {
       resume: file(relativePath: { eq: "files/唐和辉 - 18602149227.pdf" }) {

@@ -1,7 +1,9 @@
-import React from "react"
+import * as React from 'react';
 import styled from '@emotion/styled';
 
-const Element = styled.div`
+import { BoxProps, ElementProps } from './index';
+
+const Element = styled.div<ElementProps>`
   ${props =>
     props.fontFamily
       ? `font-family: ${props.theme.fontFamily[props.fontFamily]};`
@@ -38,7 +40,7 @@ const Element = styled.div`
     props.flex ? `flex: ${props.flex}` : undefined}; 
 `
 
-const Box = ({
+const Box: React.FunctionComponent<BoxProps<string>> = ({
   alignItems,
   backgroundTint = "default",
   children,
@@ -66,7 +68,6 @@ const Box = ({
       as={element || "div"}
       alignItems={alignItems}
       backgroundTint={backgroundTint}
-      children={children}
       displayElement={display}
       fontFamily={fontFamily}
       fontSize={fontSize}

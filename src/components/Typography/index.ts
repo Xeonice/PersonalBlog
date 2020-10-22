@@ -6,6 +6,14 @@ import Heading3 from "./Heading3"
 import Heading4 from "./Heading4"
 import Paragraph from "./Paragraph"
 import InlineCode from './InlineCode';
+import { Theme } from "../../gatsby-plugin-theme-ui"
+
+export interface ElementProps {
+  as: string;
+  color: string,
+  tint: string,
+  theme: Theme,
+}
 
 export {
   TextSmall,

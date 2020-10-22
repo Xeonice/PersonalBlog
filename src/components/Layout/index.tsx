@@ -1,6 +1,7 @@
 /** @jsx jsx */
-import React, { useEffect } from "react"
-import PropTypes from "prop-types"
+import * as React from 'react';
+import { ReactElement, useEffect } from "react"
+import * as PropTypes from "prop-types";
 import { useColorMode, jsx } from 'theme-ui';
 import { Global } from '@emotion/core';
 import styled from "@emotion/styled"
@@ -12,7 +13,7 @@ import { Box } from "../Box"
 import globalStyles from "./global"
 
 const MainContainer = styled(Box)`
-  padding: 40px ${({ theme }) => theme.spacing["4"]};
+  padding: 40px ${(props) => props.theme.spacing["4"]};
 
   @media (min-width: 768px) {
     padding: 60px 32px;
@@ -23,15 +24,15 @@ const MainContainer = styled(Box)`
   }
 `
 
-const Layout = ({ children }) => {
+const Layout: React.FunctionComponent = ({ children }) => {
   const [colorMode] = useColorMode();
-  const isDark = colorMode === `dark`;
+  const isDark: boolean = colorMode === `dark`;
 
   useEffect(() => {
     window.parent.postMessage({ theme: colorMode }, '*');
   }, [colorMode]);
 
-  return typeof isDark === "boolean" && (
+  return isDark as boolean && (
     <React.Fragment>
       <Global styles={globalStyles} />
       <MainContainer

@@ -1,5 +1,26 @@
 import colors from './colors';
 
+export interface Theme {
+  colorModeTransition: string,
+  useCustomProperties: boolean,
+  initialColorMode: "dark" | "light",
+  colors: object,
+  fontFamily: {
+    default: string,
+    mono: string,
+  },
+  fontSize: {
+    [propsName: string]: string,
+  },
+  letterSpacing: {
+    [propsName: string]: string,
+  },
+  spacing: {
+    [propsName: string]: string,
+  },
+  breakpoints: string[],
+};
+
 export const breakpointMap = {
   phone_small: 320,
   phone: 376,
@@ -18,7 +39,7 @@ export const breakpoints = Object.entries(breakpointMap).map(([key, value]) => [
 const colorModeTransition =
   'background 0.25s var(--ease-in-out-quad), color 0.25s var(--ease-in-out-quad)';
 
-const theme = {
+const theme: Theme = {
   colorModeTransition,
   useCustomProperties: true,
   initialColorMode: "dark",
@@ -91,5 +112,3 @@ const theme = {
 }
 
 export default theme;
-
-export type Theme = typeof theme;

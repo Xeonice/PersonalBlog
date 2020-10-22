@@ -1,8 +1,9 @@
+import * as React from "react"
 import styled from '@emotion/styled';
-import React from "react"
 import TextSmall from '../Typography/TextSmall';
+import { Theme } from "../../gatsby-plugin-theme-ui"
 
-const Container = styled.span`
+const Container = styled.span<{ theme: Theme, as: string }>`
   background: ${props => props.theme.colors.black.lighter};
   color: ${props => props.theme.colors.silver.darkest};
   margin: ${props => props.theme.spacing[2]};
@@ -26,7 +27,7 @@ const Content = styled(TextSmall)`
 `;
 
 
-const Tag = ({ children, element, color, ...props }) => (
+const Tag: React.FunctionComponent<{ element: string, color: string }> = ({ children, element, color, ...props }) => (
   <Container as={element || "span"} color={color} {...props}>
     <Content>
       {children}
