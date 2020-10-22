@@ -32,7 +32,7 @@ const Layout: React.FunctionComponent = ({ children }) => {
     window.parent.postMessage({ theme: colorMode }, '*');
   }, [colorMode]);
 
-  return isDark as boolean && (
+  return typeof isDark === boolean && (
     <React.Fragment>
       <Global styles={globalStyles} />
       <MainContainer
