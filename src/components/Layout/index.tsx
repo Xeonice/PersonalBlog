@@ -26,7 +26,7 @@ const MainContainer = styled(Box)`
 
 const Layout: React.FunctionComponent = ({ children }) => {
   const [colorMode] = useColorMode();
-  const isDark: boolean = colorMode === `dark`;
+  const isDark = colorMode === `dark`;
 
   useEffect(() => {
     window.parent.postMessage({ theme: colorMode }, '*');

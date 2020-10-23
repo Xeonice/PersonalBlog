@@ -11,10 +11,11 @@ const strActiveDarkMode = '打开 Dark Mode';
 
 export default function ModeSwitch(): React.ReactElement {
   const [colorMode, setColorMode] = useColorMode();
-  const isDark: boolean = colorMode === `dark`;
+  const isDark = colorMode === `dark`;
 
   const toggleColorMode = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      debugger;
       event.preventDefault();
       setColorMode(isDark ? `default` : `dark`);
     },
