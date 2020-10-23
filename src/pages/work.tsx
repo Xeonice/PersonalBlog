@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 import { TransitionState } from 'gatsby-plugin-transition-link';
 import { graphql } from "gatsby"
 
@@ -10,7 +10,7 @@ import { Box } from "../components/Box"
 import { Paragraph, Heading2 } from "../components/Typography"
 import AnimeContainer from "../components/AnimeContainer"
 
-const Work = ({ data }) => {
+const Work: React.FunctionComponent = () => {
   return (
     <TransitionState>
       {({ transitionStatus }) => (

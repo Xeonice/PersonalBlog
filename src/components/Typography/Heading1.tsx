@@ -13,7 +13,8 @@ const Element = styled.h1<ElementProps>`
       : props.theme.colors.white.default};
 `
 
-const Heading1 = ({ children, element, color, tint = "default", ...props }) => (
+
+const Heading1: React.FunctionComponent<ElementProps> = ({ children, element, color, tint = "default", ...props }) => (
   <Element as={element || "h1"} color={color} tint={tint} {...props}>
     {children}
   </Element>

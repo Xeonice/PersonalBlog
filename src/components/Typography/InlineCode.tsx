@@ -9,7 +9,7 @@ const Element = styled.code<ElementProps>`
   color: ${props => props.theme.colors.blue.default};
 `
 
-const InlineCode = ({ children, element, color, tint = "default", ...props }) => (
+const InlineCode: React.FunctionComponent<ElementProps> = ({ children, element, color, tint = "default", ...props }) => (
   <Element as={element || "code"} color={color} tint={tint} {...props}>
     {children}
   </Element>

@@ -8,7 +8,7 @@ const Element = styled.span<ElementProps>`
     props.color ? props.theme.colors[props.color][props.tint] : undefined};
 `
 
-const TextBody = ({ children, element, color, tint = "default", ...props }) => {
+const TextBody: React.FunctionComponent<ElementProps> = ({ children, element, color, tint = "default", ...props }) => {
   return (
     <Element as={element || "span"} color={color} tint={tint} {...props}>
       {children}

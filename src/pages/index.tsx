@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 import { TransitionState } from 'gatsby-plugin-transition-link';
 import styled from '@emotion/styled';
 import Typist from 'react-typist';
@@ -8,8 +8,9 @@ import SEO from "../components/SEO"
 import OverviewInfo from "../components/OverviewInfo"
 import { Box } from "../components/Box"
 import AnimeContainer from "../components/AnimeContainer"
+import { ElementProps } from "../components/Typography"
 
-const Introduction = styled.h1`
+const Introduction = styled.h1<ElementProps>`
   color: ${(props) => props.theme.colors.white.default};
   font-family: ${(props) => props.theme.fontFamily.default};
   font-size: ${(props) => props.theme.fontSize["4xl"]};
@@ -23,7 +24,7 @@ const Introduction = styled.h1`
   }
 `
 
-const IndexPage = () => (
+const IndexPage: React.FunctionComponent = () => (
   <TransitionState>
     {({ transitionStatus }) => (
       <Layout>

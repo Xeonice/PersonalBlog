@@ -1,8 +1,9 @@
 import * as React from "react"
 import styled from '@emotion/styled';
 import TextBody from "./TextBody"
+import { ElementProps } from "."
 
-const Element = styled(TextBody)`
+const Element = styled(TextBody)<ElementProps>`
   font-weight: 400;
   line-height: 2.2;
   color: ${props =>
@@ -13,7 +14,7 @@ const Element = styled(TextBody)`
   margin-bottom: ${props => props.theme.spacing[6]};
 `
 
-const Paragraph = ({ children, color, tint = "default", ...props }) => (
+const Paragraph: React.FunctionComponent<ElementProps> = ({ children, color, tint = "default", ...props }) => (
   <Element as="p" color={color} tint={tint} {...props}>
     {children}
   </Element>

@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 import { TransitionState } from 'gatsby-plugin-transition-link';
 import { graphql } from "gatsby"
 
@@ -15,7 +15,7 @@ import { Paragraph } from "../components/Typography"
 import List from "../components/List/List"
 import AnimeContainer from "../components/AnimeContainer"
 
-const Writings = ({ data }) => {
+const Writings: React.FunctionComponent<{ data: any }> = ({ data }) => {
   const blogPosts = getSortedGroups(
     groupPostsByYear(extractBlogPosts(data).concat(externalLinks))
   )

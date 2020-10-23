@@ -14,7 +14,7 @@ const Element = styled.h2<ElementProps>`
   margin-bottom: ${props => props.theme.spacing[6]};
 `
 
-const Heading2 = ({ children, element, color, tint = "default", ...props }) => (
+const Heading2: React.FunctionComponent<ElementProps> = ({ children, element, color, tint = "default", ...props }) => (
   <Element as={element || "h2"} color={color} tint={tint} {...props}>
     {children}
   </Element>

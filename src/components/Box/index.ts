@@ -22,7 +22,7 @@ export interface BoxProps<ElementProps> {
   alignItems?: string;
   backgroundTint?: string;
   backgroundColor?: string;
-  flex?: string;
+  flex?: string | number;
   display?: string;
   element?: ElementProps;
   children: any;

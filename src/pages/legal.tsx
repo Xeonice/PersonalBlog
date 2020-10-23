@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 
 import Layout from "../components/Layout"
 import SEO from "../components/SEO"
@@ -12,7 +12,7 @@ import {
   TextSmall,
 } from "../components/Typography"
 
-const Legal = () => (
+const Legal: React.FunctionComponent = () => (
   <Layout>
     <SEO title="Legal Information" />
     <Box maxWidth="640px" marginTop={32} marginBottom={32}>

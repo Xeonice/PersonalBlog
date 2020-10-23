@@ -1,10 +1,11 @@
 import colors from './colors';
+import { ThemeColorType } from './colors';
 
 export interface Theme {
   colorModeTransition: string,
   useCustomProperties: boolean,
   initialColorMode: "dark" | "light",
-  colors: object,
+  colors: ThemeColorType,
   fontFamily: {
     default: string,
     mono: string,

@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 import { TransitionState } from 'gatsby-plugin-transition-link';
 import { Link as RouterLink } from "gatsby"
 
@@ -13,7 +13,7 @@ import Link from "../components/Link"
 import { Separator } from "../components/Separator"
 import AnimeContainer from "../components/AnimeContainer"
 
-const AboutMe = () => (
+const AboutMe: React.FunctionComponent = () => (
   <TransitionState>
     {({ transitionStatus }) => (
       <Layout>

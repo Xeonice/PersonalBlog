@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 import { graphql, Link as RouterLink } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 
@@ -11,7 +11,7 @@ import { Heading1 } from "../../components/Typography"
 import Img from "gatsby-image"
 import Tag from "../../components/Tag"
 
-export default ({ data }) => {
+const mdx: React.FunctionComponent<{ data: any }> = ({ data }) => {
   const post = data.mdx
   const meta = [
     {
@@ -85,6 +85,7 @@ export default ({ data }) => {
     </Layout>
   )
 }
+export default mdx;
 
 export const query = graphql`
   query($slug: String!) {

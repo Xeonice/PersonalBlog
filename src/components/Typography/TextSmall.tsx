@@ -8,7 +8,7 @@ const Element = styled.span<ElementProps>`
     props.color ? props.theme.colors[props.color][props.tint] : undefined};
 `
 
-const TextSmall = ({
+const TextSmall: React.FunctionComponent<ElementProps> = ({
   children,
   element,
   color,

@@ -26,8 +26,12 @@ const Content = styled(TextSmall)`
     overflow: hidden;
 `;
 
+interface TagType {
+  element?: string;
+  color: string;
+}
 
-const Tag: React.FunctionComponent<{ element: string, color: string }> = ({ children, element, color, ...props }) => (
+const Tag: React.FunctionComponent<TagType> = ({ children, element, color, ...props }) => (
   <Container as={element || "span"} color={color} {...props}>
     <Content>
       {children}

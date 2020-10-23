@@ -7,12 +7,14 @@ import Heading4 from "./Heading4"
 import Paragraph from "./Paragraph"
 import InlineCode from './InlineCode';
 import { Theme } from "../../gatsby-plugin-theme-ui"
+import { BoxProps } from "../Box"
 
-export interface ElementProps {
-  as: string;
-  color: string,
-  tint: string,
-  theme: Theme,
+export interface ElementProps extends BoxProps<any> {
+  as?: string;
+  color?: string;
+  tint?: string;
+  href?: string;
+  to?: string;
 }
 
 export {

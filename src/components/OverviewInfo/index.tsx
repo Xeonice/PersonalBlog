@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import styled from '@emotion/styled';
 
-import { TextBody, TextSmall } from "../Typography"
+import { TextBody, TextSmall, ElementProps } from "../Typography"
 import Link from "../Link"
 import { Box } from "../Box"
 
@@ -12,7 +12,7 @@ const Separator = styled.span`
   height: 2px;
 `
 
-const Title = styled(TextSmall)`
+const Title = styled(TextSmall)<ElementProps>`
   display: block;
   letter-spacing: ${props => props.theme.letterSpacing.wide};
   line-height: 1.166666666;
