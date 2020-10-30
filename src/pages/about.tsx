@@ -28,7 +28,7 @@ const AboutMe: React.FunctionComponent = () => (
               开设这片自留地的主要原因在于，我希望在一个远离 gfw 的地方描述与记录一些自己的个人想法，同时不必因为一些 ‘不可名状的原因’ 被迫自我阉割。因此，这里的记录可能并不仅限于开发，也可能会有一些除研发以外的随想。
             </Paragraph>
             <Paragraph key="paragraph3">
-              这里的内容会由以下三个部分组成：算法 / 研发 / 趋势，其中由于个人职业与见解原因，可能会更倾向于研发部分。而研发部分的内容，则会倾向于 Node.js / JavaScript。毕竟我还是个前端嘛（逃）。
+              最近执行 Lowcode 期间，对于业务本身的思考越来越多，因为 Blog 中的大部分文章可能都在讲一些自己执行期间遇到的问题和思考，所以废话会多一点（对技术流来说）。
             </Paragraph>
             <Paragraph key="paragraph4">
               我一直坚信一点，分享知识是巩固 / 获取新知识的最好方法。因此我会定期记录一些日常开发中解决问题的方法供各位参考。同样的，我热衷于为开源事业作出自己的一份贡献，如果有优质开源项目需要贡献人手，欢迎随时与我联系。
@@ -56,17 +56,38 @@ const AboutMe: React.FunctionComponent = () => (
                   >
                     计算机程序设计艺术 卷4A：组合算法（一）
                   </List.Item>
+                  <List.Item
+                    subtitle="Alexander Shvets"
+                    link="https://refactoringguru.cn/design-patterns/book"
+                  >
+                    深入设计模式
+                  </List.Item>
+                  <List.Item
+                    subtitle="Matt Frisbie"
+                    link="https://www.ituring.com.cn/book/2472"
+                  >
+                    JavaScript高级程序设计（第4版）
+                  </List.Item>
+                  <List.Item
+                    subtitle="Eric Matthes"
+                    link="https://www.ituring.com.cn/book/2784"
+                  >
+                    Python编程：从入门到实践（第2版）
+                  </List.Item>
                 </List>
                 <Separator />
                 <List title="正在閱讀">
-                  <List.Item subtitle="Robert Sedgewick, Kevin Wayne" link="https://www.ituring.com.cn/book/875">
-                    算法（第4版）
+                  <List.Item
+                    subtitle="Matt Frisbie"
+                    link="https://www.ituring.com.cn/book/2472"
+                  >
+                    JavaScript高级程序设计（第4版）
                   </List.Item>
                   <List.Item
-                    subtitle="高德纳"
-                    link="https://www.ituring.com.cn/book/925"
+                    subtitle="Eric Matthes"
+                    link="https://www.ituring.com.cn/book/2784"
                   >
-                    计算机程序设计艺术 卷4A：组合算法（一）
+                    Python编程：从入门到实践（第2版）
                   </List.Item>
                 </List>
               </Box>
