@@ -36,7 +36,7 @@ const OverviewInfo = () => (
       <Separator />
       <Title color="silver">工作地</Title>
       <Info color="white" href="https://www.hussle.com" element={TextBody}>
-        上海 - 青浦
+        杭州 - 西湖区
       </Info>
     </Box>
     <Box>

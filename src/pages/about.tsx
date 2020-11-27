@@ -22,7 +22,7 @@ const AboutMe: React.FunctionComponent = () => (
           <AnimeContainer toggle={transitionStatus === 'entered'}>
             <Heading1 key="heading1">/ˈdəgləs/</Heading1>
             <Paragraph key="paragraph1">
-              我是 Douglas，一个目前工作与生活在上海的 Web 开发，虽然立足于前端岗位，但我的个人视野从不局限于前端，同样也会聚焦于后端 / Devops / 抑或是产品 / UI。
+              我是 Douglas，一个目前工作与生活在杭州的 Web 开发，虽然立足于前端岗位，但我的个人视野从不局限于前端，同样也会聚焦于后端 / Devops / 抑或是产品 / UI。
             </Paragraph>
             <Paragraph key="paragraph2">
               开设这片自留地的主要原因在于，我希望在一个远离 gfw 的地方描述与记录一些自己的个人想法，同时不必因为一些 ‘不可名状的原因’ 被迫自我阉割。因此，这里的记录可能并不仅限于开发，也可能会有一些除研发以外的随想。
