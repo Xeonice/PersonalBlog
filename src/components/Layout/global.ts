@@ -2,6 +2,7 @@ import { css } from "@emotion/core"
 import { Theme } from "../../gatsby-plugin-theme-ui"
 
 export const Global = (theme: Theme) => css`
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif+SC:400,500,600,700,900');
 * {
   transition: background-color 0.5s ease;
 }

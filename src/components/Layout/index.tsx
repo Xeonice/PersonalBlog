@@ -12,11 +12,6 @@ import { Box } from "../Box"
 
 import globalStyles from "./global"
 
-import "fontsource-noto-serif-sc/400.css"
-import "fontsource-noto-serif-sc/600.css"
-import "fontsource-noto-serif-sc/700.css"
-import "fontsource-noto-serif-sc/900.css"
-
 
 const MainContainer = styled(Box)`
   padding: 40px ${(props) => props.theme.spacing["4"]};
