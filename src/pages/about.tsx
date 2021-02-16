@@ -34,6 +34,41 @@ const AboutMe: React.FunctionComponent = () => (
               我一直坚信一点，分享知识是巩固 / 获取新知识的最好方法。因此我会定期记录一些日常开发中解决问题的方法供各位参考。同样的，我热衷于为开源事业作出自己的一份贡献，如果有优质开源项目需要贡献人手，欢迎随时与我联系。
             </Paragraph>
 
+            <Box marginTop={32} element="section">
+              <Heading2>个人准则</Heading2>
+              <Paragraph>
+                熟悉我的人都清楚，我拥有一套特殊的行事准则，这套准则本身极其理想化，代表着我个人行事所蕴含的信念（亦或者说是个人风格）。
+              </Paragraph>
+              <Paragraph>
+                以下行为准则会随着时间变动而更新（绝不会做出任何删减）
+              </Paragraph>
+              <Separator />
+              <Paragraph>
+                1. Title 的含金量由人来决定，而不是反过来（因为你牛逼，所以阿里工程师才牛逼，而不是因为阿里工程师牛逼，所以你牛逼）。
+              </Paragraph>
+              <Paragraph>
+                2. 行事的动力可以包含物质利益，但不能将其作为基础，这往往是最脆弱的支柱。
+              </Paragraph>
+              <Paragraph>
+                3. 永远会存在比 KPI 更重要的事情，不要为了 KPI / Title 去刻意的做某些事情。
+              </Paragraph>
+              <Paragraph>
+                4. 事情成败，三分看人，七分看天，涉及物质利益的部分不能过于强求。
+              </Paragraph>
+              <Paragraph>
+                5. 2b 的市场中，用户的需求或许与其真实的诉求并不一致（一匹更快的马），深度发掘有时是必要的。
+              </Paragraph>
+              <Paragraph>
+                6. 妥协不意味着放弃，出现废案的可能性多种多样，保留它们，未来的某一天说不定会用上的。
+              </Paragraph>
+              <Paragraph>
+                7. 保持对成熟产品的敬畏之心（业内稳定存在五至十年以上），存在必合理，傲慢是生存最大的敌人。
+              </Paragraph>
+              <Paragraph>
+                8. 平等待人，永远谦卑。每个人都拥有其对应的潜力，发掘并合理引导它们，心态才是决定个人实力的最大因素。
+              </Paragraph>
+            </Box>
+
             <Box marginTop={32} element="section" key="section">
               <Heading2>当前阅读书单</Heading2>
               <Paragraph>
@@ -91,17 +126,6 @@ const AboutMe: React.FunctionComponent = () => (
                   </List.Item>
                 </List>
               </Box>
-            </Box>
-
-            <Box marginTop={32} element="section">
-              <Heading2>个人随笔</Heading2>
-              <Paragraph>
-                自大二开始，我就一直在折腾自己的 Blog 系统，当前的 Blog 系统已经是第四时代的产物了。{" "}
-                <Link element={RouterLink} to="/writings" underlined color="white">
-                  个人随笔
-                </Link>{" "}
-                部分记叙了我自大三以来的一些技术实现和随想，当然剔除了以前我写的不太好的黑历史（逃）。
-              </Paragraph>
             </Box>
             <Box element="section" marginTop={32} marginBottom={32}>
               <SayHi />
