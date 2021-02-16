@@ -19,7 +19,7 @@ const Title = styled(TextSmall)<ElementProps>`
 `
 
 const Info = styled(Link)`
-  font-weight: 600;
+  font-weight: ${props => props.theme.fontWeight["bold"]};
   line-height: 1.1875;
   display: block;
   margin-top: 5px;

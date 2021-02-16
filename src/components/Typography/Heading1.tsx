@@ -3,9 +3,10 @@ import styled from '@emotion/styled';
 import { ElementProps } from '.';
 
 const Element = styled.h1<ElementProps>`
-  font-size: ${props => props.theme.fontSize["2xl"]};
-  font-weight: 600;
+  font-size: ${props => props.theme.fontSize["3xl"]};
+  font-weight: ${props => props.theme.fontWeight["black"]};
   line-height: 1.1;
+  margin-top: ${props => props.theme.spacing[16]};
   margin-bottom: ${props => props.theme.spacing[8]};
   color: ${props =>
     props.color

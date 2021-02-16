@@ -8,7 +8,7 @@ const SayHi = () => (
     maxWidth="520px"
     fontFamily="default"
     fontSize="4xl"
-    fontWeight={600}
+    fontWeight="bold"
     lineHeight={1.194444444444}
     textColor="white"
   >

@@ -13,7 +13,7 @@ const Element = styled.div<ElementProps>`
       ? `font-size: ${props.theme.fontSize[props.fontSize]};`
       : undefined}
   ${props =>
-    props.fontWeight ? `font-weight: ${props.fontWeight};` : undefined}
+    props.fontWeight ? `font-weight: ${props.theme.fontWeight[props.fontWeight]};` : undefined}
   ${props =>
     props.lineHeight ? `line-Height: ${props.lineHeight};` : undefined}
   ${props =>

@@ -14,7 +14,7 @@ const Introduction = styled.h1<ElementProps>`
   color: ${(props) => props.theme.colors.white.default};
   font-family: ${(props) => props.theme.fontFamily.default};
   font-size: ${(props) => props.theme.fontSize["4xl"]};
-  font-weight: 600;
+  font-weight: 900;
   line-height: 1.333333;
   overflow-wrap: break-word;
   max-width: 640px;

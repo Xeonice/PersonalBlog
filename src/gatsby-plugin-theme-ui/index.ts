@@ -13,6 +13,9 @@ export interface Theme {
   fontSize: {
     [propsName: string]: string,
   },
+  fontWeight: {
+    [propsName: string]: string,
+  },
   letterSpacing: {
     [propsName: string]: string,
   },
@@ -81,6 +84,13 @@ const theme: Theme = {
     "4xl": "2.25rem",
     "5xl": "3rem",
     "6xl": "4rem",
+  },
+  fontWeight: {
+    regular: "400",
+    medium: "500",
+    "semi-bold": "600",
+    bold: "700",
+    black: "900",
   },
   letterSpacing: {
     normal: "0",

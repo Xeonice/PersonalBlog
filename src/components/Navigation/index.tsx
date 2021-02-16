@@ -32,7 +32,7 @@ const MenuItem = styled(Link)`
   color: ${props => props.theme.colors.silver.default};
   font-size: ${props => props.theme.fontSize.lg};
   font-family: ${props => props.theme.fontFamily.default};
-  font-weight: 600;
+  font-weight: ${props => props.theme.fontWeight["bold"]};
 
   @media (max-width: 375px) {
     font-size: ${props => props.theme.fontSize.base};

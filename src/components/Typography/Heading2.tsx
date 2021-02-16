@@ -4,7 +4,7 @@ import { ElementProps } from ".";
 
 const Element = styled.h2<ElementProps>`
   font-size: ${props => props.theme.fontSize["lg"]};
-  font-weight: 600;
+  font-weight: ${props => props.theme.fontWeight["bold"]};
   line-height: 1.66666666666;
   color: ${props =>
     props.color

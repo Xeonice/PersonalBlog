@@ -18,7 +18,7 @@ const AboutMe: React.FunctionComponent = () => (
     {({ transitionStatus }) => (
       <Layout>
         <SEO title="個人簡介" />
-        <Box maxWidth="640px" marginTop={32}>
+        <Box maxWidth="640px" marginTop={16}>
           <AnimeContainer toggle={transitionStatus === 'entered'}>
             <Heading1 key="heading1">/ˈdəgləs/</Heading1>
             <Paragraph key="paragraph1">

@@ -59,6 +59,13 @@ export default {
     "5xl": "3rem",
     "6xl": "4rem",
   },
+  fontWeight: {
+    regular: "400",
+    medium: "500",
+    "semi-bold": "600",
+    bold: "700",
+    black: "900",
+  },
   letterSpacing: {
     normal: "0",
     wide: "0.025em",

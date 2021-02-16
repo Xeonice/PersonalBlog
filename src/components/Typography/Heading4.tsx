@@ -4,7 +4,7 @@ import { ElementProps } from ".";
 
 const Element = styled.h4<ElementProps>`
   font-size: ${props => props.theme.fontSize.xs};
-  font-weight: 400;
+  font-weight: ${props => props.theme.fontWeight["regular"]};
   line-height: 2.5;
   text-transform: uppercase;
   letter-spacing: ${props => props.theme.letterSpacing.widest};

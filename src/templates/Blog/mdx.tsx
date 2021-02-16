@@ -58,7 +58,7 @@ const mdx: React.FunctionComponent<{ data: any }> = ({ data }) => {
         description={post.excerpt}
         meta={[...meta, ...imageMeta]}
       />
-      <Box maxWidth="640px" marginTop={32}>
+      <Box maxWidth="640px" marginTop={8}>
         <Heading1>{post.frontmatter.title}</Heading1>
         <Box marginBottom={8} justifyContent="space-between" alignItems="center" display="flex">
           <Box>

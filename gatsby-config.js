@@ -29,17 +29,7 @@ module.exports = {
     siteUrl: `https://douglasdong.com`,
   },
   plugins: [
-    {
-      resolve: `gatsby-plugin-prefetch-google-fonts`,
-      options: {
-        fonts: [
-          {
-            family: `Noto Serif SC`,
-            variants: [`400`, `600`],
-          },
-        ],
-      },
-    },
+    `gatsby-plugin-preload-fonts`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {

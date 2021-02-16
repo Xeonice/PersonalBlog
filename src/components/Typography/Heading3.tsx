@@ -4,7 +4,7 @@ import { ElementProps } from '.';
 
 const Element = styled.h3<ElementProps>`
   font-size: ${props => props.theme.fontSize.sm};
-  font-weight: 600;
+  font-weight: ${props => props.theme.fontWeight["semi-bold"]};
   line-height: 1.45;
   color: ${props =>
     props.color
