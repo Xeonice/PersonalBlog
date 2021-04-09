@@ -16,6 +16,8 @@ import Link from "./src/components/Link"
 
 import "prism-themes/themes/prism-vsc-dark-plus.css"
 
+require('fontsource-noto-serif-sc');
+
 const components = {
   h1: Heading1,
   h2: Heading2,
