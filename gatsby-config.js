@@ -29,7 +29,6 @@ module.exports = {
     siteUrl: `https://douglasdong.com`,
   },
   plugins: [
-    `gatsby-plugin-preload-fonts`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
