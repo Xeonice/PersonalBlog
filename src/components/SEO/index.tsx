@@ -1,6 +1,6 @@
-import * as React from "react"
-import * as PropTypes from "prop-types"
-import Helmet from "react-helmet"
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
 
 interface SEOType {
   description?: string
@@ -9,77 +9,77 @@ interface SEOType {
   title?: string
 }
 
-const SEO: React.FunctionComponent<SEOType> = ({
+const SEO: React.FunctionComponent<SEOType> = function ({
   description,
   lang,
   meta,
   title,
-}) => {
+}) {
   return (
     <Helmet
       htmlAttributes={{
         lang,
-        class: "han-init",
+        class: 'han-init',
       }}
       title={title}
       titleTemplate={`%s | ${data.site.siteMetadata.title}`}
       meta={[
         {
-          name: `description`,
+          name: 'description',
           content: metaDescription,
         },
         {
-          name: "viewport",
-          content: "width=device-width, initial-scale=1",
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1',
         },
         {
-          property: `og:title`,
+          property: 'og:title',
           content: title,
         },
         {
-          property: `og:site_name`,
-          content: `DouglasDong's blog`,
+          property: 'og:site_name',
+          content: 'DouglasDong\'s blog',
         },
         {
-          property: `og:description`,
+          property: 'og:description',
           content: metaDescription,
         },
         {
-          property: `og:type`,
-          content: `website`,
+          property: 'og:type',
+          content: 'website',
         },
         {
-          name: `twitter:card`,
-          content: `summary`,
+          name: 'twitter:card',
+          content: 'summary',
         },
         {
-          name: `twitter:creator`,
+          name: 'twitter:creator',
           content: data.site.siteMetadata.author,
         },
         {
-          name: `twitter:title`,
+          name: 'twitter:title',
           content: title,
         },
         {
-          name: `twitter:description`,
+          name: 'twitter:description',
           content: metaDescription,
         },
       ].concat(meta)}
     />
-  )
-}
+  );
+};
 
 SEO.defaultProps = {
-  lang: `zh`,
+  lang: 'zh',
   meta: [],
-  description: ``,
-}
+  description: '',
+};
 
 SEO.propTypes = {
   description: PropTypes.string,
   lang: PropTypes.string,
   meta: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.string.isRequired,
-}
+};
 
-export default SEO
+export default SEO;

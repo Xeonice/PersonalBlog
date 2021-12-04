@@ -1,37 +1,38 @@
-import React from "react"
-import { useThemeUI } from "theme-ui"
+import React from 'react';
+import { useThemeUI } from 'theme-ui';
 
-import Logo from "../Logo"
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import classnames from 'classnames';
+import ThemeButton from '../ThemeButton';
+import Logo from '../Logo';
 
-import Link from "next/link"
-import ThemeButton from "../ThemeButton"
-import { useRouter } from "next/router"
-import classnames from "classnames"
+const Separator = function () {
+  return (
+    <span className="inline-block mx-2 text-gray-500 text-base md:mx-3 md:text-lg">
+      /
+    </span>
+  );
+};
 
-const Separator = () => (
-  <span className="inline-block mx-2 text-gray-500 text-base md:mx-3 md:text-lg">
-    /
-  </span>
-)
-
-const MenuItem = ({ children, href }) => {
-  const router = useRouter()
+const MenuItem = function ({ children, href }) {
+  const router = useRouter();
   return (
     <Link href={href}>
       <a
-        className={classnames("text-base font-bold md:text-lg", {
-          ["text-gray-500"]: router.pathname !== href,
-          ["text-black"]: router.pathname === href,
+        className={classnames('text-base font-bold md:text-lg', {
+          'text-gray-500': router.pathname !== href,
+          'text-black': router.pathname === href,
         })}
       >
         {children}
       </a>
     </Link>
-  )
-}
+  );
+};
 
-const Navigation: React.FunctionComponent = () => {
-  const { theme } = useThemeUI()
+const Navigation: React.FunctionComponent = function () {
+  const { theme } = useThemeUI();
 
   return (
     <nav className="flex align-center justify-between">
@@ -43,7 +44,7 @@ const Navigation: React.FunctionComponent = () => {
         <MenuItem href="/about">個人簡介</MenuItem>
         <Separator />
         <MenuItem
-          href={"/files/%E5%94%90%E5%92%8C%E8%BE%89%20-%2018602149227.pdf"}
+          href="/files/%E5%94%90%E5%92%8C%E8%BE%89%20-%2018602149227.pdf"
           aria-label="Resume"
         >
           個人簡歷
@@ -55,7 +56,7 @@ const Navigation: React.FunctionComponent = () => {
       </div>
       <ThemeButton />
     </nav>
-  )
-}
+  );
+};
 
-export default Navigation
+export default Navigation;

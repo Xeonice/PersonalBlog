@@ -1,5 +1,5 @@
-import { css } from "@emotion/react"
-import { Theme } from "../../gatsby-plugin-theme-ui"
+import { css } from '@emotion/react';
+import { Theme } from '../../gatsby-plugin-theme-ui';
 
 export const Global = (theme: Theme) => css`
   * {
@@ -294,6 +294,6 @@ export const Global = (theme: Theme) => css`
     margin-bottom: ${theme.spacing[6]};
     margin-top: ${theme.spacing[6]};
   }
-`
+`;
 
-export default Global
+export default Global;

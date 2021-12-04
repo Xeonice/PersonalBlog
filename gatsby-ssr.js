@@ -6,10 +6,10 @@
 
 // You can delete this file if you're not using it
 // 百度统计
-var React = require("react");
+const React = require('react');
 
 exports.onRenderBody = ({ setHeadComponents }) => {
-  if (process.env.NODE_ENV === `production`) {
+  if (process.env.NODE_ENV === 'production') {
     setHeadComponents([
       // 这里的形式是为了异步加载
       <script
@@ -23,9 +23,9 @@ exports.onRenderBody = ({ setHeadComponents }) => {
               var s = document.getElementsByTagName("script")[0]; 
               s.parentNode.insertBefore(hm, s);
             })();
-          `
+          `,
         }}
-      />
+      />,
     ]);
   }
 };

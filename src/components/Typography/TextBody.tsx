@@ -1,14 +1,14 @@
-import * as React from "react"
-import classnames from "classnames"
+import * as React from 'react';
+import classnames from 'classnames';
 
 const TextBody: React.FunctionComponent<{
   className: string
-}> = ({ className, children }) => {
+}> = function ({ className, children }) {
   return (
-    <span className={classnames(className, "font-serif", "text-normal")}>
+    <span className={classnames(className, 'font-serif', 'text-normal')}>
       {children}
     </span>
-  )
-}
+  );
+};
 
-export default TextBody
+export default TextBody;

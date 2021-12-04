@@ -1,6 +1,6 @@
-import React from "react"
+import React from 'react';
 
-import { MDXProvider } from "@mdx-js/react"
+import { MDXProvider } from '@mdx-js/react';
 import {
   Heading1,
   Heading2,
@@ -8,13 +8,13 @@ import {
   Heading3,
   Heading4,
   InlineCode,
-} from "./src/components/Typography"
-import { Separator } from "./src/components/Separator"
-import { OrderedList, UnOrderedList } from "./src/components/List"
-import { Quote } from "./src/components/Quote"
-import Link from "./src/components/Link"
+} from './src/components/Typography';
+import { Separator } from './src/components/Separator';
+import { OrderedList, UnOrderedList } from './src/components/List';
+import { Quote } from './src/components/Quote';
+import Link from './src/components/Link';
 
-import "prism-themes/themes/prism-vsc-dark-plus.css"
+import 'prism-themes/themes/prism-vsc-dark-plus.css';
 
 require('fontsource-noto-serif-sc');
 
@@ -34,8 +34,8 @@ const components = {
       {children}
     </Link>
   ),
-}
+};
 
 export const wrapRootElement = ({ element }) => (
   <MDXProvider components={components}>{element}</MDXProvider>
-)
+);

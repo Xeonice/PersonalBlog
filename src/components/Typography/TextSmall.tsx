@@ -1,14 +1,16 @@
-import classnames from "classnames"
-import * as React from "react"
+import classnames from 'classnames';
+import * as React from 'react';
 
-const TextSmall = ({ children, color }) => (
-  <span
-    className={classnames("text-xs", "font-serif", {
-      [`text-${color}`]: color,
-    })}
-  >
-    {children}
-  </span>
-)
+const TextSmall = function ({ children, color }) {
+  return (
+    <span
+      className={classnames('text-xs', 'font-serif', {
+        [`text-${color}`]: color,
+      })}
+    >
+      {children}
+    </span>
+  );
+};
 
-export default TextSmall
+export default TextSmall;

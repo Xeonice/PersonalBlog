@@ -1,54 +1,54 @@
-import { graphql, Link as RouterLink } from "gatsby"
-import { MDXRenderer } from "gatsby-plugin-mdx"
+import { graphql, Link as RouterLink } from 'gatsby';
+import { MDXRenderer } from 'gatsby-plugin-mdx';
 
-import Layout from "../../components/Layout"
-import SEO from "../../components/SEO"
-import Link from "../../components/Link"
-import { section } from "../../components/Box"
-import { Heading1 } from "../../components/Typography"
+import Img from 'gatsby-image';
+import Layout from '../../components/Layout';
+import SEO from '../../components/SEO';
+import Link from '../../components/Link';
+import { section } from '../../components/Box';
+import { Heading1 } from '../../components/Typography';
 
-import Img from "gatsby-image"
-import Tag from "../../components/Tag"
+import Tag from '../../components/Tag';
 
 const mdx: React.FunctionComponent<{ data: any }> = ({ data }) => {
-  const post = data.mdx
+  const post = data.mdx;
   const meta = [
     {
-      name: `og:url`,
+      name: 'og:url',
       content: data.site.siteMetadata.siteUrl + post.fields.slug,
     },
     {
-      name: `og:type`,
-      content: `article`,
+      name: 'og:type',
+      content: 'article',
     },
     {
-      name: `og:locale`,
+      name: 'og:locale',
       content: post.frontmatter.locale,
     },
     {
-      name: `article:author`,
-      content: `https://www.facebook.com/rathes.de`,
+      name: 'article:author',
+      content: 'https://www.facebook.com/rathes.de',
     },
-  ]
+  ];
   const imageMeta = post.frontmatter.image
     ? [
-        {
-          name: `twitter:image`,
-          content:
+      {
+        name: 'twitter:image',
+        content:
             data.site.siteMetadata.siteUrl + post.frontmatter.image.publicURL,
-        },
-        {
-          name: `og:image`,
-          content:
+      },
+      {
+        name: 'og:image',
+        content:
             data.site.siteMetadata.siteUrl + post.frontmatter.image.publicURL,
-        },
-        {
-          name: `og:image:secure_url`,
-          content:
+      },
+      {
+        name: 'og:image:secure_url',
+        content:
             data.site.siteMetadata.siteUrl + post.frontmatter.image.publicURL,
-        },
-      ]
-    : []
+      },
+    ]
+    : [];
 
   return (
     <Layout>
@@ -85,9 +85,9 @@ const mdx: React.FunctionComponent<{ data: any }> = ({ data }) => {
         </section>
       </section>
     </Layout>
-  )
-}
-export default mdx
+  );
+};
+export default mdx;
 
 export const query = graphql`
   query ($slug: String!) {
@@ -117,4 +117,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;

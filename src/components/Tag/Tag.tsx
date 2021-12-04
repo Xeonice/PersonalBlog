@@ -1,12 +1,12 @@
-import * as React from "react"
+import * as React from 'react';
 import styled from '@emotion/styled';
 import TextSmall from '../Typography/TextSmall';
-import { Theme } from "../../gatsby-plugin-theme-ui"
+import { Theme } from '../../gatsby-plugin-theme-ui';
 
 const Container = styled.span<{ theme: Theme, as: string }>`
-  background: ${props => props.theme.colors.black.lighter};
-  color: ${props => props.theme.colors.silver.darkest};
-  margin: ${props => props.theme.spacing[2]};
+  background: ${(props) => props.theme.colors.black.lighter};
+  color: ${(props) => props.theme.colors.silver.darkest};
+  margin: ${(props) => props.theme.spacing[2]};
   padding: 0px;
   cursor: default;
   display: inline-block;
@@ -14,7 +14,7 @@ const Container = styled.span<{ theme: Theme, as: string }>`
   line-height: 1;
   border-radius: 3px;
   overflow: initial;
-`
+`;
 
 const Content = styled(TextSmall)`
     margin-left: 4px;
@@ -31,12 +31,16 @@ interface TagType {
   color: string;
 }
 
-const Tag: React.FunctionComponent<TagType> = ({ children, element, color, ...props }) => (
-  <Container as={element || "span"} color={color} {...props}>
-    <Content>
-      {children}
-    </Content>
-  </Container>
-)
+const Tag: React.FunctionComponent<TagType> = function ({
+  children, element, color, ...props
+}) {
+  return (
+    <Container as={element || 'span'} color={color} {...props}>
+      <Content>
+        {children}
+      </Content>
+    </Container>
+  );
+};
 
 export default Tag;

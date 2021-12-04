@@ -1,6 +1,6 @@
-import Link from "./Link"
+import Link from './Link';
 
-import { BoxProps } from "../Box"
+import { BoxProps } from '../Box';
 
 export interface LinkProps extends BoxProps<any> {
   as?: any
@@ -11,4 +11,4 @@ export interface LinkProps extends BoxProps<any> {
   href?: string
 }
 
-export default Link
+export default Link;

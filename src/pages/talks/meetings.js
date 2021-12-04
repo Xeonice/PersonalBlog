@@ -1,43 +1,45 @@
-import React from "react"
+import React from 'react';
 
-import Layout from "../../components/Layout"
-import SEO from "../../components/SEO"
-import { section } from "../../components/Box"
-import { Heading1, Paragraph, TextBody } from "../../components/Typography"
+import Layout from '../../components/Layout';
+import SEO from '../../components/SEO';
+import { section } from '../../components/Box';
+import { Heading1, Paragraph, TextBody } from '../../components/Typography';
 
-const Meetings = () => (
-  <Layout>
-    <SEO title="You probably don't need that meeting - Developing a meeting culture that employees will love"></SEO>
-    <section maxWidth="640px">
-      <Heading1>
-        You probably don't need that meeting
-        <section
-          element={TextBody}
-          lineHeight={1.8}
-          color="silver"
-          display="block"
-        >
-          Developing a meeting culture that employees will love
-        </section>
-      </Heading1>
-      <Paragraph>
-        Be honest with yourself. How many of your meetings do you think were
-        useful? And how many of them were productive? In this talk, we will talk
-        about developing a meeting culture that everybody in the company will
-        love!
-      </Paragraph>
-      <Paragraph>
-        You will learn how to avoid unnecessary meetings, how other types of
-        communication can be more effective and efficient. You will also learn
-        how to conduct those unavoidable meetings so that they are productive
-        and don't feel like a waste of time.
-      </Paragraph>
-      <Paragraph>
-        After this talk, you will be able to avoid useless meetings and make the
-        necessary meetings more productive.
-      </Paragraph>
-    </section>
-  </Layout>
-)
+const Meetings = function () {
+  return (
+    <Layout>
+      <SEO title="You probably don't need that meeting - Developing a meeting culture that employees will love" />
+      <section maxWidth="640px">
+        <Heading1>
+          You probably don't need that meeting
+          <section
+            element={TextBody}
+            lineHeight={1.8}
+            color="silver"
+            display="block"
+          >
+            Developing a meeting culture that employees will love
+          </section>
+        </Heading1>
+        <Paragraph>
+          Be honest with yourself. How many of your meetings do you think were
+          useful? And how many of them were productive? In this talk, we will talk
+          about developing a meeting culture that everybody in the company will
+          love!
+        </Paragraph>
+        <Paragraph>
+          You will learn how to avoid unnecessary meetings, how other types of
+          communication can be more effective and efficient. You will also learn
+          how to conduct those unavoidable meetings so that they are productive
+          and don't feel like a waste of time.
+        </Paragraph>
+        <Paragraph>
+          After this talk, you will be able to avoid useless meetings and make the
+          necessary meetings more productive.
+        </Paragraph>
+      </section>
+    </Layout>
+  );
+};
 
-export default Meetings
+export default Meetings;

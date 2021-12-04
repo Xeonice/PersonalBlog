@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import Navigation from "../Navigation"
-import Footer from "../Footer"
+import Navigation from '../Navigation';
+import Footer from '../Footer';
 
 export default function Layout({ children }): JSX.Element {
   // const [colorMode] = useColorMode()
@@ -18,5 +18,5 @@ export default function Layout({ children }): JSX.Element {
       <Footer />
     </main>
     // )
-  )
+  );
 }

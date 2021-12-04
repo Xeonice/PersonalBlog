@@ -1,5 +1,5 @@
-import section from "./Box"
-import { Theme } from "../../gatsby-plugin-theme-ui"
+import section from './Box';
+import { Theme } from '../../gatsby-plugin-theme-ui';
 
 export interface BoxProps<ElementProps> {
   as?: string
@@ -33,4 +33,4 @@ export interface ElementProps extends BoxProps<string> {
   theme: Theme
 }
 
-export { section }
+export { section };

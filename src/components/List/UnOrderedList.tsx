@@ -1,7 +1,7 @@
-import * as React from "react"
-import styled from "@emotion/styled"
+import * as React from 'react';
+import styled from '@emotion/styled';
 
-import { section } from "../Box"
+import { section } from '../Box';
 
 const OrderedListWrapper = styled(section)`
   list-style-position: outside;
@@ -23,22 +23,24 @@ const OrderedListWrapper = styled(section)`
     line-height: 1.45;
     color: ${(props) => props.theme.colors.silver.darker};
   }
-`
+`;
 
-const OrderedList = ({ children, ...props }) => (
-  <OrderedListWrapper
-    element="ul"
-    marginTop={8}
-    marginBottom={8}
-    padding={6}
-    paddingLeft={10}
-    textColor="silver"
-    textTint="darker"
-    fontSize="sm"
-    {...props}
-  >
-    {children}
-  </OrderedListWrapper>
-)
+const OrderedList = function ({ children, ...props }) {
+  return (
+    <OrderedListWrapper
+      element="ul"
+      marginTop={8}
+      marginBottom={8}
+      padding={6}
+      paddingLeft={10}
+      textColor="silver"
+      textTint="darker"
+      fontSize="sm"
+      {...props}
+    >
+      {children}
+    </OrderedListWrapper>
+  );
+};
 
-export default OrderedList
+export default OrderedList;

@@ -1,24 +1,24 @@
-const { createFilePath } = require(`gatsby-source-filesystem`)
-const path = require(`path`)
+const { createFilePath } = require('gatsby-source-filesystem');
+const path = require('path');
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const {
     internal: { type },
-  } = node
-  const { createNodeField } = actions
+  } = node;
+  const { createNodeField } = actions;
 
-  if (["MarkdownRemark", "Mdx"].includes(type)) {
-    const filePath = createFilePath({ node, getNode, basePath: `pages` })
+  if (['MarkdownRemark', 'Mdx'].includes(type)) {
+    const filePath = createFilePath({ node, getNode, basePath: 'pages' });
     createNodeField({
       node,
-      name: `slug`,
-      value: filePath.replace("/articles/", "/blog/"),
-    })
+      name: 'slug',
+      value: filePath.replace('/articles/', '/blog/'),
+    });
   }
-}
+};
 
 exports.createPages = async ({ graphql, actions }) => {
-  const { createPage } = actions
+  const { createPage } = actions;
 
   const {
     data: { allMdx },
@@ -35,15 +35,15 @@ exports.createPages = async ({ graphql, actions }) => {
         }
       }
     }
-  `)
+  `);
 
   allMdx.edges.forEach(({ node }) => {
     createPage({
       path: node.fields.slug,
-      component: path.resolve(`./src/templates/Blog/mdx.tsx`),
+      component: path.resolve('./src/templates/Blog/mdx.tsx'),
       context: {
         slug: node.fields.slug,
       },
-    })
-  })
-}
+    });
+  });
+};
