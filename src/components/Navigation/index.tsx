@@ -1,124 +1,60 @@
 import React from "react"
-import { useThemeUI } from 'theme-ui';
-import { graphql, useStaticQuery } from "gatsby"
-import RouterLink from 'gatsby-plugin-transition-link/AniLink'
-import styled from '@emotion/styled';
+import { useThemeUI } from "theme-ui"
 
 import Logo from "../Logo"
 
-import Link from "../Link"
-import { Box } from "../Box"
+import Link from "next/link"
 import ThemeButton from "../ThemeButton"
-import { Theme } from "../../gatsby-plugin-theme-ui"
+import { useRouter } from "next/router"
+import classnames from "classnames"
 
-const Separator = styled.span<{ theme: Theme }>`
-  display: inline-block;
-  margin: 0 8px;
-  color: ${props => props.theme.colors.silver.default};
-  font-size: ${props => props.theme.fontSize.lg};
-  font-family: ${props => props.theme.fontFamily.default};
+const Separator = () => (
+  <span className="inline-block mx-2 text-gray-500 text-base md:mx-3 md:text-lg">
+    /
+  </span>
+)
 
-  @media (max-width: 574px) {
-    margin: 0 4px;
-    font-size: ${props => props.theme.fontSize.base};
-  }
-
-  &:before {
-    content: "/";
-  }
-`
-
-const MenuItem = styled(Link)`
-  color: ${props => props.theme.colors.silver.default};
-  font-size: ${props => props.theme.fontSize.lg};
-  font-family: ${props => props.theme.fontFamily.default};
-  font-weight: ${props => props.theme.fontWeight["bold"]};
-
-  @media (max-width: 375px) {
-    font-size: ${props => props.theme.fontSize.base};
-  }
-
-  @media (max-width: 320px) {
-    font-size: ${props => props.theme.fontSize.sm};
-  }
-`
+const MenuItem = ({ children, href }) => {
+  const router = useRouter()
+  return (
+    <Link href={href}>
+      <a
+        className={classnames("text-base font-bold md:text-lg", {
+          ["text-gray-500"]: router.pathname !== href,
+          ["text-black"]: router.pathname === href,
+        })}
+      >
+        {children}
+      </a>
+    </Link>
+  )
+}
 
 const Navigation: React.FunctionComponent = () => {
-  const data = useStaticQuery(graphql`
-    query {
-      resume: file(relativePath: { eq: "files/唐和辉 - 18602149227.pdf" }) {
-        publicURL
-      }
-    }
-  `)
-
   const { theme } = useThemeUI()
 
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="space-between"
-      element="nav"
-    >
-      <Box
-        display="flex"
-        flex={1}
-        alignItems="center"
-      >
-        <MenuItem
-          element={RouterLink}
-          to="/"
-          aria-label="Home"
-          activeStyle={{ color: theme.colors.white.default }}
-          paintDrip
-          hex="#3F51B5"
-        >
+    <nav className="flex align-center justify-between">
+      <div className="flex align-center">
+        <MenuItem href="/" aria-label="Home">
           <Logo />
         </MenuItem>
         <Separator />
-        <MenuItem
-          activeStyle={{ color: theme.colors.white.default }}
-          element={RouterLink}
-          to="/about"
-          paintDrip
-          hex="#3F51B5"
-        >
-          個人簡介
-        </MenuItem>
+        <MenuItem href="/about">個人簡介</MenuItem>
         <Separator />
         <MenuItem
-          activeStyle={{ color: theme.colors.white.default }}
-          href={data.resume.publicURL}
+          href={"/files/%E5%94%90%E5%92%8C%E8%BE%89%20-%2018602149227.pdf"}
           aria-label="Resume"
-          paintDrip
-          hex="#3F51B5"
         >
           個人簡歷
         </MenuItem>
         <Separator />
-        <MenuItem
-          activeStyle={{ color: theme.colors.white.default }}
-          element={RouterLink}
-          to="/work"
-          paintDrip
-          hex="#3F51B5"
-        >
-          工作
-        </MenuItem>
+        <MenuItem href="/work">工作</MenuItem>
         <Separator />
-        <MenuItem
-          activeStyle={{ color: theme.colors.white.default }}
-          element={RouterLink}
-          to="/writings"
-          paintDrip
-          hex="#3F51B5"
-        >
-          文章
-        </MenuItem>
-      </Box>
+        <MenuItem href="/writings">文章</MenuItem>
+      </div>
       <ThemeButton />
-    </Box>
+    </nav>
   )
 }
 

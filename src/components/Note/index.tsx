@@ -1,9 +1,9 @@
 import * as React from "react"
 
-import { Box } from "../Box"
+import { section } from "../Box"
 
 const Note = ({ element, children, ...props }) => (
-  <Box
+  <section
     element={element || "p"}
     backgroundColor="black"
     backgroundTint="light"
@@ -16,7 +16,7 @@ const Note = ({ element, children, ...props }) => (
     {...props}
   >
     {children}
-  </Box>
+  </section>
 )
 
 export default Note

@@ -1,27 +1,17 @@
 import * as React from "react"
 
-import Link from "../Link"
-import { Box } from "../Box"
-
 const SayHi = () => (
-  <Box
-    maxWidth="520px"
-    fontFamily="default"
-    fontSize="4xl"
-    fontWeight="bold"
-    lineHeight={1.194444444444}
-    textColor="white"
-  >
+  <section className="font-serif max-w-screen-sm text-4xl font-bold leading-tight text-black my-40">
     点击此处{" "}
-    <Link
+    <a
+      className="underline"
       aria-label="Send an E-Mail to hello@rathes.me"
       href="mailto:ad546971975@icloud.com"
-      underlined
     >
       与我联系
-    </Link>
+    </a>
     ，进行一些更为深入的探讨。
-  </Box>
+  </section>
 )
 
 export default SayHi

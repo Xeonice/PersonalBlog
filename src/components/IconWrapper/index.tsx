@@ -1,7 +1,6 @@
-/** @jsx jsx */
-import { jsx } from 'theme-ui';
-import styled from '@emotion/styled';
-import mediaqueries from './media';
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled"
+import mediaqueries from "./media"
 
 const Wrapper = styled.button<{ sx: object }>`
   opacity: 0.5;
@@ -19,8 +18,8 @@ const Wrapper = styled.button<{ sx: object }>`
     opacity: 1;
   }
 
-  &[data-a11y='true']:focus::after {
-    content: '';
+  &[data-a11y="true"]:focus::after {
+    content: "";
     position: absolute;
     left: 0;
     top: -30%;
@@ -39,7 +38,7 @@ const Wrapper = styled.button<{ sx: object }>`
       opacity: 0.5;
     }
   `}
-`;
+`
 
 type IconWrapperProps = React.HTMLAttributes<HTMLButtonElement> & { isDark: boolean };
 
@@ -49,8 +48,8 @@ export default function IconWrapper(props: IconWrapperProps) {
       {...props}
       sx={{
         "&[data-a11y='true']:focus::after": {
-          border: '2px solid',
-          borderColor: 'accent',
+          border: "2px solid",
+          borderColor: "accent",
         },
       }}
     />

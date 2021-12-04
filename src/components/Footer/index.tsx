@@ -1,46 +1,28 @@
-import * as React from 'react';
-import { Link as RouterLink } from 'gatsby';
-import Link from "../Link"
-import styled from '@emotion/styled';
+import * as React from "react"
+import Link from "next/link"
 
 import TextSmall from "../Typography/TextSmall"
-import { Box } from "../Box"
+import { section } from "../Box"
 
-interface SeparatorProps {
-  theme: Theme;
-};
-
-import { Theme } from "../../gatsby-plugin-theme-ui";
-
-const Separator = styled.span<SeparatorProps>`
-  display: inline-block;
-  margin: 0 8px;
-  color: ${({ theme }) => theme.colors.silver.default};
-  font-size: ${({ theme }) => theme.fontSize.xs};
-  font-family: ${({ theme }) => theme.fontFamily.default};
-
-  &:before {
-    content: "/";
-  }
-`
+const Separator = () => (
+  <span className="inline-block mx-2.5 my-0 text-gray-500 text-xs">/</span>
+)
 
 const Footer: React.FunctionComponent = () => (
-  <Box>
-    <Box>
-      <TextSmall color="silver">&copy; 2020 — Douglas</TextSmall>
+  <section>
+    <section>
+      <TextSmall color="gray-500">&copy; 2020 — Douglas</TextSmall>
       <Separator />
-      <TextSmall color="silver" element={RouterLink} to="/rss.xml">
-        rss
-      </TextSmall>
-    </Box>
-    <Box>
-      <TextSmall color="silver">友情连接</TextSmall>
+      <TextSmall color="gray-500">rss</TextSmall>
+    </section>
+    <section>
+      <TextSmall color="gray-500">友情连接</TextSmall>
       <Separator />
-      <TextSmall color="silver" element={Link} href="https://kalasearch.cn/">
+      <TextSmall color="gray-500" element={Link} href="https://kalasearch.cn/">
         卡拉搜索
       </TextSmall>
-    </Box>
-  </Box>
+    </section>
+  </section>
 )
 
 export default Footer

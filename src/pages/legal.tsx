@@ -3,7 +3,7 @@ import * as React from "react"
 import Layout from "../components/Layout"
 import SEO from "../components/SEO"
 import Link from "../components/Link"
-import { Box } from "../components/Box"
+import { section } from "../components/Box"
 import {
   Heading1,
   Heading2,
@@ -15,7 +15,7 @@ import {
 const Legal: React.FunctionComponent = () => (
   <Layout>
     <SEO title="Legal Information" />
-    <Box maxWidth="640px" marginTop={32} marginBottom={32}>
+    <section maxWidth="640px" marginTop={32} marginBottom={32}>
       <Heading1>Legal Information</Heading1>
       <Heading2>Pursuant to § 5 TMG:</Heading2>
       <Paragraph>
@@ -140,7 +140,7 @@ const Legal: React.FunctionComponent = () => (
           English Disclaimer on Mustervorlage.net
         </Link>
       </TextSmall>
-    </Box>
+    </section>
   </Layout>
 )
 

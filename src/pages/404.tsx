@@ -1,18 +1,14 @@
 import * as React from "react"
 
 import Layout from "../components/Layout"
-import SEO from "../components/SEO"
-import { Box } from "../components/Box"
+import { section } from "../components/Box"
 import { Heading1, Paragraph } from "../components/Typography"
 import { List } from "../components/List"
 
 const NotFoundPage = () => (
   <Layout>
-    <SEO title="404: Not found" />
-    <Box maxWidth="640px">
-      <Heading1>
-        看起来你正在找一个不存在的页面啊。
-      </Heading1>
+    <section>
+      <Heading1>看起来你正在找一个不存在的页面啊。</Heading1>
       <Paragraph>
         假如你从搜索引擎进入到这里的话，可以试试其他的关键词，可能是搜索引擎的收录有问题。否则，你可以试试下面的链接是不是你想要的：
       </Paragraph>
@@ -23,7 +19,7 @@ const NotFoundPage = () => (
           <List.Item link="/about">個人簡介</List.Item>
         </List>
       </Paragraph>
-    </Box>
+    </section>
   </Layout>
 )
 

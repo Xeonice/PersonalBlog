@@ -1,18 +1,13 @@
 import * as React from "react"
-import styled from '@emotion/styled';
-import { ElementProps } from '.';
+import classnames from "classnames"
 
-const Element = styled.span<ElementProps>`
-  font-size: ${props => props.theme.fontSize.base};
-  color: ${props =>
-    props.color ? props.theme.colors[props.color][props.tint] : undefined};
-`
-
-const TextBody: React.FunctionComponent<ElementProps> = ({ children, element, color, tint = "default", ...props }) => {
+const TextBody: React.FunctionComponent<{
+  className: string
+}> = ({ className, children }) => {
   return (
-    <Element as={element || "span"} color={color} tint={tint} {...props}>
+    <span className={classnames(className, "font-serif", "text-normal")}>
       {children}
-    </Element>
+    </span>
   )
 }
 

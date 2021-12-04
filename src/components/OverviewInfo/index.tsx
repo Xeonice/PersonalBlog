@@ -1,56 +1,36 @@
-import * as React from 'react';
-import styled from '@emotion/styled';
+import * as React from "react"
 
-import { TextBody, TextSmall, ElementProps } from "../Typography"
-import Link from "../Link"
-import { Box } from "../Box"
+const Separator = () => <span className="block mt-8 h-px" />
 
-const Separator = styled.span`
-  width: 24px;
-  display: block;
-  margin: 16px 0;
-  height: 2px;
-`
+const Title = ({ children }) => (
+  <span className="text-xs text-gray-500 block leading-wide leading-tight">
+    {children}
+  </span>
+)
 
-const Title = styled(TextSmall)<ElementProps>`
-  display: block;
-  letter-spacing: ${props => props.theme.letterSpacing.wide};
-  line-height: 1.166666666;
-`
+const Info = ({ children, href }) => (
+  <a href={href} className="text-black font-bold leading-tight block mt-1">
+    {children}
+  </a>
+)
 
-const Info = styled(Link)`
-  font-weight: ${props => props.theme.fontWeight["bold"]};
-  line-height: 1.1875;
-  display: block;
-  margin-top: 5px;
-`
+const ItemContainer = ({ children }) => <li className="mr-4">{children}</li>
 
 const OverviewInfo = () => (
-  <Box
-    display="flex"
-    justifyContent="space-between"
-    marginTop={4}
-    maxWidth="200px"
-  >
-    <Box>
+  <ul className="flex	mt-4">
+    <ItemContainer>
       <Separator />
-      <Title color="silver">工作地</Title>
-      <Info color="white" href="https://www.hussle.com" element={TextBody}>
+      <Title>工作地</Title>
+      <Info href="https://zh.wikipedia.org/zh-hk/%E6%9D%AD%E5%B7%9E%E5%B8%82">
         杭州 - 西湖区
       </Info>
-    </Box>
-    <Box>
+    </ItemContainer>
+    <ItemContainer>
       <Separator />
-      <Title color="silver">Github</Title>
-      <Info
-        color="white"
-        element={Link}
-        href="https://github.com/Xeonice"
-      >
-        @Xeonice
-      </Info>
-    </Box>
-  </Box>
+      <Title>Github</Title>
+      <Info href="https://github.com/Xeonice">@Xeonice</Info>
+    </ItemContainer>
+  </ul>
 )
 
 export default OverviewInfo

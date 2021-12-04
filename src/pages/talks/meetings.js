@@ -2,18 +2,23 @@ import React from "react"
 
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
-import { Box } from "../../components/Box"
+import { section } from "../../components/Box"
 import { Heading1, Paragraph, TextBody } from "../../components/Typography"
 
 const Meetings = () => (
   <Layout>
     <SEO title="You probably don't need that meeting - Developing a meeting culture that employees will love"></SEO>
-    <Box maxWidth="640px">
+    <section maxWidth="640px">
       <Heading1>
         You probably don't need that meeting
-        <Box element={TextBody} lineHeight={1.8} color="silver" display="block">
+        <section
+          element={TextBody}
+          lineHeight={1.8}
+          color="silver"
+          display="block"
+        >
           Developing a meeting culture that employees will love
-        </Box>
+        </section>
       </Heading1>
       <Paragraph>
         Be honest with yourself. How many of your meetings do you think were
@@ -31,7 +36,7 @@ const Meetings = () => (
         After this talk, you will be able to avoid useless meetings and make the
         necessary meetings more productive.
       </Paragraph>
-    </Box>
+    </section>
   </Layout>
 )
 

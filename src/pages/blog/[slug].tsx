@@ -1,4 +1,3 @@
-import * as React from "react"
 import { graphql, Link as RouterLink } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 

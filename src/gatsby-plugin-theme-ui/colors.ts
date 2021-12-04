@@ -7,11 +7,11 @@
 //   dark: 'rgba(17, 18, 22, 0.95)',
 // };
 
-interface ColorType {
-  [props: string]: string | object;
+export interface ThemeColorType {
+  [props: string]: string | object
 }
 
-const color: ColorType = {
+const color: ThemeColorType = {
   // Set the initial color mode to dark when @media (prefers-color-scheme: dark) matches
   black: {
     lightest: "#bababa",
@@ -29,10 +29,10 @@ const color: ColorType = {
     darker: "#0A0A0A",
   },
   blue: {
-    default: 'rgb(51, 51, 51)',
+    default: "rgb(51, 51, 51)",
   },
   cyan: {
-    default: '#2BB6C9',
+    default: "#2BB6C9",
   },
 
   modes: {
@@ -49,17 +49,17 @@ const color: ColorType = {
         darkest: "#AAA",
       },
       blue: {
-        default: '#8DB6DE',
+        default: "#8DB6DE",
       },
       white: {
         default: "#FFF",
         darker: "#F5F5F5",
       },
       cyan: {
-        default: '#2BB6C9',
+        default: "#2BB6C9",
       },
     },
   },
-};
+}
 
-export default color;
+export default color

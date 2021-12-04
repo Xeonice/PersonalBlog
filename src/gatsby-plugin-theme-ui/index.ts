@@ -1,29 +1,29 @@
-import colors from './colors';
-import { ThemeColorType } from './colors';
+import type { ThemeColorType } from "./colors"
+import colors from "./colors"
 
 export interface Theme {
-  colorModeTransition: string,
-  useCustomProperties: boolean,
-  initialColorMode: "dark" | "light",
-  colors: ThemeColorType,
+  colorModeTransition: string
+  useCustomProperties: boolean
+  initialColorMode: "dark" | "light"
+  colors: ThemeColorType
   fontFamily: {
-    default: string,
-    mono: string,
-  },
+    default: string
+    mono: string
+  }
   fontSize: {
-    [propsName: string]: string,
-  },
+    [propsName: string]: string
+  }
   fontWeight: {
-    [propsName: string]: string,
-  },
+    [propsName: string]: string
+  }
   letterSpacing: {
-    [propsName: string]: string,
-  },
+    [propsName: string]: string
+  }
   spacing: {
-    [propsName: string]: string,
-  },
-  breakpoints: string[],
-};
+    [propsName: string]: string
+  }
+  breakpoints: string[]
+}
 
 export const breakpointMap = {
   phone_small: 320,
@@ -33,15 +33,15 @@ export const breakpointMap = {
   desktop: 1070,
   desktop_medium: 1280,
   desktop_large: 1440,
-} as const;
+} as const
 
 export const breakpoints = Object.entries(breakpointMap).map(([key, value]) => [
   key,
   value,
-]);
+])
 
 const colorModeTransition =
-  'background 0.25s var(--ease-in-out-quad), color 0.25s var(--ease-in-out-quad)';
+  "background 0.25s var(--ease-in-out-quad), color 0.25s var(--ease-in-out-quad)"
 
 const theme: Theme = {
   colorModeTransition,
@@ -119,7 +119,7 @@ const theme: Theme = {
     "56": "14rem",
     "64": "16rem",
   },
-  breakpoints: breakpoints.map(b => `${b[1]}px`),
+  breakpoints: breakpoints.map((b) => `${b[1]}px`),
 }
 
-export default theme;
+export default theme
