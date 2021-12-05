@@ -79,7 +79,7 @@ const mdx: React.FunctionComponent<{ data: any }> = ({ data }) => {
         </section>
         <MDXRenderer>{post.body}</MDXRenderer>
         <section element="footer" marginTop={32} marginBottom={32}>
-          <Link element={RouterLink} color="white" underlined to="/writings">
+          <Link element={RouterLink} color="white" underline to="/writings">
             返回文章列表
           </Link>
         </section>

@@ -8,7 +8,10 @@
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
+    "@mdx-js/loader": "^1.6.22",
+    "@next/mdx": "^12.0.7",
     "classnames": "^2.3.1",
+    "gray-matter": "^4.0.3",
     "next": "latest",
     "prism-react-renderer": "^1.1.1",
     "prism-themes": "^1.5.0",
@@ -23,6 +26,7 @@
     "typewriter-effect": "^2.18.2"
   },
   "devDependencies": {
+    "@types/node": "^16.11.11",
     "@types/react": "^17.0.37",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "@typescript-eslint/parser": "^5.5.0",
@@ -48,7 +52,7 @@
   "scripts": {
     "format": "prettier --write src/**/*.{js,jsx}",
     "test": "jest",
-    "dev": "next dev",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext .jsx,.js,.ts,.tsx --ignore-pattern node_modules/",

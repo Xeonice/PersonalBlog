@@ -1,11 +1,9 @@
 import React from 'react';
 import { useThemeUI } from 'theme-ui';
-
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import classnames from 'classnames';
 import ThemeButton from '../ThemeButton';
 import Logo from '../Logo';
+import StyledLink from '../Link';
 
 const Separator = function () {
   return (
@@ -18,16 +16,13 @@ const Separator = function () {
 const MenuItem = function ({ children, href }) {
   const router = useRouter();
   return (
-    <Link href={href}>
-      <a
-        className={classnames('text-base font-bold md:text-lg', {
-          'text-gray-500': router.pathname !== href,
-          'text-black': router.pathname === href,
-        })}
-      >
-        {children}
-      </a>
-    </Link>
+    <StyledLink
+      className="text-base font-bold md:text-lg"
+      href={href}
+      isActive={router.pathname === href}
+    >
+      {children}
+    </StyledLink>
   );
 };
 

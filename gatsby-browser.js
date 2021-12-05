@@ -4,10 +4,10 @@ import { MDXProvider } from '@mdx-js/react';
 import {
   Heading1,
   Heading2,
-  Paragraph,
   Heading3,
   Heading4,
   InlineCode,
+  Paragraph,
 } from './src/components/Typography';
 import { Separator } from './src/components/Separator';
 import { OrderedList, UnOrderedList } from './src/components/List';
@@ -30,7 +30,7 @@ const components = {
   blockquote: Quote,
   inlineCode: InlineCode,
   a: ({ children, ...props }) => (
-    <Link underlined color="white" {...props}>
+    <Link underline color="white" {...props}>
       {children}
     </Link>
   ),
