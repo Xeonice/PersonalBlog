@@ -26,7 +26,7 @@ const components = {
   hr: Separator,
   p: Paragraph,
   ol: OrderedList,
-  ul: UnOrderedList,
+  // ul: UnOrderedList,
   blockquote: Quote,
   // inlineCode: InlineCode,
   a: ({ children, ...props }) => (
@@ -43,6 +43,7 @@ export const getStaticPaths = async () => {
       slug: filename.replace('.mdx', ''),
     },
   }));
+  console.log('staticPaths:', paths);
   return {
     paths,
     fallback: false,
@@ -52,7 +53,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params: { slug } }) => {
   const markdownWithMeta = fs.readFileSync(
     path.join('posts', `${slug}.mdx`),
-    'utf-8',
+    'utf-8'
   );
 
   const { data, content } = matter(markdownWithMeta);
