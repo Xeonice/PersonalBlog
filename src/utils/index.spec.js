@@ -1,7 +1,7 @@
-import { extractBlogPosts, groupPostsByYear, getSortedGroups } from './index';
+import { extractBlogPosts, getSortedGroups, groupPostsByYear } from './index';
 
 describe('utils', () => {
-  it('extracts the internal blog posts from graphql data', () => {
+  it('extracts the internal content posts from graphql data', () => {
     const data = {
       allMdx: {
         edges: [
@@ -13,7 +13,7 @@ describe('utils', () => {
                 date: '18 February, 2019',
               },
               fields: {
-                slug: '/blog/en/customer-experience-instead-of-features/',
+                slug: '/content/en/customer-experience-instead-of-features/',
               },
             },
           },
@@ -25,7 +25,7 @@ describe('utils', () => {
                 date: '02 June, 2018',
               },
               fields: {
-                slug: '/blog/en/from-ghent-with-love/',
+                slug: '/content/en/from-ghent-with-love/',
               },
             },
           },
@@ -37,7 +37,7 @@ describe('utils', () => {
                 date: '08 April, 2019',
               },
               fields: {
-                slug: '/blog/en/managing-time/',
+                slug: '/content/en/managing-time/',
               },
             },
           },
@@ -49,17 +49,17 @@ describe('utils', () => {
       {
         title: 'Stop thinking in features.',
         date: '18 February, 2019',
-        link: '/blog/en/customer-experience-instead-of-features/',
+        link: '/content/en/customer-experience-instead-of-features/',
       },
       {
         title: 'From Ghent with love',
         date: '02 June, 2018',
-        link: '/blog/en/from-ghent-with-love/',
+        link: '/content/en/from-ghent-with-love/',
       },
       {
         title: 'Managing time',
         date: '08 April, 2019',
-        link: '/blog/en/managing-time/',
+        link: '/content/en/managing-time/',
       },
     ]);
   });
@@ -69,22 +69,22 @@ describe('utils', () => {
       {
         title: 'The latest posts.',
         date: '18 July, 2019',
-        link: '/blog/en/customer-experience-instead-of-features/',
+        link: '/content/en/customer-experience-instead-of-features/',
       },
       {
         title: 'Stop thinking in features.',
         date: '18 February, 2019',
-        link: '/blog/en/customer-experience-instead-of-features/',
+        link: '/content/en/customer-experience-instead-of-features/',
       },
       {
         title: 'From Ghent with love',
         date: '02 June, 2018',
-        link: '/blog/en/from-ghent-with-love/',
+        link: '/content/en/from-ghent-with-love/',
       },
       {
         title: 'Managing time',
         date: '08 April, 2019',
-        link: '/blog/en/managing-time/',
+        link: '/content/en/managing-time/',
       },
     ];
 
@@ -93,24 +93,24 @@ describe('utils', () => {
         {
           title: 'The latest posts.',
           date: '18 July, 2019',
-          link: '/blog/en/customer-experience-instead-of-features/',
+          link: '/content/en/customer-experience-instead-of-features/',
         },
         {
           title: 'Managing time',
           date: '08 April, 2019',
-          link: '/blog/en/managing-time/',
+          link: '/content/en/managing-time/',
         },
         {
           title: 'Stop thinking in features.',
           date: '18 February, 2019',
-          link: '/blog/en/customer-experience-instead-of-features/',
+          link: '/content/en/customer-experience-instead-of-features/',
         },
       ],
       2018: [
         {
           title: 'From Ghent with love',
           date: '02 June, 2018',
-          link: '/blog/en/from-ghent-with-love/',
+          link: '/content/en/from-ghent-with-love/',
         },
       ],
     });
@@ -122,31 +122,31 @@ describe('utils', () => {
         {
           title: 'The oldest post',
           date: '02 June, 2017',
-          link: '/blog/en/the-oldest/',
+          link: '/content/en/the-oldest/',
         },
       ],
       2019: [
         {
           title: 'The latest posts.',
           date: '18 July, 2019',
-          link: '/blog/en/customer-experience-instead-of-features/',
+          link: '/content/en/customer-experience-instead-of-features/',
         },
         {
           title: 'Managing time',
           date: '08 April, 2019',
-          link: '/blog/en/managing-time/',
+          link: '/content/en/managing-time/',
         },
         {
           title: 'Stop thinking in features.',
           date: '18 February, 2019',
-          link: '/blog/en/customer-experience-instead-of-features/',
+          link: '/content/en/customer-experience-instead-of-features/',
         },
       ],
       2018: [
         {
           title: 'From Ghent with love',
           date: '02 June, 2018',
-          link: '/blog/en/from-ghent-with-love/',
+          link: '/content/en/from-ghent-with-love/',
         },
       ],
     };
@@ -158,17 +158,17 @@ describe('utils', () => {
           {
             title: 'The latest posts.',
             date: '18 July, 2019',
-            link: '/blog/en/customer-experience-instead-of-features/',
+            link: '/content/en/customer-experience-instead-of-features/',
           },
           {
             title: 'Managing time',
             date: '08 April, 2019',
-            link: '/blog/en/managing-time/',
+            link: '/content/en/managing-time/',
           },
           {
             title: 'Stop thinking in features.',
             date: '18 February, 2019',
-            link: '/blog/en/customer-experience-instead-of-features/',
+            link: '/content/en/customer-experience-instead-of-features/',
           },
         ],
       ],
@@ -178,7 +178,7 @@ describe('utils', () => {
           {
             title: 'From Ghent with love',
             date: '02 June, 2018',
-            link: '/blog/en/from-ghent-with-love/',
+            link: '/content/en/from-ghent-with-love/',
           },
         ],
       ],
@@ -188,7 +188,7 @@ describe('utils', () => {
           {
             title: 'The oldest post',
             date: '02 June, 2017',
-            link: '/blog/en/the-oldest/',
+            link: '/content/en/the-oldest/',
           },
         ],
       ],

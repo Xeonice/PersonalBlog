@@ -24,7 +24,8 @@ const isEnvDev = process.env.NODE_ENV === 'development';
 module.exports = {
   siteMetadata: {
     title: '前端开发 — DouglaDong',
-    description: 'Hello，欢迎来到 Douglas 的自留地，一个持续奋斗在搬砖路上的 Web 开发',
+    description:
+      'Hello，欢迎来到 Douglas 的自留地，一个持续奋斗在搬砖路上的 Web 开发',
     author: '@_douglasdong_',
     siteUrl: 'https://douglasdong.com',
   },
@@ -63,7 +64,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'douglasdong\'s blog',
+        name: "douglasdong's content",
         short_name: 'douglasdong',
         start_url: '/',
         background_color: '#663399',
@@ -120,7 +121,7 @@ module.exports = {
             // if `string` is used, it will be used to create RegExp and then test if pathname of
             // current page satisfied this regular expression;
             // if not provided or `undefined`, all pages will have feed reference inserted
-            match: '^/blog/',
+            match: '^/content/',
             // optional configuration to specify external rss feed, such as feedburner
             link: 'http://feeds.feedburner.com/DouglassBlogFeed',
           },

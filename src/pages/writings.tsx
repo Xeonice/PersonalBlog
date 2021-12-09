@@ -46,21 +46,28 @@ const Writings: React.FunctionComponent<{ allPostsData: any }> = function ({
             </List>
           </section>
 
-          {allPostsData.map((data, index) => (
-            <section key={index} className="mt-4">
-              <List title={data.id} key={index}>
-                {/* {posts.map((post, index) => ( */}
-                <List.Item
-                  link={data.link}
-                  key={index}
-                  subtitle={data.categories[0]}
-                >
-                  {data.title}
-                </List.Item>
-                {/* // ))} */}
-              </List>
-            </section>
-          ))}
+          {Object.entries(allPostsData)
+            .sort(([a], [b]) => {
+              if (a < b) {
+                return 1;
+              }
+              return -1;
+            })
+            .map(([postDate, posts], index) => (
+              <section key={index} className="mt-4">
+                <List title={postDate} key={postDate}>
+                  {posts.map((post, index) => (
+                    <List.Item
+                      link={post.link}
+                      key={index}
+                      subtitle={post.categories[0]}
+                    >
+                      {post.title}
+                    </List.Item>
+                  ))}
+                </List>
+              </section>
+            ))}
         </section>
         <section className="my-11">
           <SayHi />

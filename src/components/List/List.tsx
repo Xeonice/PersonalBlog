@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 
+import Link from 'next/link';
 import classnames from 'classnames';
 import { Heading4, TextSmall } from '../Typography';
 
@@ -21,19 +22,21 @@ const Subtitle = styled(TextSmall)`
   display: block;
 `;
 
-type ItemType = React.FunctionComponent<{ subtitle?: string; link: string }>
+type ItemType = React.FunctionComponent<{ subtitle?: string; link: string }>;
 
 const Item: ItemType = function ({ children, subtitle, link }) {
   return (
     <Title subtitle={subtitle}>
-      <a href={link}>{children}</a>
+      <Link href={link} passHref>
+        {children}
+      </Link>
       {subtitle && <Subtitle color="silver">{subtitle}</Subtitle>}
     </Title>
   );
 };
 
 interface ListType extends React.FunctionComponent<{ title?: string }> {
-  Item: ItemType
+  Item: ItemType;
 }
 
 const List: ListType = function ({ title, children, ...props }) {

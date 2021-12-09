@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import Layout from '../components/Layout';
-import { section } from '../components/Box';
 import { Heading1, Paragraph } from '../components/Typography';
 import { List } from '../components/List';
 

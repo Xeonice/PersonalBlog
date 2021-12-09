@@ -3,10 +3,10 @@ import * as PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
 interface SEOType {
-  description?: string
-  lang?: string
-  meta?: Array<any>
-  title?: string
+  description?: string;
+  lang?: string;
+  meta?: Array<any>;
+  title?: string;
 }
 
 const SEO: React.FunctionComponent<SEOType> = function ({
@@ -38,7 +38,7 @@ const SEO: React.FunctionComponent<SEOType> = function ({
         },
         {
           property: 'og:site_name',
-          content: 'DouglasDong\'s blog',
+          content: "DouglasDong's content",
         },
         {
           property: 'og:description',

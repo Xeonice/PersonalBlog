@@ -6,14 +6,16 @@ import { section } from '../Box';
 const QuoteContainer = styled(section)`
   position: relative;
   width: 100%;
+
   p {
-    color: ${(props) => props.theme.colors.cyan.default};
-    font-size: ${(props) => props.theme.fontSize.lg};
+    color: #2bb6c9;
+    font-size: 1.125rem;
     line-height: 1.8;
     overflow-wrap: break-word;
   }
+
   &:after {
-    content: "\\201D";
+    content: '\\201D';
     position: absolute;
     bottom: 0;
     right: 0;

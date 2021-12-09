@@ -12,7 +12,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
     createNodeField({
       node,
       name: 'slug',
-      value: filePath.replace('/posts/', '/blog/'),
+      value: filePath.replace('/posts/', '/content/'),
     });
   }
 };

@@ -95,31 +95,31 @@ const AboutMe: React.FunctionComponent = function () {
                 subtitle="Robert Sedgewick, Kevin Wayne"
                 link="https://www.ituring.com.cn/book/875"
               >
-              算法（第4版）
+                算法（第4版）
               </List.Item>
               <List.Item
                 subtitle="高德纳"
                 link="https://www.ituring.com.cn/book/925"
               >
-              计算机程序设计艺术 卷4A：组合算法（一）
+                计算机程序设计艺术 卷4A：组合算法（一）
               </List.Item>
               <List.Item
                 subtitle="Alexander Shvets"
                 link="https://refactoringguru.cn/design-patterns/book"
               >
-              深入设计模式
+                深入设计模式
               </List.Item>
               <List.Item
                 subtitle="Matt Frisbie"
                 link="https://www.ituring.com.cn/book/2472"
               >
-              JavaScript高级程序设计（第4版）
+                JavaScript高级程序设计（第4版）
               </List.Item>
               <List.Item
                 subtitle="Eric Matthes"
                 link="https://www.ituring.com.cn/book/2784"
               >
-              Python编程：从入门到实践（第2版）
+                Python编程：从入门到实践（第2版）
               </List.Item>
             </List>
             <Separator />
@@ -128,13 +128,13 @@ const AboutMe: React.FunctionComponent = function () {
                 subtitle="Matt Frisbie"
                 link="https://www.ituring.com.cn/book/2472"
               >
-              JavaScript高级程序设计（第4版）
+                JavaScript高级程序设计（第4版）
               </List.Item>
               <List.Item
                 subtitle="Eric Matthes"
                 link="https://www.ituring.com.cn/book/2784"
               >
-              Python编程：从入门到实践（第2版）
+                Python编程：从入门到实践（第2版）
               </List.Item>
             </List>
           </section>
