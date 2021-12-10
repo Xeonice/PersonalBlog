@@ -1,8 +1,9 @@
 import * as React from 'react';
+import H4Style from './index.module.css';
 
 const Heading4: React.FunctionComponent = function ({ children }) {
   return (
-    <h4 className="font-serif text-xs font-regular leading-relaxed text-black">
+    <h4 className={H4Style.Wrapper}>
       {children}
     </h4>
   );

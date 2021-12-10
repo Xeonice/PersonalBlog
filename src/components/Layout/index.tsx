@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import Navigation from '../Navigation';
 import Footer from '../Footer';
+import LayoutStyle from './index.module.css';
 
 export default function Layout({ children }): JSX.Element {
   // const [colorMode] = useColorMode()
@@ -11,12 +12,10 @@ export default function Layout({ children }): JSX.Element {
   // }, [colorMode])
 
   return (
-    // typeof isDark === "boolean" && (
-    <main className="bg-white flex flex-col justify-between min-h-screen text-gray-500 py-20 px-11 md:py-36">
+    <main className={LayoutStyle.container}>
       <Navigation />
       {children}
       <Footer />
     </main>
-    // )
   );
 }

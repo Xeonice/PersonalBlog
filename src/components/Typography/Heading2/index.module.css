@@ -1,0 +1,3 @@
+.Wrapper {
+  @apply text-lg font-bold leading-relaxed mt-8 mb-6 text-black;
+}

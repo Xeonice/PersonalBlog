@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import './OrderedList.module.css';
+import OrderedListStyle from './index.module.css';
 
 export default function OrderedList({ children, ...props }) {
-  return <section className="OrderedListWrapper">{children}</section>;
+  return <ol className={OrderedListStyle.Wrapper}>{children}</ol>;
 }

@@ -5,6 +5,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import dayjs from 'dayjs';
 import React from 'react';
+import Img from 'next/image';
 import Layout from '../../components/Layout';
 import Link from '../../components/Link';
 import {
@@ -12,11 +13,14 @@ import {
   Heading2,
   Heading3,
   Heading4,
+  InlineCode,
   Paragraph,
 } from '../../components/Typography';
 import { Separator } from '../../components/Separator';
 import { OrderedList, UnOrderedList } from '../../components/List';
-import { Quote } from '../../components/Quote';
+import Quote from '../../components/Quote';
+import slugStyle from './index.module.css';
+import Tag from '../../components/Tag';
 
 const components = {
   h1: Heading1,
@@ -26,9 +30,9 @@ const components = {
   hr: Separator,
   p: Paragraph,
   ol: OrderedList,
-  // ul: UnOrderedList,
+  ul: UnOrderedList,
   blockquote: Quote,
-  // inlineCode: InlineCode,
+  inlineCode: InlineCode,
   a: ({ children, ...props }) => (
     <Link underline {...props}>
       {children}
@@ -59,7 +63,6 @@ export const getStaticProps = async ({ params: { slug } }) => {
   const { data, content } = matter(markdownWithMeta);
   const { date, ...frontMatter } = data;
   const mdxSource = await serialize(content);
-  debugger;
 
   return {
     props: {
@@ -111,34 +114,42 @@ export default function mdx({ frontMatter, date, mdxSource }) {
   //   ]
   //   : [];
   const a = '';
+  debugger;
   return (
     <Layout>
       <section className="max-w-screen-sm mt2.5">
         <Heading1>{frontMatter.title}</Heading1>
         <section
+        className={slugStyle.info}
           marginBottom={8}
           justifyContent="space-between"
           alignItems="center"
           display="flex"
         >
           <section>{date}</section>
-          {/* <section> */}
-          {/*  {frontMatter.categories.map((category) => ( */}
-          {/*    <Tag color="silver">{category}</Tag> */}
-          {/*  ))} */}
-          {/* </section> */}
+          <section>
+            {frontMatter.categories.map((category) => (
+              <Tag color="gray-500">{category}</Tag>
+            ))}
+          </section>
         </section>
-        {/* <section marginBottom={4} marginTop={4}> */}
-        {/*  {frontMatter.image && ( */}
-        {/*    <Img fluid={frontMatter.image.childImageSharp.fluid} /> */}
-        {/*  )} */}
-        {/* </section> */}
+        <section className={slugStyle.thumbContainer}>
+          {frontMatter.image && (
+            <Img
+              layout="responsive"
+              src={frontMatter.image}
+              alt="thumbnail"
+              width={640}
+              height={375}
+            />
+          )}
+        </section>
         <MDXRemote {...mdxSource} components={components} />
-        <section element="footer" marginTop={32} marginBottom={32}>
+        <footer className={slugStyle.footer}>
           <Link underline href="/writings">
             返回文章列表
           </Link>
-        </section>
+        </footer>
       </section>
     </Layout>
   );

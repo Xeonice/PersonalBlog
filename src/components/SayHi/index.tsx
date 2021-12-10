@@ -1,9 +1,10 @@
 import * as React from 'react';
 import StyledLink from '../Link';
+import SayHiStyle from './index.module.css';
 
 const SayHi = function () {
   return (
-    <section className="font-serif max-w-screen-sm text-4xl font-bold leading-tight text-black my-40">
+    <section className={SayHiStyle.Wrapper}>
       点击此处
       {' '}
       <StyledLink href="mailto:ad546971975@icloud.com" underline>

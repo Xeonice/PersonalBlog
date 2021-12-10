@@ -17,7 +17,7 @@ const MenuItem = function ({ children, href }) {
   const router = useRouter();
   return (
     <StyledLink
-      className="text-base font-bold md:text-lg"
+      className="text-base font-bold md:text-lg flex items-center"
       href={href}
       isActive={router.pathname === href}
     >

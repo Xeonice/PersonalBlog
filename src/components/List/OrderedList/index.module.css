@@ -1,0 +1,11 @@
+
+.Wrapper {
+  @apply list-decimal list-outside block p-6 pl-10 my-8 text-gray-400;
+}
+.Wrapper > li:not(:last-child) {
+  @apply mb-4;
+}
+
+.Wrapper > li {
+  @apply text-base text-gray-400 leading-relaxed;
+}

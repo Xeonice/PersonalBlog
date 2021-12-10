@@ -1,0 +1,6 @@
+.wrapper {
+  @apply text-gray-600 bg-gray-300 p-0 cursor-default inline-block h-5 rounded leading-none;
+}
+.font {
+  @apply mx-1 truncate py-0.5 leading-5;
+}
