@@ -27,8 +27,6 @@ const MenuItem = function ({ children, href }) {
 };
 
 const Navigation: React.FunctionComponent = function () {
-  const { theme } = useThemeUI();
-
   return (
     <nav className="flex align-center justify-between">
       <div className="flex align-center">
