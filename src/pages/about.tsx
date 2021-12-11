@@ -6,14 +6,16 @@ import SayHi from '../components/SayHi';
 import { Heading1, Heading2, Paragraph } from '../components/Typography';
 import List from '../components/List/List';
 
+import aboutStyle from './about.module.css';
+
 const Separator = function () {
-  return <hr className="text-gray-200 border-2 my-8 w-8" />;
+  return <hr className={aboutStyle.separator} />;
 };
 
 const AboutMe: React.FunctionComponent = function () {
   return (
     <Layout>
-      <section className="max-w-screen-sm mt-5">
+      <section className={aboutStyle.container}>
         <Heading1 key="heading1">/ˈdəgləs/</Heading1>
         <Paragraph key="paragraph1">
           我是 Douglas，一个目前工作与生活在杭州的 Web
@@ -76,7 +78,7 @@ const AboutMe: React.FunctionComponent = function () {
           </Paragraph>
         </section>
 
-        <section className="mt-40" key="section">
+        <section className={aboutStyle.section} key="section">
           <Heading2>当前阅读书单</Heading2>
           <Paragraph>
             计算机学科发展了这么多年，书籍与文档是用于记录知识的重要载体。这里会列出我最近正在读的一些书籍
@@ -139,9 +141,7 @@ const AboutMe: React.FunctionComponent = function () {
             </List>
           </section>
         </section>
-        <section className="my-11">
-          <SayHi />
-        </section>
+        <SayHi />
       </section>
     </Layout>
   );

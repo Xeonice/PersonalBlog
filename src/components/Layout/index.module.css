@@ -2,5 +2,5 @@
     @apply flex justify-between flex-col;
     @apply px-8 py-16;
     @apply md:py-28;
-    @apply bg-white  min-h-screen text-gray-500;
+    @apply bg-white-default  min-h-screen text-silver-default;
 }

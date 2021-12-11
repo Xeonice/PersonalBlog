@@ -1,12 +1,13 @@
 import * as React from 'react';
+import overViewInfoStyle from './index.module.css';
 
 const Separator = function () {
-  return <span className="block mt-8 h-px" />;
+  return <span className={overViewInfoStyle.separator} />;
 };
 
 const Title = function ({ children }) {
   return (
-    <span className="text-xs text-gray-500 block leading-wide leading-tight">
+    <span className={overViewInfoStyle.title}>
       {children}
     </span>
   );
@@ -14,19 +15,19 @@ const Title = function ({ children }) {
 
 const Info = function ({ children, href }) {
   return (
-    <a href={href} className="text-black font-bold leading-tight block mt-1">
+    <a href={href} className={overViewInfoStyle.info}>
       {children}
     </a>
   );
 };
 
 const ItemContainer = function ({ children }) {
-  return <li className="mr-4">{children}</li>;
+  return <li className={overViewInfoStyle.listItem}>{children}</li>;
 };
 
 const OverviewInfo = function () {
   return (
-    <ul className="flex	mt-4">
+    <ul className={overViewInfoStyle.list}>
       <ItemContainer>
         <Separator />
         <Title>工作地</Title>

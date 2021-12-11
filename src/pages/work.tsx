@@ -3,11 +3,12 @@ import Layout from '../components/Layout';
 import SayHi from '../components/SayHi';
 import StyledLink from '../components/Link';
 import { Heading2, Paragraph } from '../components/Typography';
+import workStyle from './work.module.css';
 
 const Work: React.FunctionComponent = function () {
   return (
     <Layout>
-      <section className="max-w-screen-sm mt-10">
+      <section className={workStyle.container}>
         <Paragraph>
           我目前供职于一家互联网金融公司，目前于公司内部负责面向中台体系的
           Lowcode
@@ -20,7 +21,7 @@ const Work: React.FunctionComponent = function () {
           {' '}
           。
         </Paragraph>
-        <section className="mt-10">
+        <section className={workStyle.container}>
           <Heading2>DataSet 教程</Heading2>
           <Paragraph>
             该项目是为了改良 Choerodon-ui
@@ -53,9 +54,7 @@ const Work: React.FunctionComponent = function () {
             体系。
           </Paragraph>
         </section>
-        <section className="my-10">
-          <SayHi />
-        </section>
+        <SayHi />
       </section>
     </Layout>
   );

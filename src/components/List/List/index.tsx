@@ -3,12 +3,13 @@ import styled from '@emotion/styled';
 
 import Link from 'next/link';
 import classnames from 'classnames';
-import { Heading4, TextSmall } from '../Typography';
+import { Heading4, TextSmall } from '../../Typography';
+import listStyle from './index.module.css';
 
 const Title = function ({ children, subtitle }) {
   return (
     <li
-      className={classnames('text-normal', 'text-black', 'flex', 'flex-col', {
+      className={classnames(listStyle.itemTitle, {
         'my-4': subtitle,
         'my-2': !subtitle,
       })}
@@ -18,9 +19,11 @@ const Title = function ({ children, subtitle }) {
   );
 };
 
-const Subtitle = styled(TextSmall)`
-  display: block;
-`;
+const Subtitle = function ({ children }) {
+  return (
+    <TextSmall color="silver-default" className={listStyle.subTitle}>{children}</TextSmall>
+  );
+};
 
 type ItemType = React.FunctionComponent<{ subtitle?: string; link: string }>;
 
@@ -30,7 +33,7 @@ const Item: ItemType = function ({ children, subtitle, link }) {
       <Link href={link} passHref>
         {children}
       </Link>
-      {subtitle && <Subtitle color="silver">{subtitle}</Subtitle>}
+      {subtitle && <Subtitle>{subtitle}</Subtitle>}
     </Title>
   );
 };
@@ -42,7 +45,7 @@ interface ListType extends React.FunctionComponent<{ title?: string }> {
 const List: ListType = function ({ title, children, ...props }) {
   return (
     <section {...props}>
-      <Heading4>{title}</Heading4>
+      <Heading4 className={listStyle.title}>{title}</Heading4>
       <ul>{children}</ul>
     </section>
   );

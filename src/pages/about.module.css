@@ -1,0 +1,11 @@
+.separator {
+  @apply text-white-lighter border-2 my-8 w-8;
+}
+
+.section {
+  @apply mt-40;
+}
+
+.container {
+  @apply max-w-screen-sm mt-16;
+}

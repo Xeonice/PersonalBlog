@@ -3,7 +3,7 @@ const colors = require('tailwindcss/colors');
 module.exports = {
   purge: [],
   presets: [],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     screens: {
       sm: '640px',
@@ -15,14 +15,34 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-
-      black: colors.black,
-      white: colors.white,
-      gray: colors.coolGray,
+      black: {
+        lightest: '#454545',
+        lighter: '#2a2a2a',
+        light: '#161616',
+        default: '#111',
+      },
+      silver: {
+        default: '#787878',
+        darker: '#989898',
+        darkest: '#555',
+      },
+      blue: '#8DB6DE',
+      white: {
+        lightest: '#bababa',
+        lighter: '#d5d5d5',
+        light: '#e9e9e9',
+        default: '#eee',
+        darker: '#F5F5F5',
+      },
+      cyan: '#2BB6C9',
+      gray: {
+        default: '#787878',
+        darker: '#989898',
+        darkest: '#555',
+      },
       red: colors.red,
       yellow: colors.amber,
       green: colors.emerald,
-      blue: colors.blue,
       indigo: colors.indigo,
       purple: colors.violet,
       pink: colors.pink,

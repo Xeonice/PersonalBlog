@@ -1,13 +1,14 @@
 import React from 'react';
-import { useThemeUI } from 'theme-ui';
 import { useRouter } from 'next/router';
+import classnames from 'classnames';
 import ThemeButton from '../ThemeButton';
 import Logo from '../Logo';
 import StyledLink from '../Link';
+import navigationStyle from './index.module.css';
 
 const Separator = function () {
   return (
-    <span className="inline-block mx-2 text-gray-500 text-base md:mx-3 md:text-lg">
+    <span className={navigationStyle.separator}>
       /
     </span>
   );
@@ -17,9 +18,10 @@ const MenuItem = function ({ children, href }) {
   const router = useRouter();
   return (
     <StyledLink
-      className="text-base font-bold md:text-lg flex items-center"
+      className={classnames(navigationStyle.menuItem, {
+        'text-silver-default': router.pathname !== href,
+      })}
       href={href}
-      isActive={router.pathname === href}
     >
       {children}
     </StyledLink>

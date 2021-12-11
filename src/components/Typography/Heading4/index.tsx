@@ -1,9 +1,10 @@
+import classnames from 'classnames';
 import * as React from 'react';
 import H4Style from './index.module.css';
 
-const Heading4: React.FunctionComponent = function ({ children }) {
+const Heading4: React.FunctionComponent<any> = function ({ children, className }) {
   return (
-    <h4 className={H4Style.Wrapper}>
+    <h4 className={classnames(H4Style.Wrapper, className)}>
       {children}
     </h4>
   );

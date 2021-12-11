@@ -13,18 +13,17 @@ type LinkProps = {
 const StyledLink: React.FunctionComponent<LinkProps> = function ({
   children,
   href,
-  isActive,
   className,
   underline,
 }) {
+  debugger;
   return (
     <Link href={href} passHref>
       <a
         href="replace"
         className={classnames(
+          'text-black-default',
           {
-            'text-gray-500': !isActive,
-            'text-black': isActive,
             underline,
           },
           className,

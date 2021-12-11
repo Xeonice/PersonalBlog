@@ -113,8 +113,6 @@ export default function mdx({ frontMatter, date, mdxSource }) {
   //     },
   //   ]
   //   : [];
-  const a = '';
-  debugger;
   return (
     <Layout>
       <section className="max-w-screen-sm mt2.5">

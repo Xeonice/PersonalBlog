@@ -1,0 +1,9 @@
+.introduction {
+  @apply flex flex-col;
+  @apply text-gray-50;
+}
+
+.introduction h1 {
+  @apply font-black leading-snug text-black-default text-4xl;
+  @apply max-w-screen-sm;
+}
