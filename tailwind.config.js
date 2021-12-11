@@ -2,7 +2,8 @@ const colors = require('tailwindcss/colors');
 
 module.exports = {
   purge: [],
-  presets: [],
+  presets: ['./src/**/*.css'],
+  import: true,
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     screens: {
@@ -22,9 +23,9 @@ module.exports = {
         default: '#111',
       },
       silver: {
-        default: '#787878',
-        darker: '#989898',
-        darkest: '#555',
+        default: '#878787',
+        darker: '#676767',
+        darkest: '#AAA',
       },
       blue: '#8DB6DE',
       white: {

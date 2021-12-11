@@ -1,106 +1,95 @@
 /** @jsxImportSource @emotion/react */
 import * as React from 'react';
-import styled from '@emotion/styled';
-import mediaqueries from '../IconWrapper/media';
+import classNames from 'classnames';
+import { useEffect, useState } from 'react';
 import IconWrapper from '../IconWrapper';
+import themeButtonStyle from './index.module.css';
 
 const strActiveLightMode = '打开 Light Mode';
 const strActiveDarkMode = '打开 Dark Mode';
 
-const toggleColorMode = () => {
-
-};
-
 export default function ModeSwitch(): React.ReactElement {
-  const isDark = true;
+  const [isDark, setIsDark] = useState(false);
+
+  const toggleColorMode = (localStorage) => {
+    debugger;
+    if (localStorage.theme === 'dark') {
+      localStorage.theme = 'light';
+    } else {
+      localStorage.theme = 'dark';
+    }
+    setIsDark(localStorage.theme === 'dark');
+  };
+
+  useEffect(() => {
+    if (window.localStorage.theme === 'dark') {
+      setIsDark(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+    if (
+      window.localStorage.theme === 'dark'
+      || (!('theme' in localStorage)
+        && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDark]);
+
   return (
     <IconWrapper
       isDark={isDark}
-      onClick={toggleColorMode}
+      onClick={() => toggleColorMode(window.localStorage)}
       data-a11y="false"
       aria-label={isDark ? strActiveLightMode : strActiveDarkMode}
       title={isDark ? strActiveLightMode : strActiveDarkMode}
     >
-      <MoonOrSun
-        isDark={isDark}
-        sx={{
-          bg: (theme) => theme.colors.white.default,
-          border: (theme) => `${isDark ? '4px' : '2px'} solid ${theme.colors.white.default}`,
-          '&::before': {
-            border: (theme) => `2px solid ${theme.colors.white.default}`,
-          },
-          '&::after': {
-            boxShadow: (theme) => `0 -23px 0 ${theme.colors.white.default},
-            0 23px 0 ${theme.colors.white.default},
-            23px 0 0 ${theme.colors.white.default},
-            -23px 0 0 ${theme.colors.white.default},
-            15px 15px 0 ${theme.colors.white.default},
-            -15px 15px 0 ${theme.colors.white.default},
-            15px -15px 0 ${theme.colors.white.default},
-            -15px -15px 0 ${theme.colors.white.default}`,
-          },
-        }}
-      />
+      <MoonOrSun isDark={isDark} />
       <MoonMask
         isDark={isDark}
-        sx={{
-          bg: (theme) => theme.colors.black.default,
-          transition: (theme) => `${theme.colorModeTransition}, transform 0.45s ease`,
-        }}
       />
     </IconWrapper>
   );
 }
 
-const MoonMask = styled.div<{ isDark: boolean; sx: object }>`
-  position: absolute;
-  right: -1px;
-  top: -8px;
-  height: 24px;
-  width: 24px;
-  border-radius: 50%;
-  border: 0;
-  transform: translate(${(p) => (p.isDark ? '14px, -14px' : '0, 0')});
-  opacity: ${(p) => (p.isDark ? 0 : 1)};
-`;
+// This is based off a codepen! Much appreciated to: https://codepen.io/aaroniker/pen/KGpXZo
+var MoonMask = function ({ isDark }) {
+  return (
+    <div
+      className={classNames(themeButtonStyle['moon-mask'], {
+        [themeButtonStyle['moon-mask-dark']]: isDark,
+      })}
+    />
+  );
+};
 
 // This is based off a codepen! Much appreciated to: https://codepen.io/aaroniker/pen/KGpXZo
-const MoonOrSun = styled.div<{ isDark: boolean; sx: object }>`
-  position: relative;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  transform: scale(${(p) => (p.isDark ? 0.55 : 1)});
-  transition: all 0.45s ease;
-  overflow: ${(p) => (p.isDark ? 'visible' : 'hidden')};
+var MoonOrSun = function ({ isDark }) {
+  return (
+    <div
+      className={classNames(themeButtonStyle['moon-or-sun'], {
+        [themeButtonStyle['moon-or-sun-dark']]: isDark,
+      })}
+    />
+  );
+};
 
-  &::before {
-    content: "";
-    position: absolute;
-    right: -9px;
-    top: -9px;
-    height: 24px;
-    width: 24px;
-    border-radius: 50%;
-    transform: translate(${(p) => (p.isDark ? '14px, -14px' : '0, 0')});
-    opacity: ${(p) => (p.isDark ? 0 : 1)};
-    transition: transform 0.45s ease;
-  }
-
-  &::after {
-    content: "";
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    margin: -4px 0 0 -4px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: scale(${(p) => (p.isDark ? 1 : 0)});
-    transition: all 0.35s ease;
-
-    ${(p) => mediaqueries.tablet`
-      transform: scale(${p.isDark ? 0.92 : 0});
-    `}
-  }
-`;
+// bg: (theme) => theme.colors.white.default,
+// border: (theme) => `${isDark ? '4px' : '2px'} solid ${theme.colors.white.default}`,
+// '&::before': {
+//   border: (theme) => `2px solid ${theme.colors.white.default}`,
+// },
+// '&::after': {
+//   boxShadow: (theme) => `0 -23px 0 ${theme.colors.white.default},
+//   0 23px 0 ${theme.colors.white.default},
+//   23px 0 0 ${theme.colors.white.default},
+//   -23px 0 0 ${theme.colors.white.default},
+//   15px 15px 0 ${theme.colors.white.default},
+//   -15px 15px 0 ${theme.colors.white.default},
+//   15px -15px 0 ${theme.colors.white.default},
+//   -15px -15px 0 ${theme.colors.white.default}`,
+// },

@@ -6,11 +6,11 @@
 }
 
 .title {
-  @apply text-xs text-gray-darker block leading-tight;
+  @apply text-xs text-gray-darker dark:text-silver-darker block leading-tight;
 }
 
 .info {
-  @apply text-black-default font-bold leading-tight block mt-1;
+  @apply text-black-default dark:text-white-default font-bold leading-tight block mt-1;
 }
 
 .separator {

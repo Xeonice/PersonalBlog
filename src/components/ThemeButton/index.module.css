@@ -1,0 +1,108 @@
+.moon-mask {
+  @apply bg-white-default;
+  transition: background 0.25s var(--ease-in-out-quad), color 0.25s var(--ease-in-out-quad) transform 0.45s ease;
+  position: absolute;
+  right: -1px;
+  top: -8px;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  border: 0;
+  transform: translate(0px, 0px);
+  opacity: 1;
+}
+
+.moon-mask-dark {
+  transform: 14px, -14px;
+  opacity: 0;
+}
+
+.moon-or-sun {
+  @apply bg-black-default;
+  @apply border-2 border-solid border-black-default;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transform: scale(1);
+  transition: all 0.45s ease;
+  overflow: hidden;
+}
+.moon-or-sun::before {
+  @apply border-4 border-solid border-black-default;
+  content: '';
+  position: absolute;
+  right: -9px;
+  top: -9px;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  transform: translate(0px, 0px);
+  opacity: 1;
+  transition: transform 0.45s ease;
+}
+.moon-or-sun::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin: -4px 0 0 -4px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: scale(0);
+  transition: all 0.35s ease;
+
+  box-shadow: 0 -23px 0 theme('colors.black.default'),
+  0 23px 0 theme('colors.black.default'),
+  23px 0 0 theme('colors.black.default'),
+  -23px 0 0 theme('colors.black.default'),
+  15px 15px 0 theme('colors.black.default'),
+  -15px 15px 0 theme('colors.black.default'),
+  15px -15px 0 theme('colors.black.default'),
+  -15px -15px 0 theme('colors.black.default');
+
+  /* ${(p) => mediaqueries.tablet`
+    transform: scale(${p.isDark ? 0.92 : 0});
+  `} */
+}
+
+.moon-or-sun-dark {
+  @apply bg-white-default;
+  @apply border-4 border-solid border-white-default;
+  transform: scale(0.55);
+  overflow: visible;
+}
+.moon-or-sun-dark::before {
+    content: '';
+    position: absolute;
+    right: -9px;
+    top: -9px;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    transform: 14px, -14px;
+    opacity: 0;
+    transition: transform 0.45s ease;
+}
+.moon-or-sun-dark::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin: -4px 0 0 -4px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: scale(1);
+  transition: all 0.35s ease;
+
+  box-shadow: 0 -23px 0 theme('colors.white.default'),
+  0 23px 0 theme('colors.white.default'),
+  23px 0 0 theme('colors.white.default'),
+  -23px 0 0 theme('colors.white.default'),
+  15px 15px 0 theme('colors.white.default'),
+  -15px 15px 0 theme('colors.white.default'),
+  15px -15px 0 theme('colors.white.default'),
+  -15px -15px 0 theme('colors.white.default');
+}

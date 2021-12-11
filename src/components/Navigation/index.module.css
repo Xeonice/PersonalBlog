@@ -1,6 +1,7 @@
 .separator {
   @apply inline-block mx-2 text-silver-default text-base md:mx-3 md:text-lg;
 }
+
 .menuItem {
   @apply text-base font-bold md:text-lg flex items-center;
 }

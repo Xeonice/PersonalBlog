@@ -2,6 +2,7 @@
 import Navigation from '../Navigation';
 import Footer from '../Footer';
 import LayoutStyle from './index.module.css';
+import classnames from 'classnames';
 
 export default function Layout({ children }): JSX.Element {
   // const [colorMode] = useColorMode()
@@ -12,7 +13,7 @@ export default function Layout({ children }): JSX.Element {
   // }, [colorMode])
 
   return (
-    <main className={LayoutStyle.container}>
+    <main className={classnames(LayoutStyle.container)}>
       <Navigation />
       {children}
       <Footer />
