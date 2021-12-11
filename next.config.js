@@ -1,3 +1,4 @@
+// 目前 next.js 的 tailwindcss 下，cssModule 编译貌似有点问题，所以先配制成这样
 module.exports = {
   webpack: (config) => {
     // Find the base rule that contains nested rules (which contains css-loader)
