@@ -1,0 +1,7 @@
+.text {
+  @apply text-gray-default dark:text-silver-default;
+}
+
+.link {
+  @apply text-xs;
+}

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import styled from '@emotion/styled';
 
 import Link from 'next/link';
 import classnames from 'classnames';
@@ -21,7 +20,7 @@ const Title = function ({ children, subtitle }) {
 
 const Subtitle = function ({ children }) {
   return (
-    <TextSmall color="silver-default" className={listStyle.subTitle}>{children}</TextSmall>
+    <TextSmall className={listStyle.subTitle}>{children}</TextSmall>
   );
 };
 

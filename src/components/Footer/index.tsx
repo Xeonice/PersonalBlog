@@ -1,8 +1,8 @@
 import * as React from 'react';
-import Link from 'next/link';
 
 import TextSmall from '../Typography/TextSmall';
-import { section } from '../Box';
+import StyledLink from '../Link/Link';
+import footerStyle from './index.module.css';
 
 const Separator = function () {
   return <span className="inline-block mx-2.5 my-0 text-gray-500 text-xs">/</span>;
@@ -12,16 +12,16 @@ const Footer: React.FunctionComponent = function () {
   return (
     <section>
       <section>
-        <TextSmall color="gray-500">&copy; 2020 — Douglas</TextSmall>
+        <TextSmall className={footerStyle.text}>&copy; 2020 — Douglas</TextSmall>
         <Separator />
-        <TextSmall color="gray-500">rss</TextSmall>
+        <TextSmall className={footerStyle.text}>rss</TextSmall>
       </section>
       <section>
-        <TextSmall color="gray-500">友情连接</TextSmall>
+        <TextSmall className={footerStyle.text}>友情连接</TextSmall>
         <Separator />
-        <TextSmall color="gray-500" element={Link} href="https://kalasearch.cn/">
+        <StyledLink className={footerStyle.link} href="https://kalasearch.cn/">
           卡拉搜索
-        </TextSmall>
+        </StyledLink>
       </section>
     </section>
   );

@@ -3,7 +3,7 @@
 }
 
 .Wrapper p {
-  color: #2bb6c9;
+  @apply text-cyan;
   @apply break-words;
 }
 
