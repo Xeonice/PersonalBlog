@@ -1,12 +1,16 @@
 import classnames from 'classnames';
 import * as React from 'react';
 
-const TextSmall = function ({ children, className, color }) {
+const TextSmall: React.FunctionComponent<{
+  color: string | undefined;
+  className: string;
+}> = function (props) {
+  const { color, className, children } = props;
   return (
     <span
-      className={classnames('text-xs', 'font-serif', {
+      className={classnames('text-xs', 'font-serif', color ? {
         [`text-${color}`]: color,
-      }, className)}
+      } : {}, className)}
     >
       {children}
     </span>

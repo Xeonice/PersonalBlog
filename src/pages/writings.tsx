@@ -10,7 +10,6 @@ import writingStyle from './writings.module.css';
 
 export async function getStaticProps() {
   // TODO：按年排序
-  debugger;
   const allPostsData = getSortedPostsMetaList();
   return {
     props: {

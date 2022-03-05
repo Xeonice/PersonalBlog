@@ -16,6 +16,7 @@
     "gray-matter": "^4.0.3",
     "next": "latest",
     "next-mdx-remote": "^3.0.8",
+    "next-pwa": "^5.4.4",
     "postcss-import": "^14.0.2",
     "prism-react-renderer": "^1.1.1",
     "prism-themes": "^1.5.0",
