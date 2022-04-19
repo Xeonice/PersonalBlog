@@ -1,61 +1,36 @@
-import * as React from "react"
-import { TransitionState } from 'gatsby-plugin-transition-link';
-import styled from '@emotion/styled';
-import Typist from 'react-typist';
+/** @jsxImportSource theme-ui */
+import * as React from 'react';
+import Typewriter from 'typewriter-effect';
 
-import Layout from "../components/Layout"
-import SEO from "../components/SEO"
-import OverviewInfo from "../components/OverviewInfo"
-import { Box } from "../components/Box"
-import AnimeContainer from "../components/AnimeContainer"
-import { ElementProps } from "../components/Typography"
+import Layout from '../components/Layout';
+import OverviewInfo from '../components/OverviewInfo';
+import indexStyle from './index.module.css';
 
-const Introduction = styled.h1<ElementProps>`
-  color: ${(props) => props.theme.colors.white.default};
-  font-family: ${(props) => props.theme.fontFamily.default};
-  font-size: ${(props) => props.theme.fontSize["4xl"]};
-  font-weight: 900;
-  line-height: 1.333333;
-  overflow-wrap: break-word;
-  max-width: 640px;
+const IndexPage: React.FunctionComponent = function () {
+  return (
+    <Layout>
+      <section className={indexStyle.introduction}>
+        <h1>
+          <Typewriter
+            onInit={(typewriter) => {
+              typewriter
+                .typeString(
+                  'Hello，欢迎来到 Douglas 的自留地，一个持续奋斗在搬砖路上的 Web 开发',
+                )
+                .pauseFor(1500)
+                .deleteChars(7)
+                .typeString('全栈工程师')
+                .pauseFor(1500)
+                .deleteChars(5)
+                .typeString('产品工程师')
+                .start();
+            }}
+          />
+        </h1>
+        <OverviewInfo />
+      </section>
+    </Layout>
+  );
+};
 
-  @media (max-width: 375px) {
-    font-size: ${(props) => props.theme.fontSize["3xl"]};
-  }
-`
-
-const IndexPage: React.FunctionComponent = () => (
-  <TransitionState>
-    {({ transitionStatus }) => (
-      <Layout>
-        <SEO title="首页" />
-        <Box
-          element="section"
-          display="flex"
-          alignItems="space-between"
-        >
-          <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="space-between"
-            flex={3}
-          >
-            <AnimeContainer toggle={transitionStatus === 'entered'}>
-              <Introduction>
-                <Typist
-                  avgTypingDelay={160}
-                >
-                  Hello，欢迎来到 Douglas 的自留地，一个持续奋斗在搬砖路上的 Web 开发
-                </Typist>
-              </Introduction>
-              <OverviewInfo />
-            </AnimeContainer>
-          </Box>
-        </Box>
-      </Layout>
-    )}
-  </TransitionState>
-)
-
-export default IndexPage
+export default IndexPage;

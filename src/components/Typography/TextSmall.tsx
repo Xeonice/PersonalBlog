@@ -1,23 +1,22 @@
-import * as React from "react"
-import styled from '@emotion/styled';
-import { ElementProps } from '.';
+import classnames from 'classnames';
+import * as React from 'react';
 
-const Element = styled.span<ElementProps>`
-  font-size: ${props => props.theme.fontSize.xs};
-  color: ${props =>
-    props.color ? props.theme.colors[props.color][props.tint] : undefined};
-`
+export type TextSmallProps = {
+  color?: string;
+  className: string;
+}
 
-const TextSmall: React.FunctionComponent<ElementProps> = ({
-  children,
-  element,
-  color,
-  tint = "default",
-  ...props
-}) => (
-  <Element as={element || "span"} color={color} tint={tint} {...props}>
-    {children}
-  </Element>
-)
+const TextSmall: React.FunctionComponent<TextSmallProps> = function (props) {
+  const { color, className, children } = props;
+  return (
+    <span
+      className={classnames('text-xs', 'font-serif', color ? {
+        [`text-${color}`]: color,
+      } : {}, className)}
+    >
+      {children}
+    </span>
+  );
+};
 
-export default TextSmall
+export default TextSmall;

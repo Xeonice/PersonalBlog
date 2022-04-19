@@ -1,0 +1,41 @@
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(50%);
+          clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+.color-scheme-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--space-xs);
+  cursor: pointer;
+}
+.color-scheme-toggle .light {
+  display: block;
+}
+.color-scheme-toggle:active {
+  transform: translateY(1px);
+}
+.color-scheme-toggle:focus-visible {
+  outline: 2px dashed var(--color-secondary);
+  outline-offset: var(--outline-offset);
+}
+
+.color-scheme-toggle .focus-arrows {
+  display: none;
+  position: absolute;
+  bottom: -0.6em;
+  left: 100%;
+  color: var(--color-secondary);
+  transform: translateX(50%) rotate(45deg);
+  pointer-events: none;
+}
+
+.color-scheme-toggle:focus-visible .focus-arrows {
+  display: block;
+}

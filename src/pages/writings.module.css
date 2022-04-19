@@ -1,0 +1,7 @@
+.container {
+  @apply max-w-screen-sm mt-11;
+}
+
+.section {
+  @apply mt-11;
+}

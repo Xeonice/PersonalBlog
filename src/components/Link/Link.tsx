@@ -1,33 +1,45 @@
-import * as React from "react"
-import styled from '@emotion/styled';
+import * as React from 'react';
 
-import { LinkProps } from "./index"
+import classnames from 'classnames';
+import Link from 'next/link';
 
-const StyledLink = styled.a<LinkProps>`
-  color: ${props =>
-    props.color ? props.theme.colors[props.color][props.tint] : undefined};
-  text-decoration: ${props => (props.underlined ? "underline" : "none")};
-`
+export type LinkProps = {
+  className?: string;
+  underline?: boolean;
+  href: string;
+  inActive?: boolean;
+};
 
-const Link: React.FunctionComponent<LinkProps> = ({
+const StyledLink: React.FunctionComponent<LinkProps> = function ({
   children,
-  element,
-  color,
-  tint = "default",
-  underlined,
-  ...props
-}) => {
+  href,
+  className,
+  underline,
+  inActive = false,
+}) {
   return (
-    <StyledLink
-      as={element || "a"}
-      color={color}
-      tint={tint}
-      underlined={underlined}
-      {...props}
-    >
-      {children}
-    </StyledLink>
-  )
-}
+    <Link href={href} passHref>
+      <a
+        href="replace"
+        className={classnames(
+          className,
+          {
+            'text-black-default dark:text-white-default': !inActive,
+            'text-gray-default dark:text-silver-default': inActive,
+            underline,
+          },
+        )}
+      >
+        {children}
+      </a>
+    </Link>
+  );
+};
 
-export default Link
+StyledLink.defaultProps = {
+  className: '',
+  underline: false,
+  inActive: false,
+};
+
+export default StyledLink;

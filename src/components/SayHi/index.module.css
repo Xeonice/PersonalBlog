@@ -1,0 +1,4 @@
+.Wrapper {
+  @apply max-w-screen-sm my-40;
+  @apply font-serif text-4xl font-bold leading-tight text-black-default dark:text-white-default;
+}

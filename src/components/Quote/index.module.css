@@ -1,0 +1,17 @@
+.Wrapper {
+  @apply relative w-full mt-8 mb-6 p-4;
+}
+
+.Wrapper p {
+  @apply text-cyan;
+  @apply break-words;
+}
+
+.Wrapper::after {
+  @apply absolute bottom-0 right-0;
+  content: '\201D';
+  width: 18px;
+  height: 34px;
+  text-indent: -9999px;
+  background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOCAzNCI+CiAgPHBhdGggZmlsbD0iIzk1REFFNCIgZD0iTTEwOTEsODI2IEwxMTA5LDgyNiBMMTEwOSw3OTIgQzExMDksNzkyIDExMDYuMDA2NjcsNzkyLjAwMzAwMSAxMTA2LDc5MiBDMTEwNi4wMDY2Nyw3OTIuMDAzMDAxIDExMDYuMDA2NjcsODIzLjAwOTM4NCAxMTA2LDgyMyBDMTEwNi4wMDY2Nyw4MjMuMDA5Mzg0IDEwOTEsODIzLjAwOTM4NCAxMDkxLDgyMyBDMTA5MSw4MjMuMDA5Mzg0IDEwOTEuMDA2LDgyNiAxMDkxLDgyNiBMMTA5MSw4MjYgWiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEwOTEgLTc5MikiLz4KPC9zdmc+Cg==) no-repeat;
+}

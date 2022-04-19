@@ -1,0 +1,7 @@
+.wrapper {
+  @apply text-gray-darkest dark:text-silver-default bg-white-lighter;
+  @apply p-0 cursor-default inline-block h-5 rounded leading-none;
+}
+.font {
+  @apply mx-1 truncate py-0.5 leading-5;
+}

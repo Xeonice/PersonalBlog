@@ -1,0 +1,18 @@
+.list {
+  @apply flex	mt-4;
+}
+.listItem {
+  @apply mr-8;
+}
+
+.title {
+  @apply text-xs text-gray-darker dark:text-silver-darker block leading-tight;
+}
+
+.info {
+  @apply text-black-default dark:text-white-default font-bold leading-tight block mt-1;
+}
+
+.separator {
+  @apply block mt-8 h-px;
+}

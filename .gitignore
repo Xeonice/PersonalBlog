@@ -54,9 +54,8 @@ typings/
 # dotenv environment variables file
 .env
 
-# gatsby files
-.cache/
-public
+# next files
+.next
 
 # Mac files
 .DS_Store
@@ -68,5 +67,5 @@ yarn-error.log
 # Yarn Integrity file
 .yarn-integrity
 
-# blog 本地测试文件
+# content 本地测试文件
 src/content/articles/test.mdx

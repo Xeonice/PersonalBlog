@@ -1,0 +1,3 @@
+.Wrapper {
+  @apply text-xs font-semibold leading-normal text-black-default dark:text-white-default mt-8 mb-6;
+}

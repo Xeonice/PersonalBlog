@@ -1,0 +1,56 @@
+---
+id: 20200728
+title: "自行搭建 OpenWrt 系统用于科学上网"
+date: 2020-06-15T18:45:00+08:00
+author: Douglas
+template: post
+description: 最近软路由上的 Koolshare Clash 一直不尽如人意，想换 OpenClash，又会与以前的配置产生冲突。
+image: /images/blog/oslo-am-meer.jpg
+categories:
+  - NetWork
+locale: zh_CN
+---
+
+最近软路由上的 Koolshare Clash 一直不尽如人意，想换 OpenClash，又会与以前的配置产生冲突。仔细斟酌了一下，似乎并没有必要为了软件中心一个功能，继续保留 Koolshare Lede，索性直接换了 lean 大大的 OpenWrt Lede。这样能保证系统的纯净性，又不用与繁琐的软件中心打交道（最重要的是能继续折腾）
+
+这里记录一下折腾的时候遇到的坑吧，供后来者参考。
+
+## 编译
+
+Lean 在 [Github](https://github.com/coolsnowwolf/lede) 上放出了完整的 Openwrt 源码，只需简单的编译，就可以获得完整的安装包。
+
+这里直接照搬一下官网的步骤：
+
+1. 命令行输入 `sudo apt-get update` ，然后输入 `sudo apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3.5 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget`
+2. 使用 `git clone https://github.com/coolsnowwolf/lede` 命令下载好源代码，然后 `cd lede` 进入目录。
+3. 执行 `./script/feeds update -a`，然后执行 `./scripts/feeds install -a make menuconfig`
+4. `make -j8 download V=s` 下载dl库（国内请尽量全局科学上网）
+5. 输入 `make -j1 V=s` （`-j1` 后面是线程数。第一次编译推荐用单线程）即可开始编译你要的固件了。
+
+这里有一个坑，BaiduPCS 这个插件现在被封禁了，也就是说编译过程中，下载这个插件必定会 404 。很不幸的，我就是死在了这一步上，然后用了现成的固件：[【2020】最新编译OpenWrt X86-64纯净版软路由固件镜像下载 LEDE精简版-多功能版-旁路由固件 ](https://netflixcn.com/miji/46.html "【2020】最新编译OpenWrt X86-64纯净版软路由固件镜像下载 LEDE精简版-多功能版-旁路由固件")
+
+## 安装 Clash
+
+Clash 在 OpenWrt 上的安装方法也很简单，如果用我之前提到的那个固件的多功能版，甚至都不用自己集成。这里依旧照搬一下官网的教程：
+
+1. [前往此处下载](https://github.com/vernesong/OpenClash/releases)，对于 OpenWrt 来说，一般就是这个文件 `luci-app-openclash_0.39.2-beta_all.ipk`
+2. 将 ipk 文件用文件传输上传到 `/tmp/upload` 上。
+3. 在 `/tmp/upload` 下运行 `opkg install luci-app-openclash_0.39.2-beta_all.ipk`，具体文件名看你自己的版本。
+4. 刷新后台，一般这个时候就能在服务菜单看到应用了。
+
+### 遇到的坑
+
+这个时候，就要讲一下 OpenWrt 折腾过程中遇到的各种各样的坑了。
+
+1. `docker` 和翻墙用的插件共存的时候，会存在 `udp` 流量无法代理的情况（补个issue），而且，**删除后依然会无法代理 udp 流量**，必须重新打包才可以。（预计是 docker 对 iptable 进行了什么修改，导致 同样需要修改 iptable 的翻墙插件产生了冲突）
+2. `OpenWrt` 翻墙用的插件一般有三种，`passwall`、`ssrplus` 和 `clash`，`clash` 貌似由于 dns 问题无法代理 `cod16` 的大厅流量。暂且原因不明，改用 `passwall`。
+3. `passwall` 如果希望代理 `cod16` 这样的游戏的话，需要在设置中开放`tcp` 和 `udp` 的全部端口，因为 `cod16` 用的端口很奇怪，有被误认为 bt 端口的可能性（虽然跑的完全不是 bt 协议。
+
+![passwall](http://imagetemp.oss-cn-beijing.aliyuncs.com/blog/2020-07-28-110656.jpg?x-oss-process=style/TestCompress)
+
+# 小结
+
+以上就是安装 OpenWrt 遇到的坑了，希望对后来的人有所帮助。
+
+
+
