@@ -27,7 +27,7 @@ const StyledLink: React.FunctionComponent<LinkProps> = function ({
             'text-black-default dark:text-white-default': !inActive,
             'text-gray-default dark:text-silver-default': inActive,
             underline,
-          }
+          },
         )}
       >
         {children}

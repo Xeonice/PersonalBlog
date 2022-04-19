@@ -57,7 +57,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params: { slug } }) => {
   const markdownWithMeta = fs.readFileSync(
     path.join('posts', `${slug}.mdx`),
-    'utf-8'
+    'utf-8',
   );
 
   const { data, content } = matter(markdownWithMeta);
@@ -118,7 +118,7 @@ export default function mdx({ frontMatter, date, mdxSource }) {
       <section className="max-w-screen-sm mt2.5">
         <Heading1>{frontMatter.title}</Heading1>
         <section
-        className={slugStyle.info}
+          className={slugStyle.info}
           marginBottom={8}
           justifyContent="space-between"
           alignItems="center"
