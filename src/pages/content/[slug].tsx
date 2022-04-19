@@ -6,6 +6,7 @@ import matter from 'gray-matter';
 import dayjs from 'dayjs';
 import React from 'react';
 import Img from 'next/image';
+import classNames from 'classnames';
 import Layout from '../../components/Layout';
 import Link from '../../components/Link';
 import {
@@ -16,7 +17,7 @@ import {
   InlineCode,
   Paragraph,
 } from '../../components/Typography';
-import { Separator } from '../../components/Separator';
+import Separator from '../../components/Separator';
 import { OrderedList, UnOrderedList } from '../../components/List';
 import Quote from '../../components/Quote';
 import slugStyle from './index.module.css';
@@ -34,7 +35,7 @@ const components = {
   blockquote: Quote,
   inlineCode: InlineCode,
   a: ({ children, ...props }) => (
-    <Link underline {...props}>
+    <Link href={props.href} underline {...props}>
       {children}
     </Link>
   ),
@@ -118,16 +119,12 @@ export default function mdx({ frontMatter, date, mdxSource }) {
       <section className="max-w-screen-sm mt2.5">
         <Heading1>{frontMatter.title}</Heading1>
         <section
-          className={slugStyle.info}
-          marginBottom={8}
-          justifyContent="space-between"
-          alignItems="center"
-          display="flex"
+          className={classNames('mb-2 justify-between items-center flex', slugStyle.info)}
         >
           <section>{date}</section>
           <section>
             {frontMatter.categories.map((category) => (
-              <Tag color="gray-500">{category}</Tag>
+              <Tag key={category} color="gray-500">{category}</Tag>
             ))}
           </section>
         </section>

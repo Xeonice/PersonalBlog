@@ -3,11 +3,11 @@ import * as React from 'react';
 import classnames from 'classnames';
 import Link from 'next/link';
 
-type LinkProps = {
+export type LinkProps = {
   className?: string;
   underline?: boolean;
   href: string;
-  inActive: boolean;
+  inActive?: boolean;
 };
 
 const StyledLink: React.FunctionComponent<LinkProps> = function ({
@@ -39,7 +39,7 @@ const StyledLink: React.FunctionComponent<LinkProps> = function ({
 StyledLink.defaultProps = {
   className: '',
   underline: false,
-  isActive: false,
+  inActive: false,
 };
 
 export default StyledLink;

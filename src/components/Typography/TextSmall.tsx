@@ -1,10 +1,12 @@
 import classnames from 'classnames';
 import * as React from 'react';
 
-const TextSmall: React.FunctionComponent<{
-  color: string | undefined;
+export type TextSmallProps = {
+  color?: string;
   className: string;
-}> = function (props) {
+}
+
+const TextSmall: React.FunctionComponent<TextSmallProps> = function (props) {
   const { color, className, children } = props;
   return (
     <span

@@ -53,7 +53,7 @@ const Writings: React.FunctionComponent<{ allPostsData: any }> = function ({
             .map(([postDate, posts]) => (
               <section key={postDate} className={writingStyle.section}>
                 <List title={postDate} key={postDate}>
-                  {posts.map((post) => (
+                  {(posts as Array<any>).map((post) => (
                     <List.Item
                       link={post.link}
                       key={post.id}

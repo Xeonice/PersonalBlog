@@ -36,12 +36,14 @@
     "@types/node": "^16.11.11",
     "@types/react": "^17.0.37",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
-    "@typescript-eslint/parser": "^5.5.0",
+    "@typescript-eslint/parser": "^5.20.0",
     "autoprefixer": "^10.4.0",
     "babel-jest": "^25.0.0",
     "eslint": "^8.4.0",
     "eslint-config-airbnb": "^19.0.2",
-    "eslint-plugin-import": "^2.25.3",
+    "eslint-config-next": "12.1.5",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
@@ -61,8 +63,7 @@
     "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .jsx,.js,.ts,.tsx --ignore-pattern node_modules/",
-    "lint:fix": "eslint . --ext .jsx,.js,.ts,.tsx --ignore-pattern node_modules/ --fix"
+    "lint": "next lint"
   },
   "repository": {
     "type": "git",
