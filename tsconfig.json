@@ -8,6 +8,7 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types"],
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
