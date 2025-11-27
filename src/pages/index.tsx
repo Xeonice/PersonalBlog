@@ -6,7 +6,7 @@ import Layout from '../components/Layout';
 import OverviewInfo from '../components/OverviewInfo';
 import indexStyle from './index.module.css';
 
-const IndexPage: React.FunctionComponent = function () {
+const IndexPage = function () {
   return (
     <Layout>
       <section className={indexStyle.introduction}>

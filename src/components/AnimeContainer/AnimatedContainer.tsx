@@ -15,15 +15,17 @@ const AnimeContainer: React.FunctionComponent<{ toggle: boolean; children: React
   return (
     <>
       {
-        trail.map(({ x, height, ...rest }, index) => (
-          <animated.div
-            key={index}
-              // @ts-ignore
-            style={{ ...rest, transform: x.interpolate((x) => `translate3d(0,${x}px,0)`) }}
-          >
-            <animated.div style={{ height }}>{children[index]}</animated.div>
-          </animated.div>
-        ))
+        trail.map(({ x, height, ...rest }, index) => {
+          const AnimatedDiv = animated.div as any;
+          return (
+            <AnimatedDiv
+              key={index}
+              style={{ ...rest, transform: (x as any).interpolate ? (x as any).interpolate((x: number) => `translate3d(0,${x}px,0)`) : `translate3d(0,${x}px,0)` }}
+            >
+              <AnimatedDiv style={{ height }}>{children[index]}</AnimatedDiv>
+            </AnimatedDiv>
+          );
+        })
       }
     </>
   );

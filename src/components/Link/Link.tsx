@@ -14,8 +14,8 @@ export type LinkProps = {
 const StyledLink: React.FunctionComponent<LinkProps> = function ({
   children,
   href,
-  className,
-  underline,
+  className = '',
+  underline = false,
   inActive = false,
 }) {
   return (
@@ -33,12 +33,6 @@ const StyledLink: React.FunctionComponent<LinkProps> = function ({
       {children}
     </Link>
   );
-};
-
-StyledLink.defaultProps = {
-  className: '',
-  underline: false,
-  inActive: false,
 };
 
 export default StyledLink;

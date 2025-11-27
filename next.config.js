@@ -1,13 +1,10 @@
 // 目前 next.js 的 tailwindcss 下，cssModule 编译貌似有点问题，所以先配制成这样
 module.exports = {
-  // Next.js 14 performance optimizations
+  // Next.js 15 performance optimizations
   experimental: {
-    // Enable optimizing server components (stable in Next.js 14)
+    // Enable optimizing server components (stable in Next.js 15)
     optimizeServerReact: true,
   },
-
-  // Enable modern bundling for better performance
-  swcMinify: true,
   webpack: (config) => {
     // Find the base rule that contains nested rules (which contains css-loader)
     const rules = config.module.rules.find((r) => !!r.oneOf);
