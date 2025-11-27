@@ -8,6 +8,9 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -17,7 +20,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "react-jsx"
   },
   "include": [
     "next-env.d.ts",

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ParagraphStyle from './index.module.css';
 
-const Paragraph: React.FunctionComponent = function ({ children }) {
+const Paragraph: React.FunctionComponent<{ children?: React.ReactNode }> = function ({ children }) {
   return (
     <p className={ParagraphStyle.Wrapper}>
       {children}

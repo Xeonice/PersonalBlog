@@ -1,12 +1,13 @@
 .itemTitle {
-  @apply text-base text-black-default dark:text-white-default flex flex-col;
+  @apply text-base flex flex-col;
+  color: var(--text-primary);
 }
 
 .title {
-  @apply text-gray-default dark:text-silver-default;
+  color: var(--text-secondary);
 }
 
 .subTitle {
   @apply block;
-  @apply dark:text-silver-default text-gray-default;
+  color: var(--text-secondary);
 }

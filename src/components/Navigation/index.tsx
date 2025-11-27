@@ -19,7 +19,7 @@ const MenuItem = function ({ children, href }) {
   return (
     <StyledLink
       className={classnames(navigationStyle.menuItem, {
-        'text-silver-default dark:text-silver-default !important': router.pathname !== href,
+        [navigationStyle.inactiveLink]: router.pathname !== href,
       })}
       inActive={router.pathname !== href}
       href={href}

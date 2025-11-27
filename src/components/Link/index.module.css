@@ -1,0 +1,11 @@
+.link {
+  color: var(--text-primary);
+}
+
+.linkInactive {
+  color: var(--text-secondary);
+}
+
+.linkUnderline {
+  text-decoration: underline;
+}

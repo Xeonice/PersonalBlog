@@ -1,5 +1,5 @@
 .text {
-  @apply text-gray-default dark:text-silver-default;
+  color: var(--text-secondary);
 }
 
 .link {

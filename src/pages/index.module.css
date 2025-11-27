@@ -3,6 +3,7 @@
 }
 
 .introduction h1 {
-  @apply font-black leading-snug text-black-default dark:text-white-default text-4xl;
+  @apply font-black leading-snug text-4xl;
   @apply max-w-screen-sm;
+  color: var(--text-primary);
 }

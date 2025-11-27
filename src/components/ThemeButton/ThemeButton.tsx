@@ -1,51 +1,60 @@
 /** @jsxImportSource @emotion/react */
 import * as React from 'react';
-import classNames from 'classnames';
+import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import themeButtonStyle from './index.module.css';
-import theme from '../../gatsby-plugin-theme-ui';
-
-const strActiveLightMode = '打开 Light Mode';
-const strActiveDarkMode = '打开 Dark Mode';
 
 export default function ModeSwitch(): React.ReactElement {
-  const [isDark, setIsDark] = useState(false);
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  const toggleColorMode = (localStorage) => {
-    if (localStorage.theme === 'dark') {
-      localStorage.theme = 'light';
-    } else {
-      localStorage.theme = 'dark';
-    }
-    setIsDark(localStorage.theme === 'dark');
-  };
-
+  // Prevent hydration mismatch by only rendering after mounting
   useEffect(() => {
-    if (window.localStorage.theme === 'dark') {
-      setIsDark(true);
-    }
+    setMounted(true);
   }, []);
 
-  useEffect(() => {
-    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-    if (
-      window.localStorage.theme === 'dark'
-      || (!('theme' in localStorage)
-        && window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDark]);
+  const toggleColorMode = () => {
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+  };
+
+  // Don't render until mounted to avoid hydration mismatch
+  if (!mounted) {
+    return (
+      <button
+        className={themeButtonStyle['color-scheme-toggle']}
+        title="Toggle between light and dark mode"
+        disabled
+      >
+        <svg
+          className={themeButtonStyle.dark}
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="currentcolor"
+          viewBox="0 0 256 256"
+        >
+          <rect width="256" height="256" fill="none" />
+          <path
+            d="M216.7,152.6A91.9,91.9,0,0,1,103.4,39.3h0A92,92,0,1,0,216.7,152.6Z"
+            fill="none"
+            stroke="currentcolor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="22"
+          />
+        </svg>
+      </button>
+    );
+  }
+
+  const isDark = resolvedTheme === 'dark';
 
   return (
     <button
       className={themeButtonStyle['color-scheme-toggle']}
       title="Toggle between light and dark mode"
-      onClick={() => {
-        toggleColorMode(window.localStorage);
-      }}
+      onClick={toggleColorMode}
     >
       {isDark ? (
         <svg
@@ -202,40 +211,3 @@ export default function ModeSwitch(): React.ReactElement {
   );
 }
 
-// This is based off a codepen! Much appreciated to: https://codepen.io/aaroniker/pen/KGpXZo
-const MoonMask = function ({ isDark }) {
-  return (
-    <div
-      className={classNames(themeButtonStyle['moon-mask'], {
-        [themeButtonStyle['moon-mask-dark']]: isDark,
-      })}
-    />
-  );
-};
-
-// This is based off a codepen! Much appreciated to: https://codepen.io/aaroniker/pen/KGpXZo
-const MoonOrSun = function ({ isDark }) {
-  return (
-    <div
-      className={classNames(themeButtonStyle['moon-or-sun'], {
-        [themeButtonStyle['moon-or-sun-dark']]: isDark,
-      })}
-    />
-  );
-};
-
-// bg: (theme) => theme.colors.white.default,
-// border: (theme) => `${isDark ? '4px' : '2px'} solid ${theme.colors.white.default}`,
-// '&::before': {
-//   border: (theme) => `2px solid ${theme.colors.white.default}`,
-// },
-// '&::after': {
-//   boxShadow: (theme) => `0 -23px 0 ${theme.colors.white.default},
-//   0 23px 0 ${theme.colors.white.default},
-//   23px 0 0 ${theme.colors.white.default},
-//   -23px 0 0 ${theme.colors.white.default},
-//   15px 15px 0 ${theme.colors.white.default},
-//   -15px 15px 0 ${theme.colors.white.default},
-//   15px -15px 0 ${theme.colors.white.default},
-//   -15px -15px 0 ${theme.colors.white.default}`,
-// },

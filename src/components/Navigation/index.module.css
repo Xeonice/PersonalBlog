@@ -1,7 +1,12 @@
 .separator {
-  @apply inline-block mx-2 text-silver-default text-base md:mx-3 md:text-lg;
+  @apply inline-block mx-2 text-base md:mx-3 md:text-lg;
+  color: var(--text-secondary);
 }
 
 .menuItem {
   @apply text-base font-bold md:text-lg flex items-center;
+}
+
+.inactiveLink {
+  color: var(--text-secondary) !important;
 }
