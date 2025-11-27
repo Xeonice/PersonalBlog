@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useTrail, animated } from 'react-spring';
+import { useTrail, animated } from '@react-spring/web';
 
 const config = { mass: 20, tension: 2000, friction: 400 };
 
