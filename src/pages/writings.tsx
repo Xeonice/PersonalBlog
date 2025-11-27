@@ -26,11 +26,11 @@ const Writings: React.FunctionComponent<{ allPostsData: any }> = function ({
       <section className={writingStyle.container}>
         <Paragraph>
           在大二开始的 Blog 折腾生涯中，我已经更换了好几个 Blog 系统，如 Ghost /
-          WordPress / Hexo / Gatsby 之类的。现在的站点由 Gatsby 迁移到 next.js，折腾才是人类第一生产力
+          WordPress / Hexo / Gatsby 之类的。现在的站点由 Gatsby 迁移到
+          next.js，折腾才是人类第一生产力
         </Paragraph>
         <Paragraph>
-          我平日的一大爱好就是折腾一些小工具，尤其是那种能提升日常开发效率，从而提升摸鱼时间的小工具。另一大爱好就是打主机游戏，如果希望进行交流的话，可以通过以下途径找到我
-          {' '}
+          我平日的一大爱好就是折腾一些小工具，尤其是那种能提升日常开发效率，从而提升摸鱼时间的小工具。另一大爱好就是打主机游戏，如果希望进行交流的话，可以通过以下途径找到我{' '}
           <StyledLink href="https://twitter.com/_DouglasDong_" underline>
             @_DouglasDong_
           </StyledLink>

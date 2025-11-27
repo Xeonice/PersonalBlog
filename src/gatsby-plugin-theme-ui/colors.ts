@@ -8,7 +8,7 @@
 // };
 
 export interface ThemeColorType {
-  [props: string]: string | object
+  [props: string]: string | object;
 }
 
 const color: ThemeColorType = {

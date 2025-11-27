@@ -2,27 +2,27 @@ import type { ThemeColorType } from './colors';
 import colors from './colors';
 
 export interface Theme {
-  colorModeTransition: string
-  useCustomProperties: boolean
-  initialColorMode: 'dark' | 'light'
-  colors: ThemeColorType
+  colorModeTransition: string;
+  useCustomProperties: boolean;
+  initialColorMode: 'dark' | 'light';
+  colors: ThemeColorType;
   fontFamily: {
-    default: string
-    mono: string
-  }
+    default: string;
+    mono: string;
+  };
   fontSize: {
-    [propsName: string]: string
-  }
+    [propsName: string]: string;
+  };
   fontWeight: {
-    [propsName: string]: string
-  }
+    [propsName: string]: string;
+  };
   letterSpacing: {
-    [propsName: string]: string
-  }
+    [propsName: string]: string;
+  };
   spacing: {
-    [propsName: string]: string
-  }
-  breakpoints: string[]
+    [propsName: string]: string;
+  };
+  breakpoints: string[];
 }
 
 export const breakpointMap = {
@@ -40,7 +40,8 @@ export const breakpoints = Object.entries(breakpointMap).map(([key, value]) => [
   value,
 ]);
 
-const colorModeTransition = 'background 0.25s var(--ease-in-out-quad), color 0.25s var(--ease-in-out-quad)';
+const colorModeTransition =
+  'background 0.25s var(--ease-in-out-quad), color 0.25s var(--ease-in-out-quad)';
 
 const theme: Theme = {
   colorModeTransition,

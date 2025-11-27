@@ -15,7 +15,7 @@ const IndexPage = function () {
             onInit={(typewriter) => {
               typewriter
                 .typeString(
-                  'Hello，欢迎来到 Douglas 的自留地，一个持续奋斗在搬砖路上的 Web 开发',
+                  'Hello，欢迎来到 Douglas 的自留地，一个持续奋斗在搬砖路上的 Web 开发'
                 )
                 .pauseFor(1500)
                 .deleteChars(7)
