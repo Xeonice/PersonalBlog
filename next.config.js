@@ -1,8 +1,13 @@
 // 目前 next.js 的 tailwindcss 下，cssModule 编译貌似有点问题，所以先配制成这样
 module.exports = {
-  // Next.js 15 performance optimizations
+  // Next.js 16 Turbopack configuration
+  turbopack: {
+    // Empty config to use default Turbopack behavior
+    // Custom CSS module configuration will be handled differently in future
+  },
+  // Next.js 16 performance optimizations
   experimental: {
-    // Enable optimizing server components (stable in Next.js 15)
+    // Enable optimizing server components (stable in Next.js 16)
     optimizeServerReact: true,
   },
   webpack: (config) => {
