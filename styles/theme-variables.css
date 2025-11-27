@@ -1,0 +1,80 @@
+/* CSS变量主题系统 - 基于现有设计令牌 */
+
+:root {
+  /* 背景色系 */
+  --bg-primary: #eee;           /* white-default - 主背景色 */
+  --bg-secondary: #f5f5f5;      /* white-darker - 次级背景色 */
+  --bg-tertiary: #e9e9e9;       /* white-light - 第三级背景色 */
+  --bg-lighter: #d5d5d5;        /* white-lighter - 更浅的背景色 */
+  --bg-lightest: #bababa;       /* white-lightest - 最浅背景色 */
+
+  /* 文字色系 */
+  --text-primary: #111;         /* black-default - 主文字色 */
+  --text-secondary: #878787;    /* silver-default - 次级文字色 */
+  --text-muted: #555;          /* gray-darkest - 静音文字色 */
+  --text-lighter: #989898;     /* gray-darker - 较浅文字色 */
+  --text-light: #787878;       /* gray-default - 浅文字色 */
+
+  /* 强调和装饰色系 */
+  --color-blue: #8DB6DE;
+  --color-cyan: #2BB6C9;
+
+  /* 边框和分割线 */
+  --border-color: #e2e8f0;
+  --divider-color: #d5d5d5;
+
+  /* 状态和交互色 */
+  --link-color: var(--text-primary);
+  --link-hover-color: var(--color-blue);
+
+  /* 阴影和透明度 */
+  --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --opacity-muted: 0.6;
+  --opacity-disabled: 0.4;
+}
+
+/* 深色主题变量 */
+[data-theme="dark"] {
+  /* 背景色系 */
+  --bg-primary: #111;           /* black-default - 主背景色 */
+  --bg-secondary: #161616;      /* black-light - 次级背景色 */
+  --bg-tertiary: #2a2a2a;       /* black-lighter - 第三级背景色 */
+  --bg-lighter: #454545;        /* black-lightest - 更浅的背景色 */
+  --bg-lightest: #676767;       /* silver-darker - 最浅背景色 */
+
+  /* 文字色系 */
+  --text-primary: #eee;         /* white-default - 主文字色 */
+  --text-secondary: #878787;    /* silver-default - 次级文字色 */
+  --text-muted: #aaa;          /* silver-darkest - 静音文字色 */
+  --text-lighter: #676767;     /* silver-darker - 较浅文字色 */
+  --text-light: #555;          /* gray-darkest (在深色模式下反转) */
+
+  /* 边框和分割线 */
+  --border-color: #454545;     /* black-lightest */
+  --divider-color: #2a2a2a;    /* black-lighter */
+
+  /* 阴影在深色模式下调整 */
+  --shadow-light: 0 1px 3px rgba(255, 255, 255, 0.1);
+  --shadow-medium: 0 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+/* 平滑过渡动画 */
+* {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    opacity 0.3s ease;
+}
+
+/* 为了向后兼容，保留一些常用的工具类 */
+.bg-primary { background-color: var(--bg-primary); }
+.bg-secondary { background-color: var(--bg-secondary); }
+.bg-tertiary { background-color: var(--bg-tertiary); }
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+
+.border-default { border-color: var(--border-color); }

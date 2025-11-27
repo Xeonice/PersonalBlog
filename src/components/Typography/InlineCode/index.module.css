@@ -1,3 +1,5 @@
 .Wrapper {
-  @apply text-base mb-8 bg-gray-default dark:bg-silver-default text-black-default dark:text-white-default;
+  @apply text-base mb-8;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
 }

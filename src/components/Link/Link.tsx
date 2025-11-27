@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import classnames from 'classnames';
 import Link from 'next/link';
+import styles from './index.module.css';
 
 export type LinkProps = {
   className?: string;
@@ -23,10 +24,10 @@ const StyledLink: React.FunctionComponent<LinkProps> = function ({
       href={href}
       className={classnames(
         className,
+        styles.link,
         {
-          'text-black-default dark:text-white-default': !inActive,
-          'text-gray-default dark:text-silver-default': inActive,
-          underline,
+          [styles.linkInactive]: inActive,
+          [styles.linkUnderline]: underline,
         },
       )}
     >

@@ -1,4 +1,3 @@
-/** @jsxImportSource theme-ui */
 import * as React from 'react';
 import Typewriter from 'typewriter-effect';
 

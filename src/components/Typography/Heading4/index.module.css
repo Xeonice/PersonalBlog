@@ -1,3 +1,4 @@
 .Wrapper {
-  @apply text-xs font-normal leading-10 text-black-default dark:text-white-default tracking-widest;
+  @apply text-xs font-normal leading-10 tracking-widest;
+  color: var(--text-primary);
 }
