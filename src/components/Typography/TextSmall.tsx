@@ -4,6 +4,7 @@ import * as React from 'react';
 export type TextSmallProps = {
   color?: string;
   className: string;
+  children?: React.ReactNode;
 }
 
 const TextSmall: React.FunctionComponent<TextSmallProps> = function (props) {

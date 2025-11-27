@@ -8,6 +8,7 @@ export type LinkProps = {
   underline?: boolean;
   href: string;
   inActive?: boolean;
+  children?: React.ReactNode;
 };
 
 const StyledLink: React.FunctionComponent<LinkProps> = function ({
@@ -18,20 +19,18 @@ const StyledLink: React.FunctionComponent<LinkProps> = function ({
   inActive = false,
 }) {
   return (
-    <Link href={href} passHref>
-      <a
-        href="replace"
-        className={classnames(
-          className,
-          {
-            'text-black-default dark:text-white-default': !inActive,
-            'text-gray-default dark:text-silver-default': inActive,
-            underline,
-          },
-        )}
-      >
-        {children}
-      </a>
+    <Link
+      href={href}
+      className={classnames(
+        className,
+        {
+          'text-black-default dark:text-white-default': !inActive,
+          'text-gray-default dark:text-silver-default': inActive,
+          underline,
+        },
+      )}
+    >
+      {children}
     </Link>
   );
 };

@@ -24,12 +24,12 @@ const Subtitle = function ({ children }) {
   );
 };
 
-type ItemType = React.FunctionComponent<{ subtitle?: string; link: string }>;
+type ItemType = React.FunctionComponent<{ subtitle?: string; link: string; children?: React.ReactNode }>;
 
 const Item: ItemType = function ({ children, subtitle, link }) {
   return (
     <Title subtitle={subtitle}>
-      <Link href={link} passHref>
+      <Link href={link}>
         {children}
       </Link>
       {subtitle && <Subtitle>{subtitle}</Subtitle>}
@@ -37,7 +37,7 @@ const Item: ItemType = function ({ children, subtitle, link }) {
   );
 };
 
-interface ListType extends React.FunctionComponent<{ title?: string }> {
+interface ListType extends React.FunctionComponent<{ title?: string; children?: React.ReactNode }> {
   Item: ItemType;
 }
 

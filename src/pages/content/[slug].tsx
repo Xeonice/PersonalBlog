@@ -131,11 +131,14 @@ export default function mdx({ frontMatter, date, mdxSource }) {
         <section className={slugStyle.thumbContainer}>
           {frontMatter.image && (
             <Img
-              layout="responsive"
               src={frontMatter.image}
               alt="thumbnail"
               width={640}
               height={375}
+              style={{
+                width: '100%',
+                height: 'auto',
+              }}
             />
           )}
         </section>

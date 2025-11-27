@@ -3,7 +3,7 @@ import { useTrail, animated } from 'react-spring';
 
 const config = { mass: 20, tension: 2000, friction: 400 };
 
-const AnimeContainer: React.FunctionComponent<{ toggle: boolean }> = function ({ toggle, children }) {
+const AnimeContainer: React.FunctionComponent<{ toggle: boolean; children: React.ReactNode[] }> = function ({ toggle, children }) {
   const trail = useTrail(React.Children.count(children), {
     config,
     opacity: toggle ? 1 : 0,
