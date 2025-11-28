@@ -1,0 +1,81 @@
+.anchorNav {
+  margin-top: 2rem;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navListItem {
+  margin: 0;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.navItem:hover {
+  transform: none;
+}
+
+.navItem.active {
+  transform: none;
+}
+
+.indicator {
+  height: 1px;
+  border-radius: 2px;
+  background: var(--color-primary);
+  display: block;
+}
+
+.label {
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .anchorNav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .navItem {
+    gap: 0.5rem;
+  }
+
+  .label {
+    opacity: 1;
+    transform: translateX(0);
+    font-size: 0.75rem;
+  }
+
+  .indicator {
+    height: 1px;
+  }
+}
+
+/* 无障碍支持 */
+@media (prefers-reduced-motion: reduce) {
+  .indicator,
+  .label,
+  .navItem {
+    transition: none;
+  }
+}

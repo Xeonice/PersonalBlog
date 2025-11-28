@@ -1,0 +1,50 @@
+/* SectionMotion 组件样式 */
+
+.sectionMotion {
+  position: relative;
+  scroll-margin-top: 80px; /* 为固定导航栏留出空间 */
+  padding: 2rem 0;
+  will-change: transform, opacity;
+}
+
+/* 方向特定样式 */
+.up {
+  transform-origin: bottom center;
+}
+
+.down {
+  transform-origin: top center;
+}
+
+.left {
+  transform-origin: center right;
+}
+
+.right {
+  transform-origin: center left;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .sectionMotion {
+    padding: 1.5rem 0;
+    scroll-margin-top: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sectionMotion {
+    padding: 1rem 0;
+    scroll-margin-top: 50px;
+  }
+}
+
+/* 无障碍支持 - 用户偏好减少动画 */
+@media (prefers-reduced-motion: reduce) {
+  .sectionMotion {
+    transform: none !important;
+    opacity: 1 !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}

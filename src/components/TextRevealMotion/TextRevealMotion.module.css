@@ -1,0 +1,97 @@
+/* TextRevealMotion 组件样式 */
+
+.textReveal {
+  overflow: hidden;
+  will-change: transform, opacity, clip-path;
+}
+
+/* Overlay 变体 - 基础淡入上移 */
+.overlay {
+  transform-origin: bottom;
+}
+
+/* ClipPath 变体 - 裁剪路径动画 */
+.clipPath {
+  position: relative;
+}
+
+.clipPath::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-primary);
+  z-index: -1;
+  opacity: 0.1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.clipPath:hover::before {
+  transform: scaleX(1);
+}
+
+/* Advanced 变体 - 3D 旋转效果 */
+.advanced {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* Wipe 变体 - 水平滑入效果 */
+.wipe {
+  position: relative;
+  overflow: hidden;
+}
+
+.wipe::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-primary),
+    transparent
+  );
+  opacity: 0.3;
+  animation: wipeShine 2s ease-in-out;
+  animation-delay: 0.5s;
+}
+
+@keyframes wipeShine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .textReveal {
+    font-size: 0.9em;
+  }
+}
+
+/* 无障碍支持 - 用户偏好减少动画 */
+@media (prefers-reduced-motion: reduce) {
+  .textReveal {
+    animation: none !important;
+    transition: opacity 0.3s ease !important;
+  }
+
+  .wipe::after {
+    animation: none;
+  }
+
+  .clipPath::before {
+    transition: none;
+  }
+}

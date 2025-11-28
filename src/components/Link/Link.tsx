@@ -10,6 +10,8 @@ export type LinkProps = {
   href: string;
   inActive?: boolean;
   children?: React.ReactNode;
+  onClick?: (e: React.MouseEvent) => void;
+  'aria-label'?: string;
 };
 
 const StyledLink: React.FunctionComponent<LinkProps> = function ({
@@ -18,10 +20,13 @@ const StyledLink: React.FunctionComponent<LinkProps> = function ({
   className = '',
   underline = false,
   inActive = false,
+  onClick,
+  ...props
 }) {
   return (
     <Link
       href={href}
+      onClick={onClick}
       className={classnames(
         className,
         styles.link,
@@ -30,6 +35,7 @@ const StyledLink: React.FunctionComponent<LinkProps> = function ({
           [styles.linkUnderline]: underline,
         },
       )}
+      {...props}
     >
       {children}
     </Link>
