@@ -14,6 +14,9 @@
     "@mdx-js/loader": "^3.1.0",
     "@next/mdx": "^16.0.5",
     "@react-spring/web": "^10.0.3",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.0",
+    "@types/three": "^0.181.0",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.13",
     "framer-motion": "^12.23.24",
@@ -34,6 +37,7 @@
     "styled-components": "^6.1.13",
     "tailwindcss": "^3.4.15",
     "theme-ui": "^0.17.2",
+    "three": "^0.181.2",
     "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {

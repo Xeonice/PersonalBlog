@@ -1,146 +1,69 @@
 import React from 'react';
-import { motion, Variants, useInView, cubicBezier, Transition } from 'framer-motion';
+import { motion, useInView, cubicBezier } from 'framer-motion';
 import styles from './TextRevealMotion.module.css';
-
-export type TextRevealVariant = 'overlay' | 'clipPath' | 'advanced' | 'wipe';
 
 interface TextRevealMotionProps {
   children: React.ReactNode;
-  variant?: TextRevealVariant;
   delay?: number;
   duration?: number;
   className?: string;
   triggerOnce?: boolean;
-  threshold?: number;
+  maskColor?: string;
 }
 
-interface CustomVariants extends Variants {
-  hidden: {
-    opacity?: number;
-    y?: number;
-    x?: number;
-    clipPath?: string;
-    rotateX?: number;
-    transformPerspective?: number;
-    transition?: Transition;
-  };
-  visible: {
-    opacity?: number;
-    y?: number;
-    x?: number;
-    clipPath?: string;
-    rotateX?: number;
-    transformPerspective?: number;
-    transition?: Transition;
-  };
-}
-
-const variants: Record<TextRevealVariant, CustomVariants> = {
-  overlay: {
-    hidden: {
-      opacity: 0,
-      y: 50,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: cubicBezier(0.645, 0.045, 0.355, 1),
-      },
-    },
-  },
-  clipPath: {
-    hidden: {
-      clipPath: 'inset(0 100% 0 0)',
-    },
-    visible: {
-      clipPath: 'inset(0 0% 0 0)',
-      transition: {
-        duration: 1.2,
-        ease: cubicBezier(0.645, 0.045, 0.355, 1),
-      },
-    },
-  },
-  advanced: {
-    hidden: {
-      opacity: 0,
-      y: 75,
-      rotateX: -90,
-      transformPerspective: 1000,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      rotateX: 0,
-      transition: {
-        duration: 1,
-        ease: cubicBezier(0.215, 0.61, 0.355, 1),
-      },
-    },
-  },
-  wipe: {
-    hidden: {
-      x: -100,
-      opacity: 0,
-    },
-    visible: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        ease: cubicBezier(0.25, 0.46, 0.45, 0.94),
-      },
-    },
-  },
-};
-
+/**
+ * 文字揭示动画组件 - 高级组合效果
+ * 效果：遮罩向右滑出 + 文字淡入上移
+ */
 const TextRevealMotion: React.FC<TextRevealMotionProps> = ({
   children,
-  variant = 'overlay',
   delay = 0,
-  duration,
+  duration = 0.7,
   className = '',
   triggerOnce = true,
-  threshold = 0.1,
+  maskColor = 'var(--text-primary)',
 }) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, {
     once: triggerOnce,
-    amount: threshold
+    amount: 'some',
+    margin: '50px 0px 0px 0px',
   });
 
-  const selectedVariants = React.useMemo((): CustomVariants => {
-    const baseVariants = variants[variant];
-
-    if (duration || delay) {
-      const baseTransition = baseVariants.visible.transition || {};
-      return {
-        hidden: baseVariants.hidden,
-        visible: {
-          ...baseVariants.visible,
-          transition: {
-            ...baseTransition,
-            ...(duration && { duration }),
-            ...(delay && { delay }),
-          },
-        },
-      };
-    }
-
-    return baseVariants;
-  }, [variant, duration, delay]);
+  // 动画曲线
+  const easing = cubicBezier(0.65, 0, 0.35, 1);
 
   return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-      variants={selectedVariants}
-      className={`${styles.textReveal} ${styles[variant]} ${className}`}
-    >
-      {children}
-    </motion.div>
+    <div ref={ref} className={`${styles.wrapper} ${className}`}>
+      <div className={styles.container}>
+        {/* 文字内容 - 淡入 + 上移 */}
+        <motion.div
+          className={styles.textContent}
+          initial={{ opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+          transition={{
+            duration: duration * 0.85,
+            delay: delay + duration * 0.2,
+            ease: easing,
+          }}
+        >
+          {children}
+        </motion.div>
+
+        {/* 遮罩块 - 向右滑出 */}
+        <motion.div
+          className={styles.mask}
+          style={{ backgroundColor: maskColor }}
+          initial={{ x: 0 }}
+          animate={isInView ? { x: '100%' } : { x: 0 }}
+          transition={{
+            duration: duration,
+            delay: delay,
+            ease: easing,
+          }}
+        />
+      </div>
+    </div>
   );
 };
 

@@ -85,15 +85,15 @@ const IndexPage: React.FC = function () {
         >
           <div className={indexStyle.personalInfo}>
             <div className={indexStyle.mainContent}>
-              <TextRevealMotion variant="overlay" delay={0.1}>
+              <TextRevealMotion delay={0.2} duration={0.7}>
                 <h1 className={indexStyle.name}>Douglas</h1>
               </TextRevealMotion>
 
-              <TextRevealMotion variant="clipPath" delay={0.3}>
+              <TextRevealMotion delay={0.5} duration={0.7}>
                 <h2 className={indexStyle.title}>产品工程师</h2>
               </TextRevealMotion>
 
-              <TextRevealMotion variant="wipe" delay={0.5}>
+              <TextRevealMotion delay={0.8} duration={0.7}>
                 <p className={indexStyle.description}>
                   欢迎来到 Douglas 的自留地，一个持续奋斗在搬砖路上的产品工程师。
                 </p>
