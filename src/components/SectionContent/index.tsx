@@ -391,7 +391,7 @@ const ListContent: React.FC<{
                   skipToEnd={skipCurrentText}
                 />
               </h4>
-              <div style={{ minHeight: '1.5em', marginTop: '0.5rem' }}>
+              <div className={styles.listDescription} style={{ minHeight: '1.5em', marginTop: '0.5rem' }}>
                 {titleCompleted && (
                   <TypewriterText
                     text={item.description}
@@ -681,17 +681,19 @@ const ContactContent: React.FC<{
                 ) : currentTextIndex === methodIndex ? (
                   // 当前正在播放的动画
                   <div className={styles.contactCardText}>
-                    <TypewriterText
-                      text={contactInfo.description}
-                      delay={0}
-                      speed={30}
-                      onComplete={() => {
-                        setTimeout(() => {
-                          onTextComplete?.();
-                        }, 500);
-                      }}
-                      skipToEnd={skipCurrentText}
-                    />
+                    <p className={styles.contactCardDescription}>
+                      <TypewriterText
+                        text={contactInfo.description}
+                        delay={0}
+                        speed={30}
+                        onComplete={() => {
+                          setTimeout(() => {
+                            onTextComplete?.();
+                          }, 500);
+                        }}
+                        skipToEnd={skipCurrentText}
+                      />
+                    </p>
                   </div>
                 ) : null}
               </div>

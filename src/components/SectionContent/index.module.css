@@ -25,9 +25,9 @@
 }
 
 .completedText {
-  font-size: 1rem;
-  line-height: 1.8;
-  color: var(--text-primary);
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
   opacity: 0.9;
 }
 
@@ -329,6 +329,25 @@
   margin: 0 0 0.5rem 0;
 }
 
+.listTitle * {
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+.listDescription {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.listDescription * {
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
 .listItem .typewriter-text {
   color: var(--text-primary);
   line-height: 1.6;
@@ -351,6 +370,15 @@
 
 .contactDesc {
   margin-bottom: 2rem;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  line-height: 1.7;
+}
+
+.contactDesc * {
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
 }
 
 .contactDesc .typewriter-text {
@@ -433,6 +461,12 @@
   opacity: 0.8;
 }
 
+.contactCardDescription * {
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
 .contactCardAction {
   font-size: 0.95rem;
   color: var(--text-secondary);
@@ -465,6 +499,12 @@
   color: var(--text-secondary);
   line-height: 1.7;
   margin-bottom: 1rem;
+}
+
+.articlesDescription * {
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
 }
 
 .articlesGrid {
@@ -577,6 +617,14 @@
   font-size: 1.2rem;
   font-weight: 700;
   line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.articleTitle * {
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  line-height: inherit;
 }
 
 .articleTitle .typewriter-text {
