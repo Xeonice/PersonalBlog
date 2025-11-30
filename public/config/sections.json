@@ -26,10 +26,11 @@
       "type": "text",
       "content": {
         "paragraphs": [
-          "我是 Douglas，一个目前工作与生活在杭州的 Web 开发，虽然立足于前端岗位，但我的个人视野从不局限于前端，同样也会聚焦于后端 / Devops / 抑或是产品 / UI。",
+          "我是 Douglas，一个目前工作与生活在合肥的 Web 开发，虽然立足于前端岗位，但我的个人视野从不局限于前端，同样也会聚焦于后端 / Devops / 抑或是产品 / UI。",
           "开设这片自留地的主要原因在于，我希望在一个远离 gfw 的地方描述与记录一些自己的个人想法，同时不必因为一些 '不可名状的原因' 被迫自我阉割。因此，这里的记录可能并不仅限于开发，也可能会有一些除研发以外的随想。",
-          "最近执行 Lowcode 期间，对于业务本身的思考越来越多，因为 Blog 中的大部分文章可能都在讲一些自己执行期间遇到的问题和思考，所以废话会多一点（对技术流来说）。",
-          "我一直坚信一点，分享知识是巩固 / 获取新知识的最好方法。因此我会定期记录一些日常开发中解决问题的方法供各位参考。同样的，我热衷于为开源事业作出自己的一份贡献，如果有优质开源项目需要贡献人手，欢迎随时与我联系。"
+          "我的行文风格一直倾向于意识流，因此，我的文章风格并不是完全的技术流派，而会在其中掺杂一些自己的理解与思考。",
+          "在过去的 6 年间，我一直在做 B 端低代码相关的各类开发与实践，直至 25 年的被动工作变动，才开始接触 C 端产品相关的开发迭代工作。虽然「低代码」已经不再被资本重视，但这个领域所积累的研发经验却被我一直沿用至今。",
+          "分享知识是巩固 / 获取新知识的最好方法。因此我会定期记录一些日常开发中解决问题的方法供各位参考。同样的，我也正在着力于沉淀一些开发资产至 Github 以共建开源社区，有兴趣的同学可以通过联系方式与我联系。"
         ]
       }
     },
@@ -40,71 +41,247 @@
       "content": {
         "items": [
           {
-            "period": "2023 - 至今",
-            "title": "产品工程师",
-            "company": "某科技公司",
-            "companyUrl": "#",
-            "location": "杭州",
-            "description": "负责前端架构设计、产品功能开发以及技术选型，带领团队完成多个核心产品的研发，提升用户体验和开发效率。",
+            "period": "2025.05 - 至今",
+            "title": "讯飞智文前端负责人",
+            "company": "科大讯飞",
+            "companyUrl": "https://zhiwen.xfyun.cn",
+            "location": "合肥",
+            "description": "负责 PPTX 全流程（导入、在线编辑、导出）全链路设计及优化，推动智能文档产品的技术创新和用户体验优化。",
             "achievements": [
-              "主导公司核心产品的前端架构重构，性能提升 40%",
-              "建立组件库和设计系统，提高团队开发效率",
-              "负责技术选型和团队培训，推动新技术在项目中的落地"
+              "主导 PPTX 全流程技术架构设计和实现",
+              "负责前端团队建设和技术培训",
+              "推动AI+文档领域的前端技术创新"
             ],
-            "technologies": ["React", "Next.js", "TypeScript", "Node.js", "GraphQL", "AWS"]
+            "technologies": [
+              "React",
+              "TypeScript",
+              "PPTX解析",
+              "在线编辑器",
+              "文档导入导出",
+              "Node.js"
+            ]
           },
           {
-            "period": "2021 - 2023",
-            "title": "高级前端开发工程师",
-            "company": "互联网公司",
-            "companyUrl": "#",
-            "location": "杭州",
-            "description": "参与多个大型项目的前端开发，负责用户界面实现与优化，专注于提升产品的交互体验和性能表现。",
+            "period": "2022.09 - 2025.03",
+            "title": "供应链前端核心研发 | 低代码引擎核心研发",
+            "company": "蔚来汽车",
+            "companyUrl": "https://www.nio.cn/",
+            "location": "上海",
+            "description": "负责蔚来汽车供应链系统的前端开发和低代码平台的核心研发工作，提升业务系统的开发效率和用户体验。",
             "achievements": [
-              "开发和维护公司主要产品的前端应用",
-              "优化页面加载性能，首屏时间减少 60%",
-              "参与移动端 H5 和小程序开发，覆盖百万用户"
+              "主导供应链核心系统的前端架构设计",
+              "参与低代码引擎的核心功能研发",
+              "优化供应链业务流程的数字化体验"
             ],
-            "technologies": ["Vue.js", "React", "JavaScript", "SCSS", "Webpack", "微信小程序"]
+            "technologies": [
+              "React",
+              "Vue.js",
+              "低代码平台",
+              "供应链系统",
+              "TypeScript",
+              "微前端"
+            ]
           },
           {
-            "period": "2019 - 2021",
-            "title": "前端开发工程师",
-            "company": "创业公司",
-            "companyUrl": "#",
+            "period": "2020.11 - 2022.09",
+            "title": "云凤蝶开发",
+            "company": "蚂蚁金服",
+            "companyUrl": "https://www.antgroup.com/",
             "location": "杭州",
-            "description": "在快速发展的创业环境中，从零到一参与产品的前端开发，积累了丰富的全栈开发经验。",
+            "description": "参与阿里巴巴云凤蝶可视化建站平台的开发工作，负责拖拽式页面搭建和组件系统的实现。",
             "achievements": [
-              "独立完成公司官网和管理后台的开发",
-              "参与产品需求分析和技术方案设计",
-              "建立前端开发规范和工作流程"
+              "参与云凤蝶核心功能的开发和优化",
+              "实现拖拽式页面搭建的核心交互",
+              "开发和维护可视化编辑器组件库"
             ],
-            "technologies": ["jQuery", "Bootstrap", "HTML5", "CSS3", "PHP", "MySQL"]
+            "technologies": [
+              "React",
+              "TypeScript",
+              "可视化编辑器",
+              "组件系统",
+              "拖拽交互",
+              "Webpack"
+            ]
+          },
+          {
+            "period": "2018.09 - 2020.11",
+            "title": "飞搭前端负责人",
+            "company": "上海汉得",
+            "companyUrl": "https://www.hand-china.com/",
+            "location": "上海",
+            "description": "负责汉得飞搭低代码平台的前端团队管理和技术架构，推动企业级低代码解决方案的产品化。",
+            "achievements": [
+              "建立飞搭前端团队和开发规范",
+              "设计企业级低代码平台的前端架构",
+              "推动低代码平台在企业客户中的落地应用"
+            ],
+            "technologies": [
+              "Vue.js",
+              "JavaScript",
+              "低代码平台",
+              "企业级应用",
+              "组件库",
+              "团队管理"
+            ]
           }
         ]
       }
     },
     "principles": {
       "id": "principles",
-      "title": "原则",
+      "title": "个人准则",
       "type": "list",
       "content": {
+        "description": [
+          "熟悉我的人都清楚，我拥有一套特殊的行事准则，这套准则本身极其理想化，代表着我个人行事所蕴含的信念（亦或者说是个人风格）。",
+          "以下行为准则会随着时间变动而更新（绝不会做出任何删减）"
+        ],
         "items": [
           {
-            "title": "技术为本",
-            "description": "持续学习新技术，保持技术敏感度"
+            "title": "能力源于自身，而非外在头衔",
+            "description": "因为你牛逼，所以阿里工程师才牛逼，而不是因为阿里工程师牛逼，所以你牛逼。"
           },
           {
-            "title": "用户至上",
-            "description": "始终从用户角度思考产品设计与实现"
+            "title": "物质利益不是行事的基础",
+            "description": "可以包含，但不能作为基础，这往往是最脆弱的支柱。"
           },
           {
-            "title": "开源精神",
-            "description": "积极参与开源社区，分享知识与经验"
+            "title": "永远有比 KPI 更重要的事",
+            "description": "不要为了 KPI / Title 去刻意的做某些事情。"
           },
           {
-            "title": "持续改进",
-            "description": "不断反思与优化工作流程和方法"
+            "title": "三分人事，七分天命",
+            "description": "涉及物质利益的部分不能过于强求。"
+          },
+          {
+            "title": "用户要的不一定是需要的",
+            "description": "如同福特的那匹更快的马，深度发掘有时是必要的。"
+          },
+          {
+            "title": "妥协≠放弃，保留≠浪费",
+            "description": "出现废案的可能性多种多样，保留它们，未来的某一天说不定会用上。"
+          },
+          {
+            "title": "敬畏成熟，警惕傲慢",
+            "description": "业内稳定存在五至十年以上的产品，存在必合理，傲慢是生存最大的敌人。"
+          },
+          {
+            "title": "平等谦卑，发掘潜力",
+            "description": "每个人都拥有其对应的潜力，发掘并合理引导它们，心态才是决定个人实力的最大因素。"
+          }
+        ]
+      }
+    },
+    "article-links": {
+      "id": "article-links",
+      "title": "文章",
+      "type": "articles",
+      "content": {
+        "description": "记录一些技术思考、项目经验和个人见解。",
+        "articles": [
+          {
+            "year": "2025",
+            "title": "何意味？——关于 Vibe Coding 的一些观察",
+            "description": "探讨现代编程模式的变化，以及 Vibe Coding 在开发体验中的意义和价值。",
+            "link": "https://zhuanlan.zhihu.com/p/1974625646819947351",
+            "image": "https://a1f14yslixes7la8.public.blob.vercel-storage.com/articles/1974625646819947351",
+            "tags": ["编程思维", "开发体验", "技术观察"]
+          },
+          {
+            "year": "2025",
+            "title": "Imagine With Claude：B端软件交付的一次范式探索",
+            "description": "对于 Claude 新功能提出的新交互范式探究，探索 AI 大模型在企业级应用中的可能性。",
+            "link": "https://zhuanlan.zhihu.com/p/1956401276309997146",
+            "image": "https://a1f14yslixes7la8.public.blob.vercel-storage.com/articles/1956401276309997146",
+            "tags": ["AI编程", "B端软件", "Claude", "软件交付"]
+          },
+          {
+            "year": "2025",
+            "title": "如何借助 LLM 书写生产级可用的 PPTX 解析服务",
+            "description": "用2个月时间独立开发PPTX解析服务的完整实践，深入OpenXML规范与领域驱动设计。",
+            "link": "https://zhuanlan.zhihu.com/p/1955635417417253568",
+            "image": "https://a1f14yslixes7la8.public.blob.vercel-storage.com/articles/1955635417417253568",
+            "tags": ["LLM", "解析服务", "OpenXML", "架构设计"]
+          },
+          {
+            "year": "2025",
+            "title": "如何做好一场分享？",
+            "description": "从分享能力的重要性到技巧实践，探讨如何构建有效的技术分享框架。",
+            "link": "https://zhuanlan.zhihu.com/p/1927420217681745736",
+            "image": "https://a1f14yslixes7la8.public.blob.vercel-storage.com/articles/1927420217681745736",
+            "tags": ["技术分享", "表达能力", "职业发展"]
+          },
+          {
+            "year": "2025",
+            "title": "2025 求职记 —— 零和游戏下的求生准则",
+            "description": "中厂被裁后2.5个月的求职历程，分享前端市场现状和面试策略思考。",
+            "link": "https://zhuanlan.zhihu.com/p/1907547250424512982",
+            "image": "https://a1f14yslixes7la8.public.blob.vercel-storage.com/articles/1907547250424512982",
+            "tags": ["求职经验", "面试技巧", "职场思考", "前端"]
+          },
+          {
+            "year": "2025",
+            "title": "从零开始的 Galgame 制作生活 - 第二章【数据存储】",
+            "description": "详细介绍 Galgame 开发中的数据存储方案，包括存档系统和配置管理。",
+            "link": "https://zhuanlan.zhihu.com/p/1892273877343793496",
+            "image": "https://a1f14yslixes7la8.public.blob.vercel-storage.com/articles/1892273877343793496",
+            "tags": ["游戏开发", "数据存储", "存档系统", "Galgame"]
+          },
+          {
+            "year": "2025",
+            "title": "从零开始的 Galgame 制作生活 ——第一章【架构设计】",
+            "description": "深入讲解 Galgame 开发中的技术架构设计，涵盖引擎选择和系统搭建。",
+            "link": "https://zhuanlan.zhihu.com/p/1884408994375894316",
+            "image": "https://a1f14yslixes7la8.public.blob.vercel-storage.com/articles/1884408994375894316",
+            "tags": ["游戏开发", "架构设计", "技术选型", "Galgame"]
+          },
+          {
+            "year": "2025",
+            "title": "从零开始的 Galgame 制作生活 —— 序章【剧本】",
+            "description": "探索游戏剧本创作的基础知识和实践方法，为独立游戏开发者提供入门指导。",
+            "link": "https://zhuanlan.zhihu.com/p/30079612696",
+            "image": "https://a1f14yslixes7la8.public.blob.vercel-storage.com/articles/30079612696",
+            "tags": ["游戏开发", "剧本创作", "独立游戏", "Galgame"]
+          },
+          {
+            "year": "2025",
+            "title": "互联网制造业企业两年间的 Lowcode 实践记录",
+            "description": "记录两年半在制造业企业的低代码平台实践历程，分享低代码落地的挑战与思考。",
+            "link": "https://zhuanlan.zhihu.com/p/29321490273",
+            "image": "https://a1f14yslixes7la8.public.blob.vercel-storage.com/articles/29321490273",
+            "tags": ["低代码", "企业实践", "制造业", "供应链系统"]
+          },
+          {
+            "year": "2025",
+            "title": "如何让你的 Cursor 订阅值回票价",
+            "description": "分享如何最大化利用 Cursor AI 编程工具的价值，让订阅费用物有所值的实用技巧。",
+            "link": "https://zhuanlan.zhihu.com/p/20179765268",
+            "image": "https://a1f14yslixes7la8.public.blob.vercel-storage.com/articles/20179765268",
+            "tags": ["AI编程", "Cursor", "效率工具", "订阅服务"]
+          },
+          {
+            "year": "2025",
+            "title": "2024 年度总结",
+            "description": "2024年个人成长回顾：从海外巡演到语言学习，从业务回归到财务自由的年度思考。",
+            "link": "https://zhuanlan.zhihu.com/p/15757504623",
+            "image": "https://a1f14yslixes7la8.public.blob.vercel-storage.com/articles/15757504623",
+            "tags": ["年度总结", "个人成长", "职业发展", "日语学习"]
+          },
+          {
+            "year": "2023",
+            "title": "Lowcode 迷思",
+            "description": "基于四年低代码从业经验的深度思考，揭示低代码平台设计和实施中的常见误区。",
+            "link": "https://zhuanlan.zhihu.com/p/678008294",
+            "image": "https://a1f14yslixes7la8.public.blob.vercel-storage.com/articles/678008294",
+            "tags": ["低代码", "产品设计", "技术思考", "平台架构"]
+          },
+          {
+            "year": "2021",
+            "title": "低门槛游戏制作工具漫谈（第一节） -- 任天堂《Game Builder Garage》",
+            "description": "从低代码平台的角度分析任天堂游戏制作工具，探索降低创作门槛的设计思路。",
+            "link": "https://zhuanlan.zhihu.com/p/387971740",
+            "image": "https://a1f14yslixes7la8.public.blob.vercel-storage.com/articles/387971740",
+            "tags": ["游戏开发", "低代码", "工具设计", "任天堂"]
           }
         ]
       }
@@ -141,7 +318,8 @@
   "navigation": [
     { "id": "about", "label": "关于我" },
     { "id": "experience", "label": "经历" },
-    { "id": "principles", "label": "原则" },
+    { "id": "principles", "label": "个人准则" },
+    { "id": "article-links", "label": "文章" },
     { "id": "contact", "label": "联系" }
   ]
 }

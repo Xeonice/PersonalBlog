@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -12,7 +12,7 @@ import styles from './index.module.css';
 interface SectionData {
   id: string;
   title: string;
-  type: 'text' | 'timeline' | 'list' | 'contact';
+  type: 'text' | 'timeline' | 'list' | 'contact' | 'articles';
   content: any;
 }
 
@@ -25,6 +25,8 @@ interface SectionContentProps {
   onTextComplete?: () => void;
   isHomepage?: boolean;
   scrollContainerRef?: React.RefObject<HTMLDivElement>;
+  // 通知上层组件是否使用滚动模式
+  onScrollModeChange?: (useScrollMode: boolean) => void;
 }
 
 // 获取联系方式的图标和信息
@@ -155,7 +157,7 @@ const TimelineContent: React.FC<{
                 <h3 className={styles.timelineTitle}>
                   {item.title}
                   {item.companyUrl && item.companyUrl !== '#' ? (
-                    <StyledLink href={item.companyUrl} className={styles.companyLink}>
+                    <StyledLink href={item.companyUrl} className={styles.companyLink} target="_blank" rel="noopener noreferrer" onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}>
                       <span className={styles.atSymbol}>·</span>
                       <span className={styles.companyName}>{item.company}</span>
                       <svg
@@ -257,6 +259,7 @@ const TimelineItemGalgame: React.FC<{
         ease: "easeOut",
         delay: isInView ? index * 0.1 : 0  // 只在可见时才应用延迟
       }}
+      onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}
     >
             {/* 卡片内容保持不变 */}
             {/* 左侧：时间段 */}
@@ -272,9 +275,17 @@ const TimelineItemGalgame: React.FC<{
               {/* 职位和公司 */}
               <div className={styles.timelineHeader}>
                 <h3 className={styles.timelineTitle}>
-                  {item.title}
+                  {isInView ? (
+                    <TypewriterText
+                      text={item.title}
+                      delay={200 + index * 100}  // 根据索引错开打字机效果
+                      speed={60}
+                    />
+                  ) : (
+                    item.title
+                  )}
                   {item.companyUrl && item.companyUrl !== '#' ? (
-                    <StyledLink href={item.companyUrl} className={styles.companyLink}>
+                    <StyledLink href={item.companyUrl} className={styles.companyLink} target="_blank" rel="noopener noreferrer" onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}>
                       <span className={styles.atSymbol}>·</span>
                       <span className={styles.companyName}>{item.company}</span>
                       <svg
@@ -337,6 +348,12 @@ const ListContent: React.FC<{
   skipCurrentText?: boolean;
   onTextComplete?: () => void;
 }> = ({ content, mode, currentTextIndex = 0, skipCurrentText, onTextComplete }) => {
+  const [titleCompleted, setTitleCompleted] = useState(false);
+
+  // 重置状态当 currentTextIndex 改变时
+  useEffect(() => {
+    setTitleCompleted(false);
+  }, [currentTextIndex]);
   if (mode === 'static') {
     return (
       <div className={styles.listContent}>
@@ -356,19 +373,212 @@ const ListContent: React.FC<{
       {content.items.map((item: any, index: number) => (
         <div key={index} className={styles.listItem}>
           {currentTextIndex > index && (
-            <div className={styles.completedText}>{`${item.title}: ${item.description}`}</div>
+            <>
+              <h4 className={styles.listTitle}>{item.title}</h4>
+              <div className={styles.completedText}>{item.description}</div>
+            </>
           )}
           {currentTextIndex === index && (
+            <>
+              <h4 className={styles.listTitle}>
+                <TypewriterText
+                  text={item.title}
+                  delay={0}
+                  speed={80}
+                  onComplete={() => {
+                    setTitleCompleted(true);
+                  }}
+                  skipToEnd={skipCurrentText}
+                />
+              </h4>
+              <div style={{ minHeight: '1.5em', marginTop: '0.5rem' }}>
+                {titleCompleted && (
+                  <TypewriterText
+                    text={item.description}
+                    delay={300}
+                    speed={50}
+                    onComplete={onTextComplete}
+                    skipToEnd={skipCurrentText}
+                  />
+                )}
+              </div>
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// 文章内容渲染
+const ArticlesContent: React.FC<{
+  content: { articles: any[]; description?: string };
+  mode: 'static' | 'galgame';
+  currentTextIndex?: number;
+  skipCurrentText?: boolean;
+  onTextComplete?: () => void;
+  scrollContainerRef?: React.RefObject<HTMLDivElement>;
+}> = ({ content, mode, currentTextIndex = 0, skipCurrentText, onTextComplete, scrollContainerRef }) => {
+  if (mode === 'static') {
+    return (
+      <div className={styles.articlesContent}>
+        {content.description && (
+          <Paragraph className={styles.articlesDescription}>
+            {content.description}
+          </Paragraph>
+        )}
+        <div className={styles.articlesGrid}>
+          {content.articles.map((article, index) => (
+            <StyledLink
+              key={index}
+              href={article.link}
+              className={styles.articleCard}
+              target={article.link.startsWith('http') ? '_blank' : '_self'}
+              rel={article.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+              onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}
+            >
+              {/* 左侧图片区域 */}
+              {article.image && (
+                <div className={styles.articleImage}>
+                  <img src={article.image} alt={article.title} />
+                </div>
+              )}
+
+              <div className={styles.articleMainContent}>
+                <div className={styles.articleYear}>{article.year}</div>
+                <div className={styles.articleContent}>
+                  <h3 className={styles.articleTitle}>
+                    {article.title}
+                  </h3>
+                  <Paragraph className={styles.articleDescription}>
+                    {article.description}
+                  </Paragraph>
+                  {article.tags && (
+                    <div className={styles.articleTags}>
+                      {article.tags.map((tag: string, tagIndex: number) => (
+                        <span key={tagIndex} className={styles.articleTag}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </StyledLink>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Galgame 模式 - 基于滚动的卡片显示（使用 useInView）
+  return (
+    <div className={styles.articlesContent}>
+      {content.description && (
+        <div className={styles.articlesDescription}>
+          {currentTextIndex > 0 && (
+            <div className={styles.completedText}>{content.description}</div>
+          )}
+          {currentTextIndex === 0 && (
             <TypewriterText
-              text={`${item.title}: ${item.description}`}
+              text={content.description}
               delay={0}
               onComplete={onTextComplete}
               skipToEnd={skipCurrentText}
             />
           )}
         </div>
-      ))}
+      )}
+      {/* 文章列表会在描述完成后显示 */}
+      {currentTextIndex > 0 && (
+        <div className={styles.articlesGrid}>
+          {content.articles.map((article: any, index: number) => (
+            <ArticleItemGalgame
+              key={index}
+              article={article}
+              index={index}
+              scrollContainerRef={scrollContainerRef}
+            />
+          ))}
+        </div>
+      )}
     </div>
+  );
+};
+
+// 单独的文章项目组件（Galgame 模式）
+const ArticleItemGalgame: React.FC<{
+  article: any;
+  index: number;
+  scrollContainerRef?: React.RefObject<HTMLDivElement>;
+}> = ({ article, index, scrollContainerRef }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { currentTheme } = useMultiTheme();
+
+  const isInView = useInView(ref, {
+    root: scrollContainerRef,  // 直接传递 ref 对象
+    once: true,  // 只触发一次
+    amount: 0.1,  // 10% 可见就触发
+    margin: "0px 0px -10% 0px"  // 稍微提前触发
+  });
+
+  // 根据主题选择样式类
+  const themeClass = currentTheme.isDark ? styles.articleCardDark : styles.articleCardLight;
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{
+        duration: 0.6,
+        ease: [0.25, 0.46, 0.45, 0.94],
+        delay: index * 0.1  // 错开动画时间
+      }}
+      onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}
+    >
+      <StyledLink
+        href={article.link}
+        className={`${styles.articleCard} ${themeClass}`}
+        target={article.link.startsWith('http') ? '_blank' : '_self'}
+        rel={article.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+        onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}
+      >
+        {/* 左侧图片区域 */}
+        {article.image && (
+          <div className={styles.articleImage}>
+            <img src={article.image} alt={article.title} />
+          </div>
+        )}
+
+        <div className={styles.articleMainContent}>
+          <div className={styles.articleYear}>{article.year}</div>
+          <div className={styles.articleContent}>
+            <h3 className={styles.articleTitle}>
+              {isInView ? (
+                <TypewriterText
+                  text={article.title}
+                  delay={200 + index * 100}  // 根据索引错开打字机效果
+                  speed={60}
+                />
+              ) : (
+                article.title
+              )}
+            </h3>
+            <div className={styles.articleDescription}>{article.description}</div>
+            {article.tags && (
+              <div className={styles.articleTags}>
+                {article.tags.map((tag: string, tagIndex: number) => (
+                  <span key={tagIndex} className={styles.articleTag}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </StyledLink>
+    </motion.div>
   );
 };
 
@@ -400,7 +610,7 @@ const ContactContent: React.FC<{
                     <p className={styles.contactCardDescription}>{contactInfo.description}</p>
                     <div className={styles.contactCardAction}>
                       {contactInfo.prefix}{' '}
-                      <StyledLink href={method.link} underline>
+                      <StyledLink href={method.link} underline onClick={(e: React.MouseEvent) => e.stopPropagation()}>
                         {contactInfo.linkText}
                       </StyledLink>
                       {contactInfo.suffix && ` ${contactInfo.suffix}`}
@@ -462,7 +672,7 @@ const ContactContent: React.FC<{
                     <p className={styles.contactCardDescription}>{contactInfo.description}</p>
                     <div className={styles.contactCardAction}>
                       {contactInfo.prefix}{' '}
-                      <StyledLink href={method.link} underline>
+                      <StyledLink href={method.link} underline onClick={(e: React.MouseEvent) => e.stopPropagation()}>
                         {contactInfo.linkText}
                       </StyledLink>
                       {contactInfo.suffix && ` ${contactInfo.suffix}`}
@@ -500,8 +710,16 @@ const SectionContent: React.FC<SectionContentProps> = ({
   skipCurrentText,
   onTextComplete,
   isHomepage,
-  scrollContainerRef
+  scrollContainerRef,
+  onScrollModeChange
 }) => {
+  // 在组件加载时，根据 section 类型通知上层是否使用滚动模式
+  React.useEffect(() => {
+    if (mode === 'galgame' && onScrollModeChange) {
+      const useScrollMode = section.type === 'timeline' || section.type === 'articles';
+      onScrollModeChange(useScrollMode);
+    }
+  }, [section.type, mode, onScrollModeChange]);
   const renderContent = () => {
     switch (section.type) {
       case 'text':
@@ -534,6 +752,17 @@ const SectionContent: React.FC<SectionContentProps> = ({
             currentTextIndex={currentTextIndex}
             skipCurrentText={skipCurrentText}
             onTextComplete={onTextComplete}
+          />
+        );
+      case 'articles':
+        return (
+          <ArticlesContent
+            content={section.content}
+            mode={mode}
+            currentTextIndex={currentTextIndex}
+            skipCurrentText={skipCurrentText}
+            onTextComplete={onTextComplete}
+            scrollContainerRef={scrollContainerRef}
           />
         );
       case 'contact':

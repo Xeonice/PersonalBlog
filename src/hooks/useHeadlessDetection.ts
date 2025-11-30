@@ -48,7 +48,7 @@ export function useHeadlessDetection(): boolean {
         () => navigator.webdriver === true,
 
         // 缺少某些浏览器特有的属性
-        () => !window.chrome && userAgent.includes('chrome'),
+        () => !(window as any).chrome && userAgent.includes('chrome'),
 
         // 检测是否缺少插件支持
         () => navigator.plugins.length === 0,

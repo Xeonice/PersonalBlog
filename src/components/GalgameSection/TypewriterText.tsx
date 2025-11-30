@@ -151,6 +151,9 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
       style={{
         cursor: enableSkip && isAnimating ? 'pointer' : 'default',
         userSelect: 'none',
+        lineHeight: 'inherit',
+        color: 'inherit',
+        fontSize: 'inherit',
       }}
     >
       {/* 在服务端或客户端未挂载时显示完整文本，避免水合不匹配 */}

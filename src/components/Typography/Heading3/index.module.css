@@ -1,4 +1,0 @@
-.Wrapper {
-  @apply text-xs font-semibold leading-normal mt-8 mb-6;
-  color: var(--text-primary);
-}

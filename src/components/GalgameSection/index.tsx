@@ -10,7 +10,7 @@ import styles from './index.module.css';
 interface SectionData {
   id: string;
   title: string;
-  type: 'text' | 'timeline' | 'list' | 'contact';
+  type: 'text' | 'timeline' | 'list' | 'contact' | 'articles';
   content: any;
 }
 
@@ -34,43 +34,59 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
   const [skipCurrentText, setSkipCurrentText] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
+  const [useScrollMode, setUseScrollMode] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const currentSection = sections[currentSectionIndex];
 
   useEffect(() => {
+    // 完全重置所有状态
     setIsTextComplete(false);
     setIsReady(true);
     setCurrentTextIndex(0);
     setSkipCurrentText(false);
-
-    // 每次进入新的 section 都重置状态
     setIsScrolledToBottom(false);
+
+    // 重置滚动模式状态
+    setUseScrollMode(false);
 
     // 计算当前章节的文本总数
     let textCount = 0;
+    let shouldUseScrollMode = false;
+
     if (currentSection) {
       switch (currentSection.type) {
         case 'text':
           textCount = currentSection.content.paragraphs.length;
+          shouldUseScrollMode = false;
           break;
         case 'timeline':
           // 时间轴使用滚动模式，不需要文本计数
           textCount = 0;
+          shouldUseScrollMode = true;
+          break;
+        case 'articles':
+          // 文章列表使用滚动模式，不需要文本计数
+          textCount = 0;
+          shouldUseScrollMode = true;
           break;
         case 'list':
           textCount = currentSection.content.items.length;
+          shouldUseScrollMode = false;
           break;
         case 'contact':
           textCount = 1 + currentSection.content.methods.length;
+          shouldUseScrollMode = false;
           break;
       }
     }
-    setTotalTexts(textCount);
 
-    // 对于时间轴，直接标记为完成以显示继续按钮的逻辑
-    if (currentSection?.type === 'timeline') {
+    setTotalTexts(textCount);
+    setUseScrollMode(shouldUseScrollMode);
+
+    // 对于使用滚动模式的组件，直接标记为完成以显示继续按钮的逻辑
+    if (shouldUseScrollMode) {
       setIsTextComplete(true);
     }
   }, [currentSectionIndex, currentSection]);
@@ -84,9 +100,9 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
   }, []);
 
 
-  // 滚动到底部检测（仅针对时间轴）
+  // 滚动到底部检测（针对使用滚动模式的组件）
   useEffect(() => {
-    if (!scrollContainerRef.current || currentSection?.type !== 'timeline') return;
+    if (!scrollContainerRef.current || !useScrollMode) return;
 
     const scrollContainer = scrollContainerRef.current;
 
@@ -102,7 +118,7 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
 
     scrollContainer.addEventListener('scroll', handleScroll);
     return () => scrollContainer.removeEventListener('scroll', handleScroll);
-  }, [currentSection]);
+  }, [useScrollMode]);
 
   const handleTextComplete = () => {
     const nextIndex = currentTextIndex + 1;
@@ -133,6 +149,7 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
     setShowHint(false);
     localStorage.setItem('galgame-hint-dismissed', 'true');
   };
+
 
 
   if (!isReady || !currentSection) {
@@ -201,8 +218,8 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
         )}
 
         {/* 右侧操作按钮 */}
-        {/* 对于时间轴使用滚动检测，其他类型使用文本完成检测 */}
-        {((currentSection?.type === 'timeline' ? isScrolledToBottom : isTextComplete) && currentSectionIndex < sections.length - 1) && (
+        {/* 使用回调机制决定是否使用滚动检测 */}
+        {((useScrollMode ? isScrolledToBottom : isTextComplete) && currentSectionIndex < sections.length - 1) && (
           <GalgameButton
             type="continue"
             motionProps={{

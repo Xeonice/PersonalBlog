@@ -333,6 +333,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       { params: { slug: [] } },           // /
       { params: { slug: ['experience'] } }, // /experience
       { params: { slug: ['principles'] } }, // /principles
+      { params: { slug: ['article-links'] } }, // /article-links
       { params: { slug: ['contact'] } },    // /contact
     ],
     fallback: false
