@@ -1,0 +1,156 @@
+/* Galgame 风格容器 */
+.galgameContainer {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 2rem); /* 减去 rightColumn 的底部 padding */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden; /* 主容器控制溢出 */
+}
+
+/* 主要内容区域 */
+.mainContentArea {
+  flex: 1;
+  padding: 2rem 1rem 0 1rem; /* 减少左右 padding 以给时间轴卡片更多空间 */
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0; /* 允许 flex 子项缩小 */
+}
+
+
+.hintIcon {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.hintText {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  flex: 1;
+}
+
+.hintCloseIcon {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  font-weight: 300;
+  opacity: 0.7;
+  margin-left: 0.5rem;
+}
+
+/* 章节容器 */
+.sectionContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 章节标题 */
+.sectionHeader {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.8rem !important;
+  font-weight: 600 !important;
+  color: var(--text-primary) !important;
+  letter-spacing: 0.05em;
+}
+
+/* 内容区域 */
+.sectionContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 内容主体 */
+.contentBody {
+  flex: 1;
+  overflow-y: auto; /* 如果内容过多，允许滚动 */
+}
+
+/* 内容已移至 SectionContent/index.module.css */
+
+/* Galgame 固定底部 */
+.galgameFooter {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 80px; /* 最小高度 */
+  padding: 1rem 2rem 2rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  box-sizing: border-box;
+  z-index: 100;
+  flex-shrink: 0; /* 防止底部被压缩 */
+}
+
+.continueButton,
+.endButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.promptIcon {
+  font-size: 0.9rem;
+  color: var(--color-primary);
+  animation: pulse 2s infinite;
+}
+
+.promptText {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+/* 移除暗色主题的特殊背景，使用全局主题变量 */
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .galgameContainer {
+    height: calc(100vh - 2rem); /* 移动端也计算 padding */
+  }
+
+  .mainContentArea {
+    padding: 1.5rem 0.75rem 0 0.75rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.5rem !important;
+  }
+
+  .textContent .typewriter-text {
+    font-size: 0.9rem;
+  }
+
+  .galgameFooter {
+    padding: 0.75rem 1.5rem 1.5rem 1.5rem;
+    min-height: 60px;
+  }
+
+  .hintText {
+    font-size: 0.75rem;
+  }
+}

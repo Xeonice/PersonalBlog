@@ -1,0 +1,70 @@
+/* 基础按钮样式 */
+.hintButton,
+.continueButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 47.6px;
+  box-sizing: border-box;
+  width: fit-content;
+}
+
+/* 提示按钮样式 */
+.hintButton {
+  /* 在 footer 左侧显示 */
+}
+
+/* 继续按钮样式 */
+.continueButton {
+  justify-content: center;
+  /* 在 footer 右侧显示 */
+}
+
+/* 深色主题样式 - 深色背景用浅色按钮 */
+.darkTheme {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.darkTheme:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* 浅色主题样式 - 浅色背景用深色按钮和主题色边框 */
+.lightTheme {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--color-primary);
+}
+
+.lightTheme:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 继续按钮特殊样式 */
+.continueButton.lightTheme {
+  border: 1px solid var(--color-primary);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.continueButton.lightTheme:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.continueButton.darkTheme:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}

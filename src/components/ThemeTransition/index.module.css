@@ -1,0 +1,72 @@
+/* 棋盘格转场动画样式 - 动物之森风格 */
+/* 使用叠加式 CSS animation 确保动画连贯不跳变 */
+
+.checkerboardOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: none;
+  /* 隔离布局计算，提升性能 */
+  contain: strict;
+}
+
+.checkerboardGrid {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  /* 隔离布局计算 */
+  contain: layout style;
+}
+
+.tile {
+  /* 不使用 will-change 避免创建过多合成层 */
+  /* 让浏览器自动优化 */
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+/* 进入动画 - 从上往下展开 */
+.tileEnter {
+  /* both: 延迟期间保持第一帧，结束后保持最后一帧 */
+  animation: tileEnterAnim var(--tile-duration, 0.22s) cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--enter-delay, 0s);
+}
+
+@keyframes tileEnterAnim {
+  0% {
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* 离开动画 - 从下往上收起 */
+/* 关键：both 确保在 delay 期间保持 scaleY(1)，避免闪烁 */
+.tileLeave {
+  /* both: 延迟期间保持第一帧 scaleY(1)，结束后保持最后一帧 scaleY(0) */
+  animation: tileLeaveAnim var(--tile-duration, 0.22s) cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--leave-delay, 0s);
+}
+
+@keyframes tileLeaveAnim {
+  0% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(0);
+  }
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .tile,
+  .tileEnter,
+  .tileLeave {
+    animation: none !important;
+    transform: none !important;
+  }
+}

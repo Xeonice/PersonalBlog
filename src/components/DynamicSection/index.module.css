@@ -1,0 +1,13 @@
+/* Section 共享样式 */
+.sectionHeader {
+  margin-bottom: 2rem;
+}
+
+.sectionContent {
+  color: var(--text-secondary);
+}
+
+/* 首页特殊处理 */
+.homepageSection .sectionHeader {
+  margin-bottom: 1rem;
+}

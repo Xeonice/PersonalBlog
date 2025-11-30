@@ -1,9 +1,0 @@
-.thumbContainer {
-  @apply relative my-8;
-}
-.footer {
-  @apply block my-32;
-}
-.info {
-  @apply flex justify-between items-center mb-8;
-}

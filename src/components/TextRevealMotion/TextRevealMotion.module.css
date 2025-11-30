@@ -1,0 +1,42 @@
+/* TextRevealMotion 组件样式 - 高级组合效果 */
+
+.wrapper {
+  display: inline-block;
+}
+
+/* 容器 - 需要 overflow: hidden 来隐藏滑出的遮罩 */
+.container {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+/* 文字内容 */
+.textContent {
+  position: relative;
+  z-index: 1;
+}
+
+/* 遮罩块 - 绝对定位，稍微细一点 */
+.mask {
+  position: absolute;
+  top: 15%;
+  left: 0;
+  width: 100%;
+  height: 70%;
+  z-index: 2;
+  /* 移除 will-change，让浏览器在动画开始时自动优化 */
+  /* 避免初始化时预创建过多 GPU 合成层 */
+}
+
+/* 无障碍支持 - 用户偏好减少动画 */
+@media (prefers-reduced-motion: reduce) {
+  .mask {
+    display: none !important;
+  }
+
+  .textContent {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
