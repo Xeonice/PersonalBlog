@@ -24,8 +24,14 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [isMounted, setIsMounted] = useState(false); // 客户端挂载状态
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // 确保只在客户端执行动画
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // 跳过动画，立即显示全部文本
   const skipAnimation = useCallback(() => {
@@ -79,6 +85,9 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
   }, [text, speed]); // 移除 onComplete 依赖
 
   useEffect(() => {
+    // 只在客户端挂载后才执行动画
+    if (!isMounted) return;
+
     // 只有在文本真正改变时才重置
     setDisplayedText('');
     setCurrentIndex(0);
@@ -101,7 +110,10 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
         startAnimation();
       }, delay);
     } else {
-      startAnimation();
+      // 使用 requestAnimationFrame 确保在下一帧开始动画
+      requestAnimationFrame(() => {
+        startAnimation();
+      });
     }
 
     // 清理函数
@@ -113,7 +125,7 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [text]); // 只依赖 text 变化
+  }, [text, isMounted, startAnimation, delay]); // 依赖 isMounted
 
   // 外部触发的跳过效果
   useEffect(() => {
@@ -141,8 +153,9 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
         userSelect: 'none',
       }}
     >
-      {displayedText}
-      {isAnimating && (
+      {/* 在服务端或客户端未挂载时显示完整文本，避免水合不匹配 */}
+      {!isMounted ? text : displayedText}
+      {isMounted && isAnimating && (
         <motion.span
           className="cursor"
           animate={{ opacity: [1, 0, 1] }}
