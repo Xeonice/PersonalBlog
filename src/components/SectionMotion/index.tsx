@@ -1,6 +1,9 @@
-import React from 'react';
-import { motion, useInView, cubicBezier } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import styles from './SectionMotion.module.css';
+
+// 缓动函数提取到模块级别，避免每次渲染重新创建
+const EASING: [number, number, number, number] = [0.645, 0.045, 0.355, 1];
 
 interface SectionMotionProps {
   children: React.ReactNode;
@@ -32,12 +35,43 @@ const SectionMotion: React.FC<SectionMotionProps> = ({
   stagger = false,
   triggerOnce = true,
 }) => {
-  const ref = React.useRef<HTMLElement>(null);
-  const isInView = useInView(ref, {
-    once: triggerOnce,
-    amount: 0.1,
-    margin: "-100px 0px -100px 0px"
-  });
+  const ref = useRef<HTMLElement>(null);
+  const [isInView, setIsInView] = useState(false);
+  const hasTriggered = useRef(false);
+
+  // 延迟创建 IntersectionObserver，让首次渲染完成后再检测
+  useEffect(() => {
+    const element = ref.current;
+    if (!element || (triggerOnce && hasTriggered.current)) return;
+
+    let observer: IntersectionObserver | null = null;
+
+    const rafId = requestAnimationFrame(() => {
+      observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            setIsInView(true);
+            hasTriggered.current = true;
+            if (triggerOnce && observer) {
+              observer.disconnect();
+            }
+          } else if (!triggerOnce) {
+            setIsInView(false);
+          }
+        },
+        { threshold: 0.1, rootMargin: '-100px 0px -100px 0px' }
+      );
+
+      observer.observe(element);
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, [triggerOnce]);
 
   const baseVariants = {
     hidden: {
@@ -52,7 +86,7 @@ const SectionMotion: React.FC<SectionMotionProps> = ({
       transition: {
         duration,
         delay,
-        ease: cubicBezier(0.645, 0.045, 0.355, 1),
+        ease: EASING,
         ...(stagger && {
           staggerChildren: 0.1,
           delayChildren: delay,
@@ -68,7 +102,7 @@ const SectionMotion: React.FC<SectionMotionProps> = ({
       y: 0,
       transition: {
         duration: duration * 0.7,
-        ease: cubicBezier(0.645, 0.045, 0.355, 1),
+        ease: EASING,
       },
     },
   };

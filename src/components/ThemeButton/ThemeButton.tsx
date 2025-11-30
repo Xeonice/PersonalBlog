@@ -1,20 +1,47 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import dynamic from 'next/dynamic';
-import { motion, AnimatePresence, cubicBezier } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useMultiTheme } from '../../context/ThemeContext';
 import styles from './index.module.css';
 
-// 动态导入 MeshGradient 以避免 SSR 问题
-const MeshGradient = dynamic(() => import('../MeshGradient'), {
-  ssr: false,
-  loading: () => <div className={styles.gradientPlaceholder} />,
-});
+// 缓动函数提取到模块级别
+const EASING: [number, number, number, number] = [0.4, 0, 0.2, 1];
+
+/**
+ * 静态 Mesh 渐变组件
+ * 使用多层 CSS radial-gradient 模拟 mesh gradient 效果
+ */
+function StaticMeshGradient({ colors }: { colors: string[] }) {
+  // 确保至少有 4 个颜色
+  const safeColors = [...colors];
+  while (safeColors.length < 4) {
+    safeColors.push(safeColors[safeColors.length - 1] || '#000000');
+  }
+
+  const [c1, c2, c3, c4] = safeColors;
+
+  // 使用多层叠加的 radial-gradient 创建 mesh 效果
+  const gradientStyle: React.CSSProperties = {
+    width: '100%',
+    height: '100%',
+    borderRadius: '50%',
+    background: `
+      radial-gradient(circle at 30% 20%, ${c1} 0%, transparent 50%),
+      radial-gradient(circle at 80% 30%, ${c2} 0%, transparent 45%),
+      radial-gradient(circle at 20% 80%, ${c3} 0%, transparent 50%),
+      radial-gradient(circle at 70% 70%, ${c4} 0%, transparent 45%),
+      linear-gradient(135deg, ${c1} 0%, ${c2} 50%, ${c3} 100%)
+    `,
+    backgroundBlendMode: 'normal',
+  };
+
+  return <div style={gradientStyle} />;
+}
 
 /**
  * 主题选择器组件
- * 圆形按钮显示当前主题的 Mesh Gradient，点击后展开下拉菜单选择配色
+ * 圆形按钮显示当前主题的渐变色，点击后展开下拉菜单选择配色
  */
 export default function ThemeButton(): React.ReactElement {
   const { currentTheme, availableThemes, setTheme, mounted } = useMultiTheme();
@@ -50,9 +77,7 @@ export default function ThemeButton(): React.ReactElement {
     setIsOpen(false);
   };
 
-  // 动画配置
-  const easing = cubicBezier(0.4, 0, 0.2, 1);
-
+  // 动画配置 - 使用模块级别的 EASING 常量
   const dropdownVariants = {
     hidden: {
       opacity: 0,
@@ -65,7 +90,7 @@ export default function ThemeButton(): React.ReactElement {
       scale: 1,
       transition: {
         duration: 0.2,
-        ease: easing,
+        ease: EASING,
         staggerChildren: 0.03,
       },
     },
@@ -75,7 +100,7 @@ export default function ThemeButton(): React.ReactElement {
       scale: 0.95,
       transition: {
         duration: 0.15,
-        ease: easing,
+        ease: EASING,
       },
     },
   };
@@ -85,7 +110,7 @@ export default function ThemeButton(): React.ReactElement {
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.2, ease: easing },
+      transition: { duration: 0.2, ease: EASING },
     },
   };
 
@@ -127,12 +152,7 @@ export default function ThemeButton(): React.ReactElement {
           }}
           transition={{ duration: 0.2 }}
         >
-          <MeshGradient
-            colors={currentTheme.meshColors}
-            speed={0.5}
-            backgroundColor={currentTheme.colors.bgPrimary}
-            backgroundOpacity={0}
-          />
+          <StaticMeshGradient colors={currentTheme.meshColors} />
         </motion.span>
       </motion.button>
 
@@ -166,12 +186,7 @@ export default function ThemeButton(): React.ReactElement {
                   aria-selected={currentTheme.id === theme.id}
                 >
                   <span className={styles.optionColor}>
-                    <MeshGradient
-                      colors={theme.meshColors}
-                      speed={0.3}
-                      backgroundColor={theme.colors.bgPrimary}
-                      backgroundOpacity={0}
-                    />
+                    <StaticMeshGradient colors={theme.meshColors} />
                   </span>
                   <span className={styles.optionName}>{theme.name}</span>
                   {currentTheme.id === theme.id && (

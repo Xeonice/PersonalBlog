@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, cubicBezier } from 'framer-motion';
+import { motion } from 'framer-motion';
 import LiquidGlass from 'liquid-glass-react';
 import styles from './LiquidGlassCard.module.css';
 
@@ -17,6 +17,10 @@ interface LiquidGlassCardProps {
   className?: string;
   style?: React.CSSProperties;
 }
+
+// 缓动函数提取到模块级别
+const EASING_STANDARD: [number, number, number, number] = [0.645, 0.045, 0.355, 1];
+const EASING_SMOOTH: [number, number, number, number] = [0.25, 0.46, 0.45, 0.94];
 
 const variantConfig = {
   default: {
@@ -57,7 +61,7 @@ const cardVariants = {
     scale: 1,
     transition: {
       duration: 0.6,
-      ease: cubicBezier(0.645, 0.045, 0.355, 1),
+      ease: EASING_STANDARD,
     },
   },
   hover: {
@@ -65,7 +69,7 @@ const cardVariants = {
     scale: 1.02,
     transition: {
       duration: 0.3,
-      ease: cubicBezier(0.25, 0.46, 0.45, 0.94),
+      ease: EASING_SMOOTH,
     },
   },
   tap: {

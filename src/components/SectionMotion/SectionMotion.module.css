@@ -4,7 +4,11 @@
   position: relative;
   scroll-margin-top: 80px; /* 为固定导航栏留出空间 */
   padding: 2rem 0;
-  will-change: transform, opacity;
+}
+
+/* 第一个 section 不需要顶部 padding */
+.sectionMotion:first-child {
+  padding-top: 0;
 }
 
 /* 方向特定样式 */

@@ -20,41 +20,43 @@ export const useMultiTheme = () => {
   return context;
 };
 
-// 将主题配色应用到 CSS 变量
+// 将主题配色应用到 CSS 变量 - 使用批量更新避免多次样式重计算
 const applyThemeColors = (theme: ThemeConfig) => {
-  const root = document.documentElement;
   const { colors } = theme;
 
-  // 设置 CSS 变量
-  root.style.setProperty('--bg-primary', colors.bgPrimary);
-  root.style.setProperty('--bg-secondary', colors.bgSecondary);
-  root.style.setProperty('--bg-tertiary', colors.bgTertiary);
-  root.style.setProperty('--bg-card', colors.bgCard);
-  root.style.setProperty('--bg-overlay', colors.bgOverlay);
-  root.style.setProperty('--bg-glass', colors.bgGlass);
+  // 使用 requestAnimationFrame 确保在下一帧批量更新
+  requestAnimationFrame(() => {
+    const root = document.documentElement;
 
-  root.style.setProperty('--text-primary', colors.textPrimary);
-  root.style.setProperty('--text-secondary', colors.textSecondary);
-  root.style.setProperty('--text-muted', colors.textMuted);
-  root.style.setProperty('--text-accent', colors.textAccent);
-  root.style.setProperty('--text-link', colors.textLink);
-  root.style.setProperty('--text-highlight', colors.textHighlight);
-
-  root.style.setProperty('--color-primary', colors.colorPrimary);
-  root.style.setProperty('--color-secondary', colors.colorSecondary);
-  root.style.setProperty('--color-accent', colors.colorAccent);
-  root.style.setProperty('--color-warning', colors.colorWarning);
-  root.style.setProperty('--color-error', colors.colorError);
-
-  root.style.setProperty('--border-color', colors.borderColor);
-  root.style.setProperty('--border-light', colors.borderLight);
-  root.style.setProperty('--divider-color', colors.dividerColor);
-
-  root.style.setProperty('--shadow-sm', colors.shadowSm);
-  root.style.setProperty('--shadow-md', colors.shadowMd);
-  root.style.setProperty('--shadow-lg', colors.shadowLg);
-  root.style.setProperty('--shadow-xl', colors.shadowXl);
-  root.style.setProperty('--shadow-glow', colors.shadowGlow);
+    // 使用 setAttribute 一次性设置所有变量，避免内存泄漏
+    root.setAttribute('style', `
+      --bg-primary: ${colors.bgPrimary};
+      --bg-secondary: ${colors.bgSecondary};
+      --bg-tertiary: ${colors.bgTertiary};
+      --bg-card: ${colors.bgCard};
+      --bg-overlay: ${colors.bgOverlay};
+      --bg-glass: ${colors.bgGlass};
+      --text-primary: ${colors.textPrimary};
+      --text-secondary: ${colors.textSecondary};
+      --text-muted: ${colors.textMuted};
+      --text-accent: ${colors.textAccent};
+      --text-link: ${colors.textLink};
+      --text-highlight: ${colors.textHighlight};
+      --color-primary: ${colors.colorPrimary};
+      --color-secondary: ${colors.colorSecondary};
+      --color-accent: ${colors.colorAccent};
+      --color-warning: ${colors.colorWarning};
+      --color-error: ${colors.colorError};
+      --border-color: ${colors.borderColor};
+      --border-light: ${colors.borderLight};
+      --divider-color: ${colors.dividerColor};
+      --shadow-sm: ${colors.shadowSm};
+      --shadow-md: ${colors.shadowMd};
+      --shadow-lg: ${colors.shadowLg};
+      --shadow-xl: ${colors.shadowXl};
+      --shadow-glow: ${colors.shadowGlow};
+    `);
+  });
 };
 
 interface MultiThemeProviderProps {

@@ -23,6 +23,10 @@
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
+  /* Reset button styles */
+  background: none;
+  border: none;
+  font-family: inherit;
 }
 
 .navItem:hover {

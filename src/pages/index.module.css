@@ -30,7 +30,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 2rem 1rem;
 }
 
@@ -39,12 +39,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 6rem;
+  padding-top: 0;
   height: 100%;
 }
 
 .mainContent {
-  padding-top: 1rem;
+  padding-top: 0;
   display: flex;
   flex-direction: column;
 }
@@ -139,16 +139,28 @@
 
 /* Right Column - Scrollable Content */
 .rightColumn {
-  padding: 6rem 1rem 2rem;
+  padding: 2rem 1rem;
   overflow-y: auto;
+  display: flex;
+  align-items: flex-start;
 }
 
 .content {
   max-width: 600px;
 }
 
+/* 右侧内容区第一个 section 移除顶部 padding，与左侧对齐 */
+.content > section:first-child {
+  padding-top: 0;
+}
+
 .section {
   margin-bottom: 4rem;
+  margin-top: 0;
+}
+
+.section:first-child {
+  margin-top: 0;
 }
 
 .sectionHeader {
@@ -156,7 +168,7 @@
   position: sticky;
   top: 0;
   background: var(--bg-primary);
-  padding: 1rem 0;
+  padding: 0 0 1rem 0;
   z-index: 10;
 }
 

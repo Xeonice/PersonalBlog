@@ -25,7 +25,8 @@
   width: 100%;
   height: 70%;
   z-index: 2;
-  will-change: transform;
+  /* 移除 will-change，让浏览器在动画开始时自动优化 */
+  /* 避免初始化时预创建过多 GPU 合成层 */
 }
 
 /* 无障碍支持 - 用户偏好减少动画 */
