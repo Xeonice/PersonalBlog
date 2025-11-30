@@ -147,7 +147,7 @@
 }
 
 .content {
-  max-width: 600px;
+  width: 100%;
 }
 
 /* 右侧内容区第一个 section 移除顶部 padding，与左侧对齐 */

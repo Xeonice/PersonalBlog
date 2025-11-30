@@ -154,6 +154,10 @@ class DotMatrix {
     const secondaryColor = new THREE.Color(this.themeColors.secondaryParticle);
     const accentColor = new THREE.Color(this.themeColors.accentParticle);
 
+    // 浅色主题下增加 accent 粒子的数量
+    const isLightTheme = this.themeStyle === ThemeStyle.LIGHT;
+    const accentThreshold = isLightTheme ? 0.3 : 0.15; // 浅色主题下降低阈值，显示更多 accent 粒子
+
     this.material = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
@@ -168,6 +172,8 @@ class DotMatrix {
         uPrimaryColor: { value: primaryColor },
         uSecondaryColor: { value: secondaryColor },
         uAccentColor: { value: accentColor },
+        uAccentThreshold: { value: accentThreshold },
+        uIsLightTheme: { value: isLightTheme ? 1.0 : 0.0 },
       },
       vertexShader: `
         uniform float uTime;
@@ -179,6 +185,8 @@ class DotMatrix {
         uniform float uMouseRadius;
         uniform vec2 uResolution;
         uniform float uPixelRatio;
+        uniform float uAccentThreshold;
+        uniform float uIsLightTheme;
 
         attribute float aRandom;
 
@@ -279,7 +287,16 @@ class DotMatrix {
 
           // 简化强调色计算
           float accentNoise = snoise(vec3(coord * 1.2 + 200.0, time * 0.4 + 10.0));
-          vIsAccent = smoothstep(0.15, 0.45, accentNoise);
+
+          // 使用动态阈值，浅色主题下显示更多 accent 粒子
+          float lowerThreshold = uAccentThreshold;
+          float upperThreshold = lowerThreshold + 0.3;
+          vIsAccent = smoothstep(lowerThreshold, upperThreshold, accentNoise);
+
+          // 浅色主题下额外增加一些随机的 accent 粒子
+          if (uIsLightTheme > 0.5 && aRandom > 0.7) {
+            vIsAccent = max(vIsAccent, 0.6);
+          }
 
           // 鼠标交互
           vec2 pixelPos = vec2(position.x, -position.y);

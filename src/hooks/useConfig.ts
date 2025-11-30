@@ -1,8 +1,16 @@
 import { useState, useEffect } from 'react';
 
+interface SocialIcon {
+  id: string;
+  icon: string;
+  href: string;
+  label: string;
+}
+
 interface SectionConfig {
   sections: Record<string, any>;
   navigation: Array<{ id: string; label: string }>;
+  socialIcons: SocialIcon[];
 }
 
 export function useConfig() {

@@ -1,4 +1,24 @@
 {
+  "socialIcons": [
+    {
+      "id": "github",
+      "icon": "github",
+      "href": "https://github.com/Xeonice",
+      "label": "GitHub"
+    },
+    {
+      "id": "twitter",
+      "icon": "twitter",
+      "href": "https://twitter.com/_DouglasDong_",
+      "label": "Twitter"
+    },
+    {
+      "id": "resume",
+      "icon": "file-pdf",
+      "href": "/files/%E5%94%90%E5%92%8C%E8%BE%89%20-%2018602149227.pdf",
+      "label": "Resume"
+    }
+  ],
   "sections": {
     "about": {
       "id": "about",
@@ -23,13 +43,43 @@
             "period": "2023 - 至今",
             "title": "产品工程师",
             "company": "某科技公司",
-            "description": "负责前端架构设计、产品功能开发以及技术选型。"
+            "companyUrl": "#",
+            "location": "杭州",
+            "description": "负责前端架构设计、产品功能开发以及技术选型，带领团队完成多个核心产品的研发，提升用户体验和开发效率。",
+            "achievements": [
+              "主导公司核心产品的前端架构重构，性能提升 40%",
+              "建立组件库和设计系统，提高团队开发效率",
+              "负责技术选型和团队培训，推动新技术在项目中的落地"
+            ],
+            "technologies": ["React", "Next.js", "TypeScript", "Node.js", "GraphQL", "AWS"]
           },
           {
             "period": "2021 - 2023",
-            "title": "前端开发工程师",
+            "title": "高级前端开发工程师",
             "company": "互联网公司",
-            "description": "参与多个项目的前端开发，负责用户界面实现与优化。"
+            "companyUrl": "#",
+            "location": "杭州",
+            "description": "参与多个大型项目的前端开发，负责用户界面实现与优化，专注于提升产品的交互体验和性能表现。",
+            "achievements": [
+              "开发和维护公司主要产品的前端应用",
+              "优化页面加载性能，首屏时间减少 60%",
+              "参与移动端 H5 和小程序开发，覆盖百万用户"
+            ],
+            "technologies": ["Vue.js", "React", "JavaScript", "SCSS", "Webpack", "微信小程序"]
+          },
+          {
+            "period": "2019 - 2021",
+            "title": "前端开发工程师",
+            "company": "创业公司",
+            "companyUrl": "#",
+            "location": "杭州",
+            "description": "在快速发展的创业环境中，从零到一参与产品的前端开发，积累了丰富的全栈开发经验。",
+            "achievements": [
+              "独立完成公司官网和管理后台的开发",
+              "参与产品需求分析和技术方案设计",
+              "建立前端开发规范和工作流程"
+            ],
+            "technologies": ["jQuery", "Bootstrap", "HTML5", "CSS3", "PHP", "MySQL"]
           }
         ]
       }
