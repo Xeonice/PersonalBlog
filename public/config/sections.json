@@ -296,8 +296,8 @@
           {
             "type": "email",
             "label": "邮箱",
-            "value": "your.email@example.com",
-            "link": "mailto:your.email@example.com"
+            "value": "ad546971975@gmail.com",
+            "link": "mailto:ad546971975@gmail.com"
           },
           {
             "type": "github",
@@ -308,8 +308,8 @@
           {
             "type": "twitter",
             "label": "Twitter",
-            "value": "@_DouglasDong_",
-            "link": "https://twitter.com/_DouglasDong_"
+            "value": "@_PersonaJP_",
+            "link": "https://x.com/_PersonaJP_"
           }
         ]
       }
