@@ -91,7 +91,7 @@ export const ThemeTransitionProvider: React.FC<ThemeTransitionProviderProps> = (
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [phase, setPhase] = useState<TransitionPhase>('idle');
   const [transitionColor, setTransitionColor] = useState('#64ffda');
-  const callbackRef = useRef<(() => void) | undefined>();
+  const callbackRef = useRef<(() => void) | undefined>(undefined);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
   // 清理所有定时器

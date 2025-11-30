@@ -4,7 +4,10 @@
     @apply md:py-28;
     @apply min-h-screen;
 
-    /* 使用CSS变量替代Tailwind dark模式 */
-    background-color: var(--bg-primary);
+    /* 让背景透明，显示 Three.js 背景 */
+    background-color: transparent;
     color: var(--text-secondary);
+    /* 保持内容的可读性 */
+    position: relative;
+    z-index: 1;
 }
