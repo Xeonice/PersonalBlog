@@ -1,9 +1,14 @@
 import * as React from 'react';
 import ParagraphStyle from './index.module.css';
 
-const Paragraph: React.FunctionComponent<{ children?: React.ReactNode }> = function ({ children }) {
+interface ParagraphProps {
+  children?: React.ReactNode;
+  className?: string;
+}
+
+const Paragraph: React.FunctionComponent<ParagraphProps> = function ({ children, className }) {
   return (
-    <p className={ParagraphStyle.Wrapper}>
+    <p className={`${ParagraphStyle.Wrapper} ${className || ''}`}>
       {children}
     </p>
   );

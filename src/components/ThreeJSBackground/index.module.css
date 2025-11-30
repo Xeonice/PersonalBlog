@@ -1,0 +1,68 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* 添加蒙层提高文字可读性 - 根据主题风格决定蒙层颜色 */
+.container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  transition: background-color 0.3s ease;
+}
+
+/* 深色主题蒙层 - 使用半透明黑色 */
+.container.dark::after {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* 浅色主题蒙层 - 使用高透明度白色 */
+.container.light::after {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* 确保平滑的主题过渡 */
+  transition: opacity 0.3s ease;
+}
+
+/* 当页面滚动时保持背景固定 */
+@media (max-width: 768px) {
+  .container {
+    /* 在移动设备上可能需要调整性能 */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
+
+/* 确保背景在所有主题下都正确显示 */
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-primary);
+  z-index: -1;
+  transition: background-color 0.3s ease;
+}

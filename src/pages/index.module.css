@@ -1,8 +1,9 @@
 /* Page container */
 .pageContainer {
   min-height: 100vh;
-  background: var(--bg-primary);
+  background: transparent;
   position: relative;
+  z-index: 1;
 }
 
 .topBar {
@@ -139,7 +140,7 @@
 
 /* Right Column - Scrollable Content */
 .rightColumn {
-  padding: 2rem 1rem;
+  padding: 0 1rem 2rem 1rem;
   overflow-y: auto;
   display: flex;
   align-items: flex-start;
@@ -167,7 +168,7 @@
   margin-bottom: 2rem;
   position: sticky;
   top: 0;
-  background: var(--bg-primary);
+  background: transparent;
   padding: 0 0 1rem 0;
   z-index: 10;
 }

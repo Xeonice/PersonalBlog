@@ -1,0 +1,97 @@
+{
+  "sections": {
+    "about": {
+      "id": "about",
+      "title": "关于我",
+      "type": "text",
+      "content": {
+        "paragraphs": [
+          "我是 Douglas，一个目前工作与生活在杭州的 Web 开发，虽然立足于前端岗位，但我的个人视野从不局限于前端，同样也会聚焦于后端 / Devops / 抑或是产品 / UI。",
+          "开设这片自留地的主要原因在于，我希望在一个远离 gfw 的地方描述与记录一些自己的个人想法，同时不必因为一些 '不可名状的原因' 被迫自我阉割。因此，这里的记录可能并不仅限于开发，也可能会有一些除研发以外的随想。",
+          "最近执行 Lowcode 期间，对于业务本身的思考越来越多，因为 Blog 中的大部分文章可能都在讲一些自己执行期间遇到的问题和思考，所以废话会多一点（对技术流来说）。",
+          "我一直坚信一点，分享知识是巩固 / 获取新知识的最好方法。因此我会定期记录一些日常开发中解决问题的方法供各位参考。同样的，我热衷于为开源事业作出自己的一份贡献，如果有优质开源项目需要贡献人手，欢迎随时与我联系。"
+        ]
+      }
+    },
+    "experience": {
+      "id": "experience",
+      "title": "经历",
+      "type": "timeline",
+      "content": {
+        "items": [
+          {
+            "period": "2023 - 至今",
+            "title": "产品工程师",
+            "company": "某科技公司",
+            "description": "负责前端架构设计、产品功能开发以及技术选型。"
+          },
+          {
+            "period": "2021 - 2023",
+            "title": "前端开发工程师",
+            "company": "互联网公司",
+            "description": "参与多个项目的前端开发，负责用户界面实现与优化。"
+          }
+        ]
+      }
+    },
+    "principles": {
+      "id": "principles",
+      "title": "原则",
+      "type": "list",
+      "content": {
+        "items": [
+          {
+            "title": "技术为本",
+            "description": "持续学习新技术，保持技术敏感度"
+          },
+          {
+            "title": "用户至上",
+            "description": "始终从用户角度思考产品设计与实现"
+          },
+          {
+            "title": "开源精神",
+            "description": "积极参与开源社区，分享知识与经验"
+          },
+          {
+            "title": "持续改进",
+            "description": "不断反思与优化工作流程和方法"
+          }
+        ]
+      }
+    },
+    "contact": {
+      "id": "contact",
+      "title": "联系",
+      "type": "contact",
+      "content": {
+        "description": "如果你有任何问题或想法，欢迎随时与我联系。",
+        "methods": [
+          {
+            "type": "email",
+            "label": "邮箱",
+            "value": "your.email@example.com",
+            "link": "mailto:your.email@example.com"
+          },
+          {
+            "type": "github",
+            "label": "GitHub",
+            "value": "Xeonice",
+            "link": "https://github.com/Xeonice"
+          },
+          {
+            "type": "twitter",
+            "label": "Twitter",
+            "value": "@_DouglasDong_",
+            "link": "https://twitter.com/_DouglasDong_"
+          }
+        ]
+      }
+    }
+  },
+  "navigation": [
+    { "id": "about", "label": "关于我" },
+    { "id": "experience", "label": "经历" },
+    { "id": "principles", "label": "原则" },
+    { "id": "contact", "label": "联系" }
+  ]
+}

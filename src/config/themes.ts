@@ -3,6 +3,11 @@
  * 每个主题定义了完整的配色方案
  */
 
+export enum ThemeStyle {
+  LIGHT = 'light',
+  DARK = 'dark'
+}
+
 export interface ThemeConfig {
   id: string;
   name: string;
@@ -13,6 +18,8 @@ export interface ThemeConfig {
   meshColors: string[]; // 3-4个主色，用于生成 mesh gradient
   // 过渡动画遮罩颜色
   transitionColor: string;
+  // 主题风格类型 - 决定蒙层颜色等样式
+  themeStyle: ThemeStyle;
   // 是否为深色主题（影响 next-themes 的 dark mode class）
   isDark: boolean;
   // CSS 变量
@@ -58,6 +65,7 @@ export const themes: ThemeConfig[] = [
     representColor: '#f8fafc',
     meshColors: ['#e2e8f0', '#f8fafc', '#64ffda', '#57cbff'],
     transitionColor: '#e2e8f0',
+    themeStyle: ThemeStyle.LIGHT,
     isDark: false,
     colors: {
       bgPrimary: '#f8fafc',
@@ -94,6 +102,7 @@ export const themes: ThemeConfig[] = [
     representColor: '#0a192f',
     meshColors: ['#020c1b', '#112240', '#64ffda', '#57cbff'],
     transitionColor: '#112240',
+    themeStyle: ThemeStyle.DARK,
     isDark: true,
     colors: {
       bgPrimary: '#020c1b',
@@ -130,6 +139,7 @@ export const themes: ThemeConfig[] = [
     representColor: '#1a3a2f',
     meshColors: ['#0d1f18', '#2d5a4a', '#4ade80', '#22d3ee'],
     transitionColor: '#2d5a4a',
+    themeStyle: ThemeStyle.DARK,
     isDark: true,
     colors: {
       bgPrimary: '#0d1f18',
@@ -166,6 +176,7 @@ export const themes: ThemeConfig[] = [
     representColor: '#0c4a6e',
     meshColors: ['#082f49', '#0369a1', '#38bdf8', '#22d3ee'],
     transitionColor: '#0369a1',
+    themeStyle: ThemeStyle.DARK,
     isDark: true,
     colors: {
       bgPrimary: '#082f49',
@@ -202,6 +213,7 @@ export const themes: ThemeConfig[] = [
     representColor: '#7c2d12',
     meshColors: ['#431407', '#9a3412', '#fb923c', '#fbbf24'],
     transitionColor: '#c2410c',
+    themeStyle: ThemeStyle.DARK,
     isDark: true,
     colors: {
       bgPrimary: '#431407',
@@ -238,6 +250,7 @@ export const themes: ThemeConfig[] = [
     representColor: '#581c87',
     meshColors: ['#3b0764', '#6b21a8', '#c084fc', '#f0abfc'],
     transitionColor: '#7e22ce',
+    themeStyle: ThemeStyle.DARK,
     isDark: true,
     colors: {
       bgPrimary: '#3b0764',
@@ -274,6 +287,7 @@ export const themes: ThemeConfig[] = [
     representColor: '#fce7f3',
     meshColors: ['#fce7f3', '#fbcfe8', '#ec4899', '#f472b6'],
     transitionColor: '#fbcfe8',
+    themeStyle: ThemeStyle.LIGHT,
     isDark: false,
     colors: {
       bgPrimary: '#fdf2f8',
