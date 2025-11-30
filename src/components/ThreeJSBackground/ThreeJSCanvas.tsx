@@ -38,10 +38,12 @@ class DotMatrix {
   private points: THREE.Points;
   private animationId: number;
   private themeColors: ThemeColors;
+  private themeStyle: ThemeStyle;
 
-  constructor(container: HTMLElement, initialThemeColors: ThemeColors) {
+  constructor(container: HTMLElement, initialThemeColors: ThemeColors, themeStyle: ThemeStyle) {
     this.container = container;
     this.themeColors = initialThemeColors;
+    this.themeStyle = themeStyle;
 
     this.config = {
       gap: 8, // 保持原有间距
@@ -518,7 +520,7 @@ export default function ThreeJSCanvas({ themeColors, themeStyle }: ThreeJSCanvas
       if (!containerRef.current || dotMatrixRef.current) return;
 
       try {
-        dotMatrixRef.current = new DotMatrix(containerRef.current, themeColors);
+        dotMatrixRef.current = new DotMatrix(containerRef.current, themeColors, themeStyle);
       } catch (error) {
         console.error('Failed to initialize Three.js:', error);
         setWebGLSupported(false);

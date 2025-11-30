@@ -24,7 +24,7 @@ interface SectionContentProps {
   skipCurrentText?: boolean;
   onTextComplete?: () => void;
   isHomepage?: boolean;
-  scrollContainerRef?: React.RefObject<HTMLElement>;
+  scrollContainerRef?: React.RefObject<HTMLDivElement>;
 }
 
 // 获取联系方式的图标和信息
@@ -119,7 +119,7 @@ const TimelineContent: React.FC<{
   currentTextIndex?: number;
   skipCurrentText?: boolean;
   onTextComplete?: () => void;
-  scrollContainerRef?: React.RefObject<HTMLElement>;
+  scrollContainerRef?: React.RefObject<HTMLDivElement>;
 }> = ({ content, mode, currentTextIndex = 0, skipCurrentText, onTextComplete, scrollContainerRef }) => {
   const { currentTheme } = useMultiTheme();
 
@@ -231,13 +231,13 @@ const TimelineContent: React.FC<{
 const TimelineItemGalgame: React.FC<{
   item: any;
   index: number;
-  scrollContainerRef?: React.RefObject<HTMLElement>;
+  scrollContainerRef?: React.RefObject<HTMLDivElement>;
 }> = ({ item, index, scrollContainerRef }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { currentTheme } = useMultiTheme();
 
   const isInView = useInView(ref, {
-    root: scrollContainerRef?.current || null,  // 使用传入的滚动容器
+    root: scrollContainerRef,  // 直接传递 ref 对象
     once: true,  // 只触发一次
     amount: 0.1,  // 10% 可见就触发
     margin: "0px 0px -10% 0px"  // 稍微提前触发
