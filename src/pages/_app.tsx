@@ -1,6 +1,7 @@
 import '../../styles/global.css';
 import { AppProps } from 'next/app';
 import { ThemeProvider } from 'next-themes';
+import { Analytics } from '@vercel/analytics/next';
 import { ThemeTransitionProvider } from '../components/ThemeTransition';
 import { MultiThemeProvider } from '../context/ThemeContext';
 
@@ -15,6 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeTransitionProvider duration={1000} columns={6} rows={4}>
         <MultiThemeProvider>
           <Component {...pageProps} />
+          <Analytics />
         </MultiThemeProvider>
       </ThemeTransitionProvider>
     </ThemeProvider>
