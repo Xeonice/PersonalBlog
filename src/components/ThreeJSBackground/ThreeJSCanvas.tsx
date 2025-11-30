@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { ThemeStyle } from '../../config/themes';
 import styles from './index.module.css';
@@ -44,7 +44,7 @@ class DotMatrix {
     this.themeColors = initialThemeColors;
 
     this.config = {
-      gap: 8,
+      gap: 8, // 保持原有间距
       dotSize: 4.5,
       speed: 0.3,
       noiseScale: 2.8,
@@ -74,12 +74,15 @@ class DotMatrix {
     this.scene = new THREE.Scene();
 
     this.renderer = new THREE.WebGLRenderer({
-      antialias: true,
+      antialias: false, // 禁用抗锯齿以提升性能
       alpha: true,
       powerPreference: 'high-performance',
+      preserveDrawingBuffer: false,
+      failIfMajorPerformanceCaveat: true,
     });
     this.renderer.setSize(width, height);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // 限制像素比，特别是在移动设备上
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
     // 使用主题背景色
     const bgColor = new THREE.Color(this.themeColors.background);
@@ -147,7 +150,7 @@ class DotMatrix {
         uThreshold: { value: this.config.threshold },
         uMouse: { value: this.mouseSmooth },
         uMouseRadius: { value: this.config.mouseRadius },
-        uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+        uPixelRatio: { value: Math.min(window.devicePixelRatio, 1.5) },
         uPrimaryColor: { value: primaryColor },
         uSecondaryColor: { value: secondaryColor },
         uAccentColor: { value: accentColor },
@@ -239,12 +242,11 @@ class DotMatrix {
 
           vec2 coord = uv * uNoiseScale;
 
-          // 可见性云团
+          // 简化可见性计算，减少 noise 调用
           float visNoise1 = snoise(vec3(coord * 1.0, time * 0.5));
           float visNoise2 = snoise(vec3(coord * 2.0 + 50.0, time * 0.3));
-          float visNoise3 = snoise(vec3(coord * 0.5 + 100.0, time * 0.7));
 
-          float visibility = visNoise1 * 0.5 + visNoise2 * 0.3 + visNoise3 * 0.2;
+          float visibility = visNoise1 * 0.6 + visNoise2 * 0.4;
 
           // 右下角更密集
           float densityBias = uv.x * 0.3 + uv.y * 0.2;
@@ -261,12 +263,9 @@ class DotMatrix {
           vVisible = visible;
           vBrightness = smoothstep(uThreshold, uThreshold + 0.4, visibility);
 
-          // 强调色区域
-          float accentNoise1 = snoise(vec3(coord * 1.2 + 200.0, time * 0.4 + 10.0));
-          float accentNoise2 = snoise(vec3(coord * 0.9 + 300.0, time * 0.6 + 20.0));
-
-          float accentValue = accentNoise1 * 0.6 + accentNoise2 * 0.4;
-          vIsAccent = smoothstep(0.15, 0.45, accentValue);
+          // 简化强调色计算
+          float accentNoise = snoise(vec3(coord * 1.2 + 200.0, time * 0.4 + 10.0));
+          vIsAccent = smoothstep(0.15, 0.45, accentNoise);
 
           // 鼠标交互
           vec2 pixelPos = vec2(position.x, -position.y);
@@ -324,24 +323,52 @@ class DotMatrix {
   }
 
   private setupEventListeners() {
-    window.addEventListener('resize', this.onResize.bind(this));
-    window.addEventListener('mousemove', this.onMouseMove.bind(this));
-    window.addEventListener('mouseleave', this.onMouseLeave.bind(this));
+    // 绑定方法以确保正确的 this 上下文
+    this.onResize = this.onResize.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onMouseLeave = this.onMouseLeave.bind(this);
+
+    window.addEventListener('resize', this.onResize, { passive: true });
+    window.addEventListener('mousemove', this.onMouseMove, { passive: true });
+    window.addEventListener('mouseleave', this.onMouseLeave, { passive: true });
+
+    // 处理 WebGL 上下文丢失
+    this.renderer.domElement.addEventListener('webglcontextlost', (e) => {
+      e.preventDefault();
+      if (this.animationId) {
+        cancelAnimationFrame(this.animationId);
+      }
+    }, false);
+
+    this.renderer.domElement.addEventListener('webglcontextrestored', () => {
+      this.init();
+      this.createDotMatrix();
+      this.animate();
+    }, false);
   }
 
+  private resizeTimer: NodeJS.Timeout | null = null;
+
   private onResize() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    // 防抖处理，避免频繁重建几何体
+    if (this.resizeTimer) {
+      clearTimeout(this.resizeTimer);
+    }
 
-    this.camera.right = width;
-    this.camera.bottom = -height;
-    this.camera.updateProjectionMatrix();
+    this.resizeTimer = setTimeout(() => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
 
-    this.renderer.setSize(width, height);
-    this.material.uniforms.uResolution.value.set(width, height);
-    this.material.uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio, 2);
+      this.camera.right = width;
+      this.camera.bottom = -height;
+      this.camera.updateProjectionMatrix();
 
-    this.createDotMatrix();
+      this.renderer.setSize(width, height);
+      this.material.uniforms.uResolution.value.set(width, height);
+      this.material.uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio, 1.5);
+
+      this.createDotMatrix();
+    }, 150); // 150ms 防抖延迟
   }
 
   private onMouseMove(event: MouseEvent) {
@@ -369,13 +396,25 @@ class DotMatrix {
     }
   }
 
-  private animate = () => {
+  private lastFrameTime = 0;
+  private targetFPS = 30; // 限制帧率为 30 FPS
+  private frameInterval = 1000 / this.targetFPS;
+
+  private animate = (currentTime: number = 0) => {
     this.animationId = requestAnimationFrame(this.animate);
+
+    // 帧率限制
+    const deltaTime = currentTime - this.lastFrameTime;
+    if (deltaTime < this.frameInterval) {
+      return;
+    }
+    this.lastFrameTime = currentTime - (deltaTime % this.frameInterval);
 
     const elapsedTime = this.clock.getElapsedTime();
 
-    this.mouseSmooth.x += (this.mouse.x - this.mouseSmooth.x) * 0.08;
-    this.mouseSmooth.y += (this.mouse.y - this.mouseSmooth.y) * 0.08;
+    // 降低鼠标平滑更新频率
+    this.mouseSmooth.x += (this.mouse.x - this.mouseSmooth.x) * 0.05;
+    this.mouseSmooth.y += (this.mouse.y - this.mouseSmooth.y) * 0.05;
 
     if (this.material) {
       this.material.uniforms.uTime.value = elapsedTime;
@@ -390,12 +429,21 @@ class DotMatrix {
       cancelAnimationFrame(this.animationId);
     }
 
+    // 清理定时器
+    if (this.resizeTimer) {
+      clearTimeout(this.resizeTimer);
+    }
+
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('mouseleave', this.onMouseLeave);
 
+    // 清理 Three.js 资源
     this.geometry?.dispose();
     this.material?.dispose();
+
+    // 清理 WebGL 上下文
+    this.renderer?.forceContextLoss();
     this.renderer?.dispose();
 
     if (this.container && this.renderer?.domElement) {
@@ -408,23 +456,20 @@ export default function ThreeJSCanvas({ themeColors, themeStyle }: ThreeJSCanvas
   const containerRef = useRef<HTMLDivElement>(null);
   const dotMatrixRef = useRef<DotMatrix | null>(null);
 
-  console.log('ThreeJSCanvas rendering with colors:', themeColors);
-
-  // 初始化 Three.js 场景
+  // 延迟初始化 Three.js，给页面其他内容优先加载
   useEffect(() => {
-    console.log('ThreeJSCanvas useEffect - containerRef.current:', containerRef.current);
-    if (!containerRef.current) return;
+    const timer = setTimeout(() => {
+      if (!containerRef.current || dotMatrixRef.current) return;
 
-    try {
-      console.log('Initializing Three.js with colors:', themeColors);
-      dotMatrixRef.current = new DotMatrix(containerRef.current, themeColors);
-      console.log('Three.js initialized successfully');
-    } catch (error) {
-      console.error('Failed to initialize Three.js:', error);
-    }
+      try {
+        dotMatrixRef.current = new DotMatrix(containerRef.current, themeColors);
+      } catch (error) {
+        console.error('Failed to initialize Three.js:', error);
+      }
+    }, 100); // 延迟 100ms 初始化
 
     return () => {
-      console.log('Disposing Three.js');
+      clearTimeout(timer);
       dotMatrixRef.current?.dispose();
       dotMatrixRef.current = null;
     };
