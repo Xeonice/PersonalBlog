@@ -237,7 +237,7 @@ const TimelineItemGalgame: React.FC<{
   const { currentTheme } = useMultiTheme();
 
   const isInView = useInView(ref, {
-    root: scrollContainerRef?.current,  // 使用传入的滚动容器
+    root: scrollContainerRef?.current || null,  // 使用传入的滚动容器
     once: true,  // 只触发一次
     amount: 0.1,  // 10% 可见就触发
     margin: "0px 0px -10% 0px"  // 稍微提前触发
