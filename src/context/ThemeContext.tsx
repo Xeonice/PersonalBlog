@@ -66,32 +66,43 @@ interface MultiThemeProviderProps {
 export const MultiThemeProvider: React.FC<MultiThemeProviderProps> = ({ children }) => {
   const { setTheme: setNextTheme } = useNextTheme();
   const [mounted, setMounted] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState<ThemeConfig>(getDefaultTheme());
+  const [currentTheme, setCurrentTheme] = useState<ThemeConfig>(getDefaultTheme);
 
-  // 尝试获取过渡动画上下文
-  let themeTransition: ReturnType<typeof useThemeTransition> | null = null;
-  try {
-    themeTransition = useThemeTransition();
-  } catch {
-    // ThemeTransitionProvider 可能未包裹
-  }
-
-  // 从 localStorage 读取保存的主题
+  // 分离挂载状态检测
   useEffect(() => {
-    setMounted(true);
-    const savedThemeId = localStorage.getItem('multi-theme-id');
-    if (savedThemeId) {
-      const savedTheme = getThemeById(savedThemeId);
-      if (savedTheme) {
-        setCurrentTheme(savedTheme);
-        applyThemeColors(savedTheme);
-        setNextTheme(savedTheme.isDark ? 'dark' : 'light');
-      }
-    } else {
-      // 默认应用当前主题
-      applyThemeColors(currentTheme);
-    }
+    const handleMount = () => setMounted(true);
+    handleMount();
   }, []);
+
+  // 分离主题初始化逻辑
+  useEffect(() => {
+    if (!mounted) return;
+
+    const handleThemeInit = () => {
+      const savedThemeId = localStorage.getItem('multi-theme-id');
+      if (savedThemeId) {
+        const savedTheme = getThemeById(savedThemeId);
+        if (savedTheme) {
+          setCurrentTheme(savedTheme);
+        }
+      }
+    };
+
+    // 使用 requestAnimationFrame 推迟执行，避免同步状态更新
+    const frameId = requestAnimationFrame(handleThemeInit);
+    return () => cancelAnimationFrame(frameId);
+  }, [mounted]);
+
+  // 获取过渡动画上下文（总是调用，避免条件性调用）
+  const themeTransition = useThemeTransition();
+
+  // 应用主题颜色和同步 next-themes
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    applyThemeColors(currentTheme);
+    setNextTheme(currentTheme.isDark ? 'dark' : 'light');
+  }, [currentTheme, setNextTheme]);
 
   const setTheme = useCallback((themeId: string) => {
     const newTheme = getThemeById(themeId);
