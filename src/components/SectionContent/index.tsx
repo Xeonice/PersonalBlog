@@ -1,9 +1,9 @@
 import React, {
   useRef,
   useState,
-  useEffect,
   useCallback,
 } from 'react';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -15,11 +15,68 @@ import { Paragraph } from '../Typography';
 import TypewriterText from '../GalgameSection/TypewriterText';
 import styles from './index.module.css';
 
+interface ContactMethod {
+  type: string;
+  link: string;
+  label?: string;
+}
+
+interface Article {
+  title: string;
+  description: string;
+  link: string;
+  image?: string;
+  year: string;
+  tags?: string[];
+}
+
+interface TimelineItem {
+  period: string;
+  location?: string;
+  title: string;
+  company: string;
+  companyUrl?: string;
+  description: string;
+  achievements?: string[];
+  technologies?: string[];
+}
+
+interface ListItem {
+  title: string;
+  description: string;
+}
+
 interface SectionData {
   id: string;
   title: string;
   type: 'text' | 'timeline' | 'list' | 'contact' | 'articles';
-  content: any;
+  content:
+    | { paragraphs: string[] }
+    | { items: TimelineItem[] }
+    | { items: ListItem[] }
+    | { description: string; methods: ContactMethod[] }
+    | { articles: Article[]; description?: string };
+}
+
+// 类型守卫函数
+function hasTextContent(section: SectionData): section is SectionData & { content: { paragraphs: string[] } } {
+  return section.type === 'text';
+}
+
+function hasTimelineContent(section: SectionData): section is SectionData & { content: { items: TimelineItem[] } } {
+  return section.type === 'timeline';
+}
+
+function hasListContent(section: SectionData): section is SectionData & { content: { items: ListItem[] } } {
+  return section.type === 'list';
+}
+
+function hasContactContent(section: SectionData): section is SectionData & { content: { description: string; methods: ContactMethod[] } } {
+  return section.type === 'contact';
+}
+
+function hasArticlesContent(section: SectionData): section is SectionData & { content: { articles: Article[]; description?: string } } {
+  return section.type === 'articles';
 }
 
 interface SectionContentProps {
@@ -35,7 +92,7 @@ interface SectionContentProps {
 }
 
 // 获取联系方式的图标和信息
-const getContactInfo = (method: any) => {
+const getContactInfo = (method: ContactMethod) => {
   switch (method.type) {
     case 'email':
       return {
@@ -135,17 +192,11 @@ const TextContent: React.FC<{
 
 // 时间轴内容渲染
 const TimelineContent: React.FC<{
-  content: { items: any[] };
+  content: { items: TimelineItem[] };
   mode: 'static' | 'galgame';
-  currentTextIndex?: number;
-  skipCurrentText?: boolean;
-  onTextComplete?: () => void;
 }> = ({
   content,
   mode,
-  currentTextIndex = 0,
-  skipCurrentText,
-  onTextComplete,
 }) => {
   const { currentTheme } = useMultiTheme();
   const { isMobile } = useDeviceType();
@@ -259,7 +310,7 @@ const TimelineContent: React.FC<{
     <div
       className={`${styles.timelineContent} ${isMobile ? styles.timelineContentMobile : ''}`}
     >
-      {content.items.map((item: any, index: number) => (
+      {content.items.map((item: TimelineItem, index: number) => (
         <TimelineItemGalgame key={index} item={item} index={index} />
       ))}
     </div>
@@ -268,7 +319,7 @@ const TimelineContent: React.FC<{
 
 // 单独的时间轴项目组件（Galgame 模式）
 const TimelineItemGalgame: React.FC<{
-  item: any;
+  item: TimelineItem;
   index: number;
 }> = ({ item, index }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -388,7 +439,7 @@ const TimelineItemGalgame: React.FC<{
 
 // 单个列表项组件（Galgame 模式） - 只处理正在动画的项目
 const ListItemGalgame: React.FC<{
-  item: any;
+  item: ListItem;
   skipCurrentText?: boolean;
   onComplete?: () => void;
 }> = ({ item, skipCurrentText, onComplete }) => {
@@ -434,7 +485,7 @@ const ListItemGalgame: React.FC<{
 
 // 列表内容渲染
 const ListContent: React.FC<{
-  content: { items: any[] };
+  content: { items: ListItem[] };
   mode: 'static' | 'galgame';
   currentTextIndex?: number;
   skipCurrentText?: boolean;
@@ -468,7 +519,7 @@ const ListContent: React.FC<{
     <div
       className={`${styles.listContent} ${isMobile ? styles.listContentMobile : ''}`}
     >
-      {content.items.map((item: any, index: number) => (
+      {content.items.map((item: ListItem, index: number) => (
         <div key={index} className={styles.listItem}>
           {currentTextIndex > index ? (
             // 已完成的项目 - 直接显示静态内容，不使用组件
@@ -492,7 +543,7 @@ const ListContent: React.FC<{
 
 // 文章内容渲染
 const ArticlesContent: React.FC<{
-  content: { articles: any[]; description?: string };
+  content: { articles: Article[]; description?: string };
   mode: 'static' | 'galgame';
   currentTextIndex?: number;
   skipCurrentText?: boolean;
@@ -529,7 +580,13 @@ const ArticlesContent: React.FC<{
               {/* 左侧图片区域 */}
               {article.image && (
                 <div className={styles.articleImage}>
-                  <img src={article.image} alt={article.title} />
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    width={200}
+                    height={120}
+                    className={styles.articleImageImg}
+                  />
                 </div>
               )}
 
@@ -579,7 +636,7 @@ const ArticlesContent: React.FC<{
       {/* 文章列表会在描述完成后显示 */}
       {currentTextIndex > 0 && (
         <div className={styles.articlesGrid}>
-          {content.articles.map((article: any, index: number) => (
+          {content.articles.map((article: Article, index: number) => (
             <ArticleItemGalgame
               key={index}
               article={article}
@@ -595,7 +652,7 @@ const ArticlesContent: React.FC<{
 
 // 单独的文章项目组件（Galgame 模式）
 const ArticleItemGalgame: React.FC<{
-  article: any;
+  article: Article;
   index: number;
   isLastItem?: boolean;
 }> = ({ article, index, isLastItem = false }) => {
@@ -639,7 +696,13 @@ const ArticleItemGalgame: React.FC<{
         {/* 左侧图片区域 */}
         {article.image && (
           <div className={styles.articleImage}>
-            <img src={article.image} alt={article.title} />
+            <Image
+              src={article.image}
+              alt={article.title}
+              width={200}
+              height={120}
+              className={styles.articleImageImg}
+            />
           </div>
         )}
 
@@ -678,7 +741,7 @@ const ArticleItemGalgame: React.FC<{
 
 // 联系方式内容渲染
 const ContactContent: React.FC<{
-  content: { description: string; methods: any[] };
+  content: { description: string; methods: ContactMethod[] };
   mode: 'static' | 'galgame';
   currentTextIndex?: number;
   skipCurrentText?: boolean;
@@ -769,7 +832,7 @@ const ContactContent: React.FC<{
       <div
         className={`${styles.contactGrid} ${isMobile ? styles.contactGridMobile : ''}`}
       >
-        {content.methods.map((method: any, index: number) => {
+        {content.methods.map((method: ContactMethod, index: number) => {
           const methodIndex = index + 1;
           const contactInfo = getContactInfo(method);
 
@@ -865,56 +928,68 @@ const SectionContent: React.FC<SectionContentProps> = ({
   const renderContent = () => {
     switch (section.type) {
       case 'text':
-        return (
-          <TextContent
-            content={section.content}
-            mode={mode}
-            currentTextIndex={currentTextIndex}
-            skipCurrentText={skipCurrentText}
-            onTextComplete={onTextComplete}
-            isHomepage={isHomepage}
-          />
-        );
+        if (hasTextContent(section)) {
+          return (
+            <TextContent
+              content={section.content}
+              mode={mode}
+              currentTextIndex={currentTextIndex}
+              skipCurrentText={skipCurrentText}
+              onTextComplete={onTextComplete}
+              isHomepage={isHomepage}
+            />
+          );
+        }
+        return null;
       case 'timeline':
-        return (
-          <TimelineContent
-            content={section.content}
-            mode={mode}
-            currentTextIndex={currentTextIndex}
-            skipCurrentText={skipCurrentText}
-            onTextComplete={onTextComplete}
-          />
-        );
+        if (hasTimelineContent(section)) {
+          return (
+            <TimelineContent
+              content={section.content}
+              mode={mode}
+            />
+          );
+        }
+        return null;
       case 'list':
-        return (
-          <ListContent
-            content={section.content}
-            mode={mode}
-            currentTextIndex={currentTextIndex}
-            skipCurrentText={skipCurrentText}
-            onTextComplete={onTextComplete}
-          />
-        );
+        if (hasListContent(section)) {
+          return (
+            <ListContent
+              content={section.content}
+              mode={mode}
+              currentTextIndex={currentTextIndex}
+              skipCurrentText={skipCurrentText}
+              onTextComplete={onTextComplete}
+            />
+          );
+        }
+        return null;
       case 'articles':
-        return (
-          <ArticlesContent
-            content={section.content}
-            mode={mode}
-            currentTextIndex={currentTextIndex}
-            skipCurrentText={skipCurrentText}
-            onTextComplete={onTextComplete}
-          />
-        );
+        if (hasArticlesContent(section)) {
+          return (
+            <ArticlesContent
+              content={section.content}
+              mode={mode}
+              currentTextIndex={currentTextIndex}
+              skipCurrentText={skipCurrentText}
+              onTextComplete={onTextComplete}
+            />
+          );
+        }
+        return null;
       case 'contact':
-        return (
-          <ContactContent
-            content={section.content}
-            mode={mode}
-            currentTextIndex={currentTextIndex}
-            skipCurrentText={skipCurrentText}
-            onTextComplete={onTextComplete}
-          />
-        );
+        if (hasContactContent(section)) {
+          return (
+            <ContactContent
+              content={section.content}
+              mode={mode}
+              currentTextIndex={currentTextIndex}
+              skipCurrentText={skipCurrentText}
+              onTextComplete={onTextComplete}
+            />
+          );
+        }
+        return null;
       default:
         return <div>Unknown section type: {section.type}</div>;
     }

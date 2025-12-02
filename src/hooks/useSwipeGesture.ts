@@ -1,0 +1,131 @@
+import { useSwipeable } from 'react-swipeable';
+import { useRef } from 'react';
+
+interface UseSwipeGestureProps {
+  onSwipeDown?: () => void;
+  onSwipeUp?: () => void;
+  onSwipeLeft?: () => void;
+  onSwipeRight?: () => void;
+  threshold?: number;
+  target?: React.RefObject<HTMLElement>;
+}
+
+export const useSwipeGesture = ({
+  onSwipeDown,
+  onSwipeUp,
+  onSwipeLeft,
+  onSwipeRight,
+  threshold = 50, // 滑动阈值
+  target
+}: UseSwipeGestureProps) => {
+
+  const lastGestureTime = useRef(0);
+
+  // 将边界检查逻辑移到外部，避免 React Compiler 检测到 ref 访问
+  const checkScrollBoundary = (direction: 'up' | 'down'): boolean => {
+    const element = target?.current;
+    if (!element) return true; // 没有目标元素时，允许手势
+
+    const { scrollTop, scrollHeight, clientHeight } = element;
+
+    // 如果内容高度小于等于容器高度，说明没有滚动内容，直接允许手势
+    const hasScrollableContent = scrollHeight > clientHeight;
+
+    console.log('📏 Scroll position:', {
+      scrollTop,
+      scrollHeight,
+      clientHeight,
+      hasScrollableContent,
+      atTop: scrollTop <= 5,
+      atBottom: Math.abs(scrollTop + clientHeight - scrollHeight) <= 5
+    });
+
+    if (!hasScrollableContent) {
+      console.log('🎯 No scrollable content, allowing gesture directly');
+      return true; // 没有滚动内容时，直接允许手势
+    }
+
+    if (direction === 'up') {
+      // 在顶部：scrollTop 接近 0
+      return scrollTop <= 5;
+    } else {
+      // 在底部：scrollTop + clientHeight 接近 scrollHeight
+      return Math.abs(scrollTop + clientHeight - scrollHeight) <= 5;
+    }
+  };
+
+  const handleSwipe = (direction: 'up' | 'down' | 'left' | 'right', deltaX: number, deltaY: number) => {
+    const now = Date.now();
+
+    // 防抖动：500ms内只允许一次手势
+    if (now - lastGestureTime.current < 500) {
+      console.log('🚫 Gesture throttled');
+      return;
+    }
+
+    console.log('👆 Swipe detected:', { direction, deltaX, deltaY, threshold });
+
+    // 检查垂直滑动是否在边界
+    if (direction === 'up' || direction === 'down') {
+      if (!checkScrollBoundary(direction)) {
+        console.log(`❌ Not at ${direction} boundary, allowing normal scroll`);
+        return;
+      }
+    }
+
+    lastGestureTime.current = now;
+
+    // 触发对应的回调
+    switch (direction) {
+      case 'down':
+        console.log('✅ Triggering onSwipeDown (at bottom boundary)');
+        onSwipeDown?.();
+        break;
+      case 'up':
+        console.log('✅ Triggering onSwipeUp (at top boundary)');
+        onSwipeUp?.();
+        break;
+      case 'left':
+        console.log('✅ Triggering onSwipeLeft');
+        onSwipeLeft?.();
+        break;
+      case 'right':
+        console.log('✅ Triggering onSwipeRight');
+        onSwipeRight?.();
+        break;
+    }
+  };
+
+  const swipeHandlers = useSwipeable({
+    onSwipedDown: (eventData) => {
+      const { deltaY } = eventData;
+      if (Math.abs(deltaY) >= threshold) {
+        handleSwipe('down', 0, deltaY);
+      }
+    },
+    onSwipedUp: (eventData) => {
+      const { deltaY } = eventData;
+      if (Math.abs(deltaY) >= threshold) {
+        handleSwipe('up', 0, deltaY);
+      }
+    },
+    onSwipedLeft: (eventData) => {
+      const { deltaX } = eventData;
+      if (Math.abs(deltaX) >= threshold) {
+        handleSwipe('left', deltaX, 0);
+      }
+    },
+    onSwipedRight: (eventData) => {
+      const { deltaX } = eventData;
+      if (Math.abs(deltaX) >= threshold) {
+        handleSwipe('right', deltaX, 0);
+      }
+    },
+    trackMouse: false, // 禁用鼠标跟踪，只支持触摸
+    trackTouch: true,  // 启用触摸跟踪
+    preventScrollOnSwipe: false, // 允许正常滚动
+    delta: threshold, // 设置触发阈值
+  });
+
+  return swipeHandlers;
+};

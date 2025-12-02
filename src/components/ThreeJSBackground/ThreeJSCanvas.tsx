@@ -493,7 +493,7 @@ function checkWebGLSupport(): boolean {
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
     return !!gl;
-  } catch (e) {
+  } catch {
     return false;
   }
 }
@@ -501,16 +501,14 @@ function checkWebGLSupport(): boolean {
 export default function ThreeJSCanvas({ themeColors, themeStyle }: ThreeJSCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const dotMatrixRef = useRef<DotMatrix | null>(null);
-  const [webGLSupported, setWebGLSupported] = useState(true);
-
-  // 检查 WebGL 支持
-  useEffect(() => {
+  // 使用惰性初始化检查 WebGL 支持，避免在 useEffect 中调用 setState
+  const [webGLSupported] = useState(() => {
     const supported = checkWebGLSupport();
-    setWebGLSupported(supported);
     if (!supported) {
       console.warn('WebGL is not supported in this browser/environment');
     }
-  }, []);
+    return supported;
+  });
 
   // 延迟初始化 Three.js，给页面其他内容优先加载
   useEffect(() => {
@@ -523,7 +521,6 @@ export default function ThreeJSCanvas({ themeColors, themeStyle }: ThreeJSCanvas
         dotMatrixRef.current = new DotMatrix(containerRef.current, themeColors, themeStyle);
       } catch (error) {
         console.error('Failed to initialize Three.js:', error);
-        setWebGLSupported(false);
       }
     }, 100); // 延迟 100ms 初始化
 
@@ -532,7 +529,7 @@ export default function ThreeJSCanvas({ themeColors, themeStyle }: ThreeJSCanvas
       dotMatrixRef.current?.dispose();
       dotMatrixRef.current = null;
     };
-  }, [webGLSupported]);
+  }, [webGLSupported, themeColors, themeStyle]);
 
   // 响应主题变化
   useEffect(() => {
@@ -543,7 +540,7 @@ export default function ThreeJSCanvas({ themeColors, themeStyle }: ThreeJSCanvas
 
     console.log('Updating theme colors:', themeColors);
     dotMatrixRef.current.updateTheme(themeColors);
-  }, [themeColors]);
+  }, [themeColors, themeStyle]);
 
   // 如果 WebGL 不可用，显示降级背景
   if (!webGLSupported) {

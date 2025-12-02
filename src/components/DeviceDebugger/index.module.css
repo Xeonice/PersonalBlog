@@ -1,0 +1,82 @@
+.debugger {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 12px;
+  z-index: 9999;
+  min-width: 200px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.debugger h3 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #00ff88;
+}
+
+.info p {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+.info strong {
+  display: inline-block;
+  min-width: 120px;
+  color: #88ccff;
+}
+
+/* 暗色主题适配 */
+:global(.dark) .debugger {
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+:global(.dark) .debugger h3 {
+  color: #00aa55;
+}
+
+:global(.dark) .info strong {
+  color: #0066cc;
+}
+
+.controls {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.closeButton {
+  background: #ff4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-family: monospace;
+}
+
+.closeButton:hover {
+  background: #ff6666;
+}
+
+:global(.dark) .controls {
+  border-top-color: rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark) .closeButton {
+  background: #cc3333;
+  color: white;
+}
+
+:global(.dark) .closeButton:hover {
+  background: #ee5555;
+}

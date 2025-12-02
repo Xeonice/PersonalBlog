@@ -20,11 +20,62 @@ import styles from './index.module.css';
 
 // ScrollContainer Context 已移除，因为 useInView 不需要指定 root
 
+interface ContactMethod {
+  type: string;
+  link: string;
+  label?: string;
+}
+
+interface Article {
+  title: string;
+  description: string;
+  link: string;
+  image?: string;
+  year: string;
+  tags?: string[];
+}
+
+interface TimelineItem {
+  period: string;
+  location?: string;
+  title: string;
+  company: string;
+  companyUrl?: string;
+  description: string;
+  achievements?: string[];
+  technologies?: string[];
+}
+
+interface ListItem {
+  title: string;
+  description: string;
+}
+
+type SectionContent =
+  | { paragraphs: string[] } // text
+  | { items: TimelineItem[] } // timeline
+  | { items: ListItem[] } // list
+  | { description: string; methods: ContactMethod[] } // contact
+  | { articles: Article[]; description?: string }; // articles
+
+// 类型守卫函数
+function hasTextContent(section: SectionData): section is SectionData & { content: { paragraphs: string[] } } {
+  return section.type === 'text';
+}
+
+function hasListContent(section: SectionData): section is SectionData & { content: { items: ListItem[] } } {
+  return section.type === 'list';
+}
+
+function hasContactContent(section: SectionData): section is SectionData & { content: { description: string; methods: ContactMethod[] } } {
+  return section.type === 'contact';
+}
+
 interface SectionData {
   id: string;
   title: string;
   type: 'text' | 'timeline' | 'list' | 'contact' | 'articles';
-  content: any;
+  content: SectionContent;
 }
 
 interface GalgameSectionProps {
@@ -65,7 +116,9 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
 
     switch (currentSection.type) {
       case 'text':
-        textCount = currentSection.content.paragraphs.length;
+        if (hasTextContent(currentSection)) {
+          textCount = currentSection.content.paragraphs.length;
+        }
         shouldUseScrollMode = false;
         break;
       case 'timeline':
@@ -79,11 +132,15 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
         shouldUseScrollMode = true;
         break;
       case 'list':
-        textCount = currentSection.content.items.length;
+        if (hasListContent(currentSection)) {
+          textCount = currentSection.content.items.length;
+        }
         shouldUseScrollMode = false;
         break;
       case 'contact':
-        textCount = 1 + currentSection.content.methods.length;
+        if (hasContactContent(currentSection)) {
+          textCount = 1 + currentSection.content.methods.length;
+        }
         shouldUseScrollMode = false;
         break;
     }
@@ -112,7 +169,6 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
   useEffect(() => {
     if (!sectionConfig.useScrollMode) return;
 
-    debugger;
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
 

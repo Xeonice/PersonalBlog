@@ -148,6 +148,7 @@
 
 .content {
   width: 100%;
+  height: 100%;
 }
 
 /* 右侧内容区第一个 section 移除顶部 padding，与左侧对齐 */

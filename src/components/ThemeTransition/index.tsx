@@ -36,8 +36,6 @@ interface ThemeTransitionProviderProps {
   columns?: number;
   /** 行数（默认 6） */
   rows?: number;
-  /** 总动画时长（毫秒） */
-  duration?: number;
 }
 
 // Tile 组件 - 使用 CSS animation
@@ -53,7 +51,7 @@ interface TileProps {
 }
 
 // 使用 React.memo 避免不必要的重新渲染
-const Tile = React.memo<TileProps>(({ row, col, rows, enterDelay, leaveDelay, tileDuration, phase, color }) => {
+const Tile = React.memo<TileProps>(({ enterDelay, leaveDelay, tileDuration, phase, color }) => {
   // 根据 phase 决定 className
   // 关键：tileEnter 在整个动画期间保持，tileLeave 在 leaving 阶段叠加
   const isAnimating = phase !== 'idle';
@@ -86,7 +84,6 @@ export const ThemeTransitionProvider: React.FC<ThemeTransitionProviderProps> = (
   children,
   columns = 8,
   rows = 6,
-  duration = 1200,  // 默认总时长
 }) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [phase, setPhase] = useState<TransitionPhase>('idle');

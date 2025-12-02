@@ -1,6 +1,7 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, MotionProps } from 'framer-motion';
 import { useMultiTheme } from '../../context/ThemeContext';
+import { useDeviceType } from '../../hooks/useDeviceType';
 import styles from './GalgameButton.module.css';
 
 interface GalgameButtonProps {
@@ -8,7 +9,7 @@ interface GalgameButtonProps {
   children: React.ReactNode;
   onClick?: (e: React.MouseEvent) => void;
   className?: string;
-  motionProps?: any;
+  motionProps?: MotionProps;
 }
 
 const GalgameButton: React.FC<GalgameButtonProps> = ({
@@ -19,20 +20,31 @@ const GalgameButton: React.FC<GalgameButtonProps> = ({
   motionProps
 }) => {
   const { currentTheme } = useMultiTheme();
+  const { isMobile } = useDeviceType();
 
   const buttonClass = type === 'hint' ? styles.hintButton : styles.continueButton;
   const themeClass = currentTheme.isDark ? styles.darkTheme : styles.lightTheme;
+  const deviceClass = isMobile ? styles.mobile : styles.desktop;
 
-  const MotionComponent = motionProps ? motion.div : 'div';
+  if (motionProps) {
+    return (
+      <motion.div
+        className={`${buttonClass} ${themeClass} ${deviceClass} ${className}`}
+        onClick={onClick}
+        {...motionProps}
+      >
+        {children}
+      </motion.div>
+    );
+  }
 
   return (
-    <MotionComponent
-      className={`${buttonClass} ${themeClass} ${className}`}
+    <div
+      className={`${buttonClass} ${themeClass} ${deviceClass} ${className}`}
       onClick={onClick}
-      {...(motionProps || {})}
     >
       {children}
-    </MotionComponent>
+    </div>
   );
 };
 
