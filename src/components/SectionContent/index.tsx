@@ -586,6 +586,8 @@ const ArticlesContent: React.FC<{
                     width={200}
                     height={120}
                     className={styles.articleImageImg}
+                    style={{ objectFit: 'cover' }}
+                    unoptimized
                   />
                 </div>
               )}
@@ -702,6 +704,8 @@ const ArticleItemGalgame: React.FC<{
               width={200}
               height={120}
               className={styles.articleImageImg}
+              style={{ objectFit: 'cover' }}
+              unoptimized
             />
           </div>
         )}
