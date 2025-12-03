@@ -74,7 +74,7 @@ interface StructuredData {
 }
 
 interface IndexPageProps {
-  defaultSection: string;
+  defaultSection: string | null;
   seo: SEOData;
   structuredData: StructuredData;
 }
@@ -105,7 +105,7 @@ const IndexPage: React.FC<IndexPageProps> = ({
   }, [currentActiveId, seo]);
 
   // 使用客户端 SEO 更新 Hook
-  useClientSEO(currentActiveId || defaultSection);
+  useClientSEO(currentActiveId || defaultSection || 'about');
 
   // 处理水合问题
   React.useEffect(() => {
@@ -132,8 +132,11 @@ const IndexPage: React.FC<IndexPageProps> = ({
     if (!config?.navigation) return;
 
     const initializeSection = () => {
+      // 如果 defaultSection 为 null（根路由），桌面端默认显示第一个 section
+      const targetSection = defaultSection || config.navigation[0]?.id;
+
       const navIndex = config.navigation.findIndex(
-        (item) => item.id === defaultSection
+        (item) => item.id === targetSection
       );
       if (navIndex !== -1) {
         setCurrentSectionIndex(navIndex);
@@ -464,10 +467,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<IndexPageProps> = async ({ params }) => {
   const slug = params?.slug as string[] | undefined;
-  const sectionId = slug?.[0] || 'about';
+  // 根路由 / 对应 null（移动端首页），桌面端默认显示关于我
+  const sectionId = slug?.[0] || null;
 
-  const seo = generateSectionSEO(sectionId);
-  const structuredData = generateStructuredData(sectionId);
+  // 为 SEO 生成使用默认值
+  const seoSectionId = sectionId || 'about';
+  const seo = generateSectionSEO(seoSectionId);
+  const structuredData = generateStructuredData(seoSectionId);
 
   return {
     props: {
