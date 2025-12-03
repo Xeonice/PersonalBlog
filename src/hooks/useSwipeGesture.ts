@@ -37,6 +37,7 @@ export const useSwipeGesture = ({
       // 如果找不到 data-scrollable 元素，使用目标元素本身
       const { scrollTop, scrollHeight, clientHeight } = element as HTMLElement;
       const hasScrollableContent = scrollHeight > clientHeight;
+      const BOUNDARY_THRESHOLD = 30; // 使用相同的阈值
 
       if (!hasScrollableContent) {
         console.log('🎯 No scrollable content in target element, allowing gesture');
@@ -44,9 +45,13 @@ export const useSwipeGesture = ({
       }
 
       if (direction === 'up') {
-        return scrollTop <= 5;
+        const result = scrollTop <= BOUNDARY_THRESHOLD;
+        console.log(`🔍 Target element TOP boundary: scrollTop=${Math.round(scrollTop)} <= ${BOUNDARY_THRESHOLD} = ${result}`);
+        return result;
       } else {
-        return Math.abs(scrollTop + clientHeight - scrollHeight) <= 5;
+        const result = Math.abs(scrollTop + clientHeight - scrollHeight) <= BOUNDARY_THRESHOLD;
+        console.log(`🔍 Target element BOTTOM boundary: |${Math.round(scrollTop + clientHeight)} - ${Math.round(scrollHeight)}| = ${Math.abs(scrollTop + clientHeight - scrollHeight)} <= ${BOUNDARY_THRESHOLD} = ${result}`);
+        return result;
       }
     }
 
@@ -55,14 +60,23 @@ export const useSwipeGesture = ({
     // 如果内容高度小于等于容器高度，说明没有滚动内容，直接允许手势
     const hasScrollableContent = scrollHeight > clientHeight;
 
-    console.log('📏 Scroll position:', {
+    // 增加边界检测的容错范围，移动端滚动精度可能不够
+    const BOUNDARY_THRESHOLD = 30; // 从 5px 增加到 30px
+    const scrolledToTop = scrollTop <= BOUNDARY_THRESHOLD;
+    const scrolledToBottom = Math.abs(scrollTop + clientHeight - scrollHeight) <= BOUNDARY_THRESHOLD;
+
+    console.log('📏 Scroll boundary check:', {
       elementType: 'scrollable-container',
-      scrollTop,
-      scrollHeight,
-      clientHeight,
+      scrollTop: Math.round(scrollTop),
+      scrollHeight: Math.round(scrollHeight),
+      clientHeight: Math.round(clientHeight),
+      maxScrollTop: Math.round(scrollHeight - clientHeight),
       hasScrollableContent,
-      atTop: scrollTop <= 5,
-      atBottom: Math.abs(scrollTop + clientHeight - scrollHeight) <= 5
+      threshold: BOUNDARY_THRESHOLD,
+      scrolledToTop,
+      scrolledToBottom,
+      direction,
+      checkDirection: direction === 'up' ? 'bottom' : 'top'
     });
 
     if (!hasScrollableContent) {
@@ -71,11 +85,15 @@ export const useSwipeGesture = ({
     }
 
     if (direction === 'up') {
-      // 在顶部：scrollTop 接近 0
-      return scrollTop <= 5;
+      // 检查顶部：scrollTop 接近 0
+      const result = scrolledToTop;
+      console.log(`🔍 Checking TOP boundary for direction '${direction}': scrollTop=${Math.round(scrollTop)} <= ${BOUNDARY_THRESHOLD} = ${result}`);
+      return result;
     } else {
-      // 在底部：scrollTop + clientHeight 接近 scrollHeight
-      return Math.abs(scrollTop + clientHeight - scrollHeight) <= 5;
+      // 检查底部：scrollTop + clientHeight 接近 scrollHeight
+      const result = scrolledToBottom;
+      console.log(`🔍 Checking BOTTOM boundary for direction '${direction}': |${Math.round(scrollTop + clientHeight)} - ${Math.round(scrollHeight)}| = ${Math.abs(scrollTop + clientHeight - scrollHeight)} <= ${BOUNDARY_THRESHOLD} = ${result}`);
+      return result;
     }
   };
 
