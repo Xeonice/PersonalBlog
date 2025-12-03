@@ -1,19 +1,82 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, {
+  useRef,
+  useState,
+  useCallback,
+} from 'react';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { motion, useInView } from 'framer-motion';
 import { useMultiTheme } from '../../context/ThemeContext';
+import { useDeviceType } from '../../hooks/useDeviceType';
 import StyledLink from '../Link';
 import { Paragraph } from '../Typography';
 import TypewriterText from '../GalgameSection/TypewriterText';
 import styles from './index.module.css';
 
+interface ContactMethod {
+  type: string;
+  link: string;
+  label?: string;
+}
+
+interface Article {
+  title: string;
+  description: string;
+  link: string;
+  image?: string;
+  year: string;
+  tags?: string[];
+}
+
+interface TimelineItem {
+  period: string;
+  location?: string;
+  title: string;
+  company: string;
+  companyUrl?: string;
+  description: string;
+  achievements?: string[];
+  technologies?: string[];
+}
+
+interface ListItem {
+  title: string;
+  description: string;
+}
+
 interface SectionData {
   id: string;
   title: string;
   type: 'text' | 'timeline' | 'list' | 'contact' | 'articles';
-  content: any;
+  content:
+    | { paragraphs: string[] }
+    | { items: TimelineItem[] }
+    | { items: ListItem[] }
+    | { description: string; methods: ContactMethod[] }
+    | { articles: Article[]; description?: string };
+}
+
+// 类型守卫函数
+function hasTextContent(section: SectionData): section is SectionData & { content: { paragraphs: string[] } } {
+  return section.type === 'text';
+}
+
+function hasTimelineContent(section: SectionData): section is SectionData & { content: { items: TimelineItem[] } } {
+  return section.type === 'timeline';
+}
+
+function hasListContent(section: SectionData): section is SectionData & { content: { items: ListItem[] } } {
+  return section.type === 'list';
+}
+
+function hasContactContent(section: SectionData): section is SectionData & { content: { description: string; methods: ContactMethod[] } } {
+  return section.type === 'contact';
+}
+
+function hasArticlesContent(section: SectionData): section is SectionData & { content: { articles: Article[]; description?: string } } {
+  return section.type === 'articles';
 }
 
 interface SectionContentProps {
@@ -24,13 +87,12 @@ interface SectionContentProps {
   skipCurrentText?: boolean;
   onTextComplete?: () => void;
   isHomepage?: boolean;
-  scrollContainerRef?: React.RefObject<HTMLDivElement>;
   // 通知上层组件是否使用滚动模式
   onScrollModeChange?: (useScrollMode: boolean) => void;
 }
 
 // 获取联系方式的图标和信息
-const getContactInfo = (method: any) => {
+const getContactInfo = (method: ContactMethod) => {
   switch (method.type) {
     case 'email':
       return {
@@ -39,7 +101,7 @@ const getContactInfo = (method: any) => {
         prefix: '通过',
         linkText: '邮箱',
         suffix: '联系我',
-        description: '最直接的沟通方式'
+        description: '最直接的沟通方式',
       };
     case 'github':
       return {
@@ -48,7 +110,7 @@ const getContactInfo = (method: any) => {
         prefix: '在',
         linkText: 'GitHub',
         suffix: '上关注我',
-        description: '查看我的开源项目'
+        description: '查看我的开源项目',
       };
     case 'twitter':
       return {
@@ -57,7 +119,7 @@ const getContactInfo = (method: any) => {
         prefix: '在',
         linkText: 'Twitter',
         suffix: '上找到我',
-        description: '日常想法与分享'
+        description: '日常想法与分享',
       };
     default:
       return {
@@ -66,7 +128,7 @@ const getContactInfo = (method: any) => {
         prefix: '访问我的',
         linkText: method.label,
         suffix: '',
-        description: ''
+        description: '',
       };
   }
 };
@@ -79,12 +141,26 @@ const TextContent: React.FC<{
   skipCurrentText?: boolean;
   onTextComplete?: () => void;
   isHomepage?: boolean;
-}> = ({ content, mode, currentTextIndex = 0, skipCurrentText, onTextComplete, isHomepage }) => {
+}> = ({
+  content,
+  mode,
+  currentTextIndex = 0,
+  skipCurrentText,
+  onTextComplete,
+  isHomepage,
+}) => {
   if (mode === 'static') {
     return (
       <div className={styles.textContent}>
         {content.paragraphs.map((paragraph, index) => (
-          <Paragraph key={index} className={index === 0 && isHomepage ? styles.firstParagraphHomepage : undefined}>
+          <Paragraph
+            key={index}
+            className={
+              index === 0 && isHomepage
+                ? styles.firstParagraphHomepage
+                : undefined
+            }
+          >
             {paragraph}
           </Paragraph>
         ))}
@@ -116,30 +192,35 @@ const TextContent: React.FC<{
 
 // 时间轴内容渲染
 const TimelineContent: React.FC<{
-  content: { items: any[] };
+  content: { items: TimelineItem[] };
   mode: 'static' | 'galgame';
-  currentTextIndex?: number;
-  skipCurrentText?: boolean;
-  onTextComplete?: () => void;
-  scrollContainerRef?: React.RefObject<HTMLDivElement>;
-}> = ({ content, mode, currentTextIndex = 0, skipCurrentText, onTextComplete, scrollContainerRef }) => {
+}> = ({
+  content,
+  mode,
+}) => {
   const { currentTheme } = useMultiTheme();
+  const { isMobile } = useDeviceType();
 
   if (mode === 'static') {
-    const themeClass = currentTheme.isDark ? styles.timelineItemDark : styles.timelineItemLight;
+    const themeClass = currentTheme.isDark
+      ? styles.timelineItemDark
+      : styles.timelineItemLight;
+    const mobileClass = isMobile ? styles.timelineItemMobile : '';
 
     return (
-      <div className={styles.timelineContent}>
+      <div
+        className={`${styles.timelineContent} ${isMobile ? styles.timelineContentMobile : ''}`}
+      >
         {content.items.map((item, index) => (
           <motion.div
             key={index}
-            className={`${styles.timelineItem} ${themeClass}`}
+            className={`${styles.timelineItem} ${themeClass} ${mobileClass}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
             whileHover={{
               y: -2,
-              transition: { duration: 0.2 }
+              transition: { duration: 0.2 },
             }}
           >
             {/* 左侧：时间段 */}
@@ -157,7 +238,13 @@ const TimelineContent: React.FC<{
                 <h3 className={styles.timelineTitle}>
                   {item.title}
                   {item.companyUrl && item.companyUrl !== '#' ? (
-                    <StyledLink href={item.companyUrl} className={styles.companyLink} target="_blank" rel="noopener noreferrer" onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}>
+                    <StyledLink
+                      href={item.companyUrl}
+                      className={styles.companyLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}
+                    >
                       <span className={styles.atSymbol}>·</span>
                       <span className={styles.companyName}>{item.company}</span>
                       <svg
@@ -167,7 +254,7 @@ const TimelineContent: React.FC<{
                         strokeWidth="2"
                         className={styles.externalIcon}
                       >
-                        <path d="m9 18 6-6-6-6"/>
+                        <path d="m9 18 6-6-6-6" />
                       </svg>
                     </StyledLink>
                   ) : (
@@ -187,11 +274,13 @@ const TimelineContent: React.FC<{
               {/* 成就列表（如果有） */}
               {item.achievements && item.achievements.length > 0 && (
                 <ul className={styles.achievementsList}>
-                  {item.achievements.map((achievement: string, achIndex: number) => (
-                    <li key={achIndex} className={styles.achievementItem}>
-                      {achievement}
-                    </li>
-                  ))}
+                  {item.achievements.map(
+                    (achievement: string, achIndex: number) => (
+                      <li key={achIndex} className={styles.achievementItem}>
+                        {achievement}
+                      </li>
+                    )
+                  )}
                 </ul>
               )}
 
@@ -199,11 +288,13 @@ const TimelineContent: React.FC<{
               {item.technologies && item.technologies.length > 0 && (
                 <div className={styles.technologiesWrapper}>
                   <div className={styles.technologiesList}>
-                    {item.technologies.map((tech: string, techIndex: number) => (
-                      <span key={techIndex} className={styles.technologyTag}>
-                        {tech}
-                      </span>
-                    ))}
+                    {item.technologies.map(
+                      (tech: string, techIndex: number) => (
+                        <span key={techIndex} className={styles.technologyTag}>
+                          {tech}
+                        </span>
+                      )
+                    )}
                   </div>
                 </div>
               )}
@@ -216,14 +307,11 @@ const TimelineContent: React.FC<{
 
   // Galgame 模式 - 基于滚动的卡片显示（使用 useInView）
   return (
-    <div className={styles.timelineContent}>
-      {content.items.map((item: any, index: number) => (
-        <TimelineItemGalgame
-          key={index}
-          item={item}
-          index={index}
-          scrollContainerRef={scrollContainerRef}
-        />
+    <div
+      className={`${styles.timelineContent} ${isMobile ? styles.timelineContentMobile : ''}`}
+    >
+      {content.items.map((item: TimelineItem, index: number) => (
+        <TimelineItemGalgame key={index} item={item} index={index} />
       ))}
     </div>
   );
@@ -231,132 +319,191 @@ const TimelineContent: React.FC<{
 
 // 单独的时间轴项目组件（Galgame 模式）
 const TimelineItemGalgame: React.FC<{
-  item: any;
+  item: TimelineItem;
   index: number;
-  scrollContainerRef?: React.RefObject<HTMLDivElement>;
-}> = ({ item, index, scrollContainerRef }) => {
+}> = ({ item, index }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { currentTheme } = useMultiTheme();
 
   const isInView = useInView(ref, {
-    root: scrollContainerRef,  // 直接传递 ref 对象
-    once: true,  // 只触发一次
-    amount: 0.1,  // 10% 可见就触发
-    margin: "0px 0px -10% 0px"  // 稍微提前触发
+    // 不传 root，使用默认的 viewport
+    once: true, // 只触发一次
+    amount: 0.1, // 10% 可见就触发
+    margin: '0px 0px -5% 0px', // 元素进入视口 5% 就触发，比原来的 10% 更容易触发
   });
 
-  // 根据主题选择样式类
-  const themeClass = currentTheme.isDark ? styles.timelineItemDark : styles.timelineItemLight;
+  // 根据主题选择样式类，并检查是否为移动端
+  const { isMobile } = useDeviceType();
+  const themeClass = currentTheme.isDark
+    ? styles.timelineItemDark
+    : styles.timelineItemLight;
+  const mobileClass = isMobile ? styles.timelineItemMobile : '';
 
   return (
     <motion.div
       ref={ref}
-      className={`${styles.timelineItem} ${themeClass}`}
+      className={`${styles.timelineItem} ${themeClass} ${mobileClass}`}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{
         duration: 0.6,
-        ease: "easeOut",
-        delay: isInView ? index * 0.1 : 0  // 只在可见时才应用延迟
+        ease: 'easeOut',
+        delay: isInView ? index * 0.1 : 0, // 只在可见时才应用延迟
       }}
       onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}
     >
-            {/* 卡片内容保持不变 */}
-            {/* 左侧：时间段 */}
-            <div className={styles.timelinePeriod}>
-              <span className={styles.periodText}>{item.period}</span>
-              {item.location && (
-                <span className={styles.periodLocation}>{item.location}</span>
-              )}
+      {/* 卡片内容保持不变 */}
+      {/* 左侧：时间段 */}
+      <div className={styles.timelinePeriod}>
+        <span className={styles.periodText}>{item.period}</span>
+        {item.location && (
+          <span className={styles.periodLocation}>{item.location}</span>
+        )}
+      </div>
+
+      {/* 右侧：详细内容 */}
+      <div className={styles.timelineDetails}>
+        {/* 职位和公司 */}
+        <div className={styles.timelineHeader}>
+          <h3 className={styles.timelineTitle}>
+            {isInView ? (
+              <TypewriterText
+                text={item.title}
+                delay={200 + index * 100} // 根据索引错开打字机效果
+                speed={60}
+              />
+            ) : (
+              item.title
+            )}
+            {item.companyUrl && item.companyUrl !== '#' ? (
+              <StyledLink
+                href={item.companyUrl}
+                className={styles.companyLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}
+              >
+                <span className={styles.atSymbol}>·</span>
+                <span className={styles.companyName}>{item.company}</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className={styles.externalIcon}
+                >
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </StyledLink>
+            ) : (
+              <>
+                <span className={styles.atSymbol}>·</span>
+                <span className={styles.companyName}>{item.company}</span>
+              </>
+            )}
+          </h3>
+        </div>
+
+        {/* 主要描述 - 整个卡片显示时直接显示完整内容 */}
+        <Paragraph className={styles.timelineDescription}>
+          {item.description}
+        </Paragraph>
+
+        {/* 成就列表 */}
+        {item.achievements && item.achievements.length > 0 && (
+          <ul className={styles.achievementsList}>
+            {item.achievements.map((achievement: string, achIndex: number) => (
+              <li key={achIndex} className={styles.achievementItem}>
+                {achievement}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {/* 技术栈标签 */}
+        {item.technologies && item.technologies.length > 0 && (
+          <div className={styles.technologiesWrapper}>
+            <div className={styles.technologiesList}>
+              {item.technologies.map((tech: string, techIndex: number) => (
+                <span key={techIndex} className={styles.technologyTag}>
+                  {tech}
+                </span>
+              ))}
             </div>
-
-            {/* 右侧：详细内容 */}
-            <div className={styles.timelineDetails}>
-              {/* 职位和公司 */}
-              <div className={styles.timelineHeader}>
-                <h3 className={styles.timelineTitle}>
-                  {isInView ? (
-                    <TypewriterText
-                      text={item.title}
-                      delay={200 + index * 100}  // 根据索引错开打字机效果
-                      speed={60}
-                    />
-                  ) : (
-                    item.title
-                  )}
-                  {item.companyUrl && item.companyUrl !== '#' ? (
-                    <StyledLink href={item.companyUrl} className={styles.companyLink} target="_blank" rel="noopener noreferrer" onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}>
-                      <span className={styles.atSymbol}>·</span>
-                      <span className={styles.companyName}>{item.company}</span>
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        className={styles.externalIcon}
-                      >
-                        <path d="m9 18 6-6-6-6"/>
-                      </svg>
-                    </StyledLink>
-                  ) : (
-                    <>
-                      <span className={styles.atSymbol}>·</span>
-                      <span className={styles.companyName}>{item.company}</span>
-                    </>
-                  )}
-                </h3>
-              </div>
-
-              {/* 主要描述 - 整个卡片显示时直接显示完整内容 */}
-              <Paragraph className={styles.timelineDescription}>
-                {item.description}
-              </Paragraph>
-
-              {/* 成就列表 */}
-              {item.achievements && item.achievements.length > 0 && (
-                <ul className={styles.achievementsList}>
-                  {item.achievements.map((achievement: string, achIndex: number) => (
-                    <li key={achIndex} className={styles.achievementItem}>
-                      {achievement}
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {/* 技术栈标签 */}
-              {item.technologies && item.technologies.length > 0 && (
-                <div className={styles.technologiesWrapper}>
-                  <div className={styles.technologiesList}>
-                    {item.technologies.map((tech: string, techIndex: number) => (
-                      <span key={techIndex} className={styles.technologyTag}>
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+          </div>
+        )}
+      </div>
     </motion.div>
+  );
+};;
+
+// 单个列表项组件（Galgame 模式） - 只处理正在动画的项目
+const ListItemGalgame: React.FC<{
+  item: ListItem;
+  skipCurrentText?: boolean;
+  onComplete?: () => void;
+}> = ({ item, skipCurrentText, onComplete }) => {
+  const [titleCompleted, setTitleCompleted] = useState(false);
+
+  // 使用 useCallback 来稳定函数引用
+  const handleTitleComplete = useCallback(() => {
+    setTitleCompleted(true);
+  }, []);
+
+  return (
+    <>
+      <h4 className={styles.listTitle}>
+        {!titleCompleted ? (
+          <TypewriterText
+            text={item.title}
+            delay={0}
+            speed={80}
+            onComplete={handleTitleComplete}
+            skipToEnd={skipCurrentText}
+          />
+        ) : (
+          item.title
+        )}
+      </h4>
+      <div
+        className={styles.listDescription}
+        style={{ minHeight: '1.5em', marginTop: '0.5rem' }}
+      >
+        {titleCompleted && (
+          <TypewriterText
+            text={item.description}
+            delay={300}
+            speed={50}
+            onComplete={onComplete}
+            skipToEnd={skipCurrentText}
+          />
+        )}
+      </div>
+    </>
   );
 };
 
 // 列表内容渲染
 const ListContent: React.FC<{
-  content: { items: any[] };
+  content: { items: ListItem[] };
   mode: 'static' | 'galgame';
   currentTextIndex?: number;
   skipCurrentText?: boolean;
   onTextComplete?: () => void;
-}> = ({ content, mode, currentTextIndex = 0, skipCurrentText, onTextComplete }) => {
-  const [titleCompleted, setTitleCompleted] = useState(false);
+}> = ({
+  content,
+  mode,
+  currentTextIndex = 0,
+  skipCurrentText,
+  onTextComplete,
+}) => {
+  const { isMobile } = useDeviceType();
 
-  // 重置状态当 currentTextIndex 改变时
-  useEffect(() => {
-    setTitleCompleted(false);
-  }, [currentTextIndex]);
   if (mode === 'static') {
     return (
-      <div className={styles.listContent}>
+      <div
+        className={`${styles.listContent} ${isMobile ? styles.listContentMobile : ''}`}
+      >
         {content.items.map((item, index) => (
           <div key={index} className={styles.listItem}>
             <h4 className={styles.listTitle}>{item.title}</h4>
@@ -369,41 +516,25 @@ const ListContent: React.FC<{
 
   // Galgame 模式
   return (
-    <div className={styles.listContent}>
-      {content.items.map((item: any, index: number) => (
+    <div
+      className={`${styles.listContent} ${isMobile ? styles.listContentMobile : ''}`}
+    >
+      {content.items.map((item: ListItem, index: number) => (
         <div key={index} className={styles.listItem}>
-          {currentTextIndex > index && (
+          {currentTextIndex > index ? (
+            // 已完成的项目 - 直接显示静态内容，不使用组件
             <>
               <h4 className={styles.listTitle}>{item.title}</h4>
               <div className={styles.completedText}>{item.description}</div>
             </>
-          )}
-          {currentTextIndex === index && (
-            <>
-              <h4 className={styles.listTitle}>
-                <TypewriterText
-                  text={item.title}
-                  delay={0}
-                  speed={80}
-                  onComplete={() => {
-                    setTitleCompleted(true);
-                  }}
-                  skipToEnd={skipCurrentText}
-                />
-              </h4>
-              <div className={styles.listDescription} style={{ minHeight: '1.5em', marginTop: '0.5rem' }}>
-                {titleCompleted && (
-                  <TypewriterText
-                    text={item.description}
-                    delay={300}
-                    speed={50}
-                    onComplete={onTextComplete}
-                    skipToEnd={skipCurrentText}
-                  />
-                )}
-              </div>
-            </>
-          )}
+          ) : currentTextIndex === index ? (
+            // 当前正在播放动画的项目
+            <ListItemGalgame
+              item={item}
+              skipCurrentText={skipCurrentText}
+              onComplete={onTextComplete}
+            />
+          ) : null}
         </div>
       ))}
     </div>
@@ -412,13 +543,18 @@ const ListContent: React.FC<{
 
 // 文章内容渲染
 const ArticlesContent: React.FC<{
-  content: { articles: any[]; description?: string };
+  content: { articles: Article[]; description?: string };
   mode: 'static' | 'galgame';
   currentTextIndex?: number;
   skipCurrentText?: boolean;
   onTextComplete?: () => void;
-  scrollContainerRef?: React.RefObject<HTMLDivElement>;
-}> = ({ content, mode, currentTextIndex = 0, skipCurrentText, onTextComplete, scrollContainerRef }) => {
+}> = ({
+  content,
+  mode,
+  currentTextIndex = 0,
+  skipCurrentText,
+  onTextComplete,
+}) => {
   if (mode === 'static') {
     return (
       <div className={styles.articlesContent}>
@@ -434,22 +570,32 @@ const ArticlesContent: React.FC<{
               href={article.link}
               className={styles.articleCard}
               target={article.link.startsWith('http') ? '_blank' : '_self'}
-              rel={article.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+              rel={
+                article.link.startsWith('http')
+                  ? 'noopener noreferrer'
+                  : undefined
+              }
               onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}
             >
               {/* 左侧图片区域 */}
               {article.image && (
                 <div className={styles.articleImage}>
-                  <img src={article.image} alt={article.title} />
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    width={200}
+                    height={120}
+                    className={styles.articleImageImg}
+                    style={{ objectFit: 'cover' }}
+                    unoptimized
+                  />
                 </div>
               )}
 
               <div className={styles.articleMainContent}>
                 <div className={styles.articleYear}>{article.year}</div>
                 <div className={styles.articleContent}>
-                  <h3 className={styles.articleTitle}>
-                    {article.title}
-                  </h3>
+                  <h3 className={styles.articleTitle}>{article.title}</h3>
                   <Paragraph className={styles.articleDescription}>
                     {article.description}
                   </Paragraph>
@@ -492,12 +638,12 @@ const ArticlesContent: React.FC<{
       {/* 文章列表会在描述完成后显示 */}
       {currentTextIndex > 0 && (
         <div className={styles.articlesGrid}>
-          {content.articles.map((article: any, index: number) => (
+          {content.articles.map((article: Article, index: number) => (
             <ArticleItemGalgame
               key={index}
               article={article}
               index={index}
-              scrollContainerRef={scrollContainerRef}
+              isLastItem={index === content.articles.length - 1}
             />
           ))}
         </div>
@@ -508,22 +654,25 @@ const ArticlesContent: React.FC<{
 
 // 单独的文章项目组件（Galgame 模式）
 const ArticleItemGalgame: React.FC<{
-  article: any;
+  article: Article;
   index: number;
-  scrollContainerRef?: React.RefObject<HTMLDivElement>;
-}> = ({ article, index, scrollContainerRef }) => {
+  isLastItem?: boolean;
+}> = ({ article, index, isLastItem = false }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { currentTheme } = useMultiTheme();
 
   const isInView = useInView(ref, {
-    root: scrollContainerRef,  // 直接传递 ref 对象
-    once: true,  // 只触发一次
-    amount: 0.1,  // 10% 可见就触发
-    margin: "0px 0px -10% 0px"  // 稍微提前触发
+    // 不传 root，使用默认的 viewport
+    once: true, // 只触发一次
+    amount: 0.1, // 10% 可见就触发
+    // 最后一张卡片使用更宽松的条件
+    margin: isLastItem ? '0px 0px -50px 0px' : '0px 0px -10% 0px',
   });
 
   // 根据主题选择样式类
-  const themeClass = currentTheme.isDark ? styles.articleCardDark : styles.articleCardLight;
+  const themeClass = currentTheme.isDark
+    ? styles.articleCardDark
+    : styles.articleCardLight;
 
   return (
     <motion.div
@@ -533,7 +682,7 @@ const ArticleItemGalgame: React.FC<{
       transition={{
         duration: 0.6,
         ease: [0.25, 0.46, 0.45, 0.94],
-        delay: index * 0.1  // 错开动画时间
+        delay: index * 0.1, // 错开动画时间
       }}
       onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}
     >
@@ -541,13 +690,23 @@ const ArticleItemGalgame: React.FC<{
         href={article.link}
         className={`${styles.articleCard} ${themeClass}`}
         target={article.link.startsWith('http') ? '_blank' : '_self'}
-        rel={article.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+        rel={
+          article.link.startsWith('http') ? 'noopener noreferrer' : undefined
+        }
         onMouseDown={(e: React.MouseEvent) => e.stopPropagation()}
       >
         {/* 左侧图片区域 */}
         {article.image && (
           <div className={styles.articleImage}>
-            <img src={article.image} alt={article.title} />
+            <Image
+              src={article.image}
+              alt={article.title}
+              width={200}
+              height={120}
+              className={styles.articleImageImg}
+              style={{ objectFit: 'cover' }}
+              unoptimized
+            />
           </div>
         )}
 
@@ -558,14 +717,16 @@ const ArticleItemGalgame: React.FC<{
               {isInView ? (
                 <TypewriterText
                   text={article.title}
-                  delay={200 + index * 100}  // 根据索引错开打字机效果
+                  delay={200 + index * 100} // 根据索引错开打字机效果
                   speed={60}
                 />
               ) : (
                 article.title
               )}
             </h3>
-            <div className={styles.articleDescription}>{article.description}</div>
+            <div className={styles.articleDescription}>
+              {article.description}
+            </div>
             {article.tags && (
               <div className={styles.articleTags}>
                 {article.tags.map((tag: string, tagIndex: number) => (
@@ -584,18 +745,34 @@ const ArticleItemGalgame: React.FC<{
 
 // 联系方式内容渲染
 const ContactContent: React.FC<{
-  content: { description: string; methods: any[] };
+  content: { description: string; methods: ContactMethod[] };
   mode: 'static' | 'galgame';
   currentTextIndex?: number;
   skipCurrentText?: boolean;
   onTextComplete?: () => void;
-}> = ({ content, mode, currentTextIndex = 0, skipCurrentText, onTextComplete }) => {
+}> = ({
+  content,
+  mode,
+  currentTextIndex = 0,
+  skipCurrentText,
+  onTextComplete,
+}) => {
+  const { isMobile } = useDeviceType();
+
   if (mode === 'static') {
     // 静态模式 - 使用现代卡片设计
     return (
-      <div className={styles.contactContent}>
-        <Paragraph className={styles.contactDesc}>{content.description}</Paragraph>
-        <div className={styles.contactGrid}>
+      <div
+        className={`${styles.contactContent} ${isMobile ? styles.contactContentMobile : ''}`}
+      >
+        <Paragraph
+          className={`${styles.contactDesc} ${isMobile ? styles.contactDescMobile : ''}`}
+        >
+          {content.description}
+        </Paragraph>
+        <div
+          className={`${styles.contactGrid} ${isMobile ? styles.contactGridMobile : ''}`}
+        >
           {content.methods.map((method, index) => {
             const contactInfo = getContactInfo(method);
 
@@ -605,12 +782,20 @@ const ContactContent: React.FC<{
                   <FontAwesomeIcon icon={contactInfo.icon} />
                 </div>
                 <div className={styles.contactCardContent}>
-                  <h4 className={styles.contactCardTitle}>{contactInfo.title}</h4>
+                  <h4 className={styles.contactCardTitle}>
+                    {contactInfo.title}
+                  </h4>
                   <div className={styles.contactCardText}>
-                    <p className={styles.contactCardDescription}>{contactInfo.description}</p>
+                    <p className={styles.contactCardDescription}>
+                      {contactInfo.description}
+                    </p>
                     <div className={styles.contactCardAction}>
                       {contactInfo.prefix}{' '}
-                      <StyledLink href={method.link} underline onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+                      <StyledLink
+                        href={method.link}
+                        underline
+                        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                      >
                         {contactInfo.linkText}
                       </StyledLink>
                       {contactInfo.suffix && ` ${contactInfo.suffix}`}
@@ -627,9 +812,13 @@ const ContactContent: React.FC<{
 
   // Galgame 模式
   return (
-    <div className={styles.contactContent}>
+    <div
+      className={`${styles.contactContent} ${isMobile ? styles.contactContentMobile : ''}`}
+    >
       {/* 主要描述 */}
-      <div className={styles.contactDesc}>
+      <div
+        className={`${styles.contactDesc} ${isMobile ? styles.contactDescMobile : ''}`}
+      >
         {currentTextIndex > 0 && (
           <div className={styles.completedText}>{content.description}</div>
         )}
@@ -644,8 +833,10 @@ const ContactContent: React.FC<{
       </div>
 
       {/* 联系方式卡片 */}
-      <div className={styles.contactGrid}>
-        {content.methods.map((method: any, index: number) => {
+      <div
+        className={`${styles.contactGrid} ${isMobile ? styles.contactGridMobile : ''}`}
+      >
+        {content.methods.map((method: ContactMethod, index: number) => {
           const methodIndex = index + 1;
           const contactInfo = getContactInfo(method);
 
@@ -655,8 +846,18 @@ const ContactContent: React.FC<{
               className={styles.contactCard}
               initial={{ opacity: 0, y: 20 }}
               animate={{
-                opacity: currentTextIndex > methodIndex ? 1 : (currentTextIndex === methodIndex ? 1 : 0),
-                y: currentTextIndex > methodIndex ? 0 : (currentTextIndex === methodIndex ? 0 : 20)
+                opacity:
+                  currentTextIndex > methodIndex
+                    ? 1
+                    : currentTextIndex === methodIndex
+                      ? 1
+                      : 0,
+                y:
+                  currentTextIndex > methodIndex
+                    ? 0
+                    : currentTextIndex === methodIndex
+                      ? 0
+                      : 20,
               }}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -669,10 +870,16 @@ const ContactContent: React.FC<{
                 {currentTextIndex > methodIndex ? (
                   // 动画完成后显示可点击的链接版本
                   <div className={styles.contactCardText}>
-                    <p className={styles.contactCardDescription}>{contactInfo.description}</p>
+                    <p className={styles.contactCardDescription}>
+                      {contactInfo.description}
+                    </p>
                     <div className={styles.contactCardAction}>
                       {contactInfo.prefix}{' '}
-                      <StyledLink href={method.link} underline onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+                      <StyledLink
+                        href={method.link}
+                        underline
+                        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                      >
                         {contactInfo.linkText}
                       </StyledLink>
                       {contactInfo.suffix && ` ${contactInfo.suffix}`}
@@ -712,71 +919,81 @@ const SectionContent: React.FC<SectionContentProps> = ({
   skipCurrentText,
   onTextComplete,
   isHomepage,
-  scrollContainerRef,
-  onScrollModeChange
+  onScrollModeChange,
 }) => {
   // 在组件加载时，根据 section 类型通知上层是否使用滚动模式
   React.useEffect(() => {
     if (mode === 'galgame' && onScrollModeChange) {
-      const useScrollMode = section.type === 'timeline' || section.type === 'articles';
+      const useScrollMode =
+        section.type === 'timeline' || section.type === 'articles';
       onScrollModeChange(useScrollMode);
     }
   }, [section.type, mode, onScrollModeChange]);
   const renderContent = () => {
     switch (section.type) {
       case 'text':
-        return (
-          <TextContent
-            content={section.content}
-            mode={mode}
-            currentTextIndex={currentTextIndex}
-            skipCurrentText={skipCurrentText}
-            onTextComplete={onTextComplete}
-            isHomepage={isHomepage}
-          />
-        );
+        if (hasTextContent(section)) {
+          return (
+            <TextContent
+              content={section.content}
+              mode={mode}
+              currentTextIndex={currentTextIndex}
+              skipCurrentText={skipCurrentText}
+              onTextComplete={onTextComplete}
+              isHomepage={isHomepage}
+            />
+          );
+        }
+        return null;
       case 'timeline':
-        return (
-          <TimelineContent
-            content={section.content}
-            mode={mode}
-            currentTextIndex={currentTextIndex}
-            skipCurrentText={skipCurrentText}
-            onTextComplete={onTextComplete}
-            scrollContainerRef={scrollContainerRef}
-          />
-        );
+        if (hasTimelineContent(section)) {
+          return (
+            <TimelineContent
+              content={section.content}
+              mode={mode}
+            />
+          );
+        }
+        return null;
       case 'list':
-        return (
-          <ListContent
-            content={section.content}
-            mode={mode}
-            currentTextIndex={currentTextIndex}
-            skipCurrentText={skipCurrentText}
-            onTextComplete={onTextComplete}
-          />
-        );
+        if (hasListContent(section)) {
+          return (
+            <ListContent
+              content={section.content}
+              mode={mode}
+              currentTextIndex={currentTextIndex}
+              skipCurrentText={skipCurrentText}
+              onTextComplete={onTextComplete}
+            />
+          );
+        }
+        return null;
       case 'articles':
-        return (
-          <ArticlesContent
-            content={section.content}
-            mode={mode}
-            currentTextIndex={currentTextIndex}
-            skipCurrentText={skipCurrentText}
-            onTextComplete={onTextComplete}
-            scrollContainerRef={scrollContainerRef}
-          />
-        );
+        if (hasArticlesContent(section)) {
+          return (
+            <ArticlesContent
+              content={section.content}
+              mode={mode}
+              currentTextIndex={currentTextIndex}
+              skipCurrentText={skipCurrentText}
+              onTextComplete={onTextComplete}
+            />
+          );
+        }
+        return null;
       case 'contact':
-        return (
-          <ContactContent
-            content={section.content}
-            mode={mode}
-            currentTextIndex={currentTextIndex}
-            skipCurrentText={skipCurrentText}
-            onTextComplete={onTextComplete}
-          />
-        );
+        if (hasContactContent(section)) {
+          return (
+            <ContactContent
+              content={section.content}
+              mode={mode}
+              currentTextIndex={currentTextIndex}
+              skipCurrentText={skipCurrentText}
+              onTextComplete={onTextComplete}
+            />
+          );
+        }
+        return null;
       default:
         return <div>Unknown section type: {section.type}</div>;
     }

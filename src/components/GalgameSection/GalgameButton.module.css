@@ -68,3 +68,44 @@
   background: rgba(255, 255, 255, 0.15);
   transform: translateY(-2px);
 }
+
+/* 移动端样式简化 */
+.mobile.hintButton,
+.mobile.continueButton {
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  height: auto;
+  min-height: 40px;
+  font-size: 0.875rem;
+  backdrop-filter: blur(8px);
+}
+
+/* 移动端 hint 按钮 - 更简洁 */
+.mobile.hintButton {
+  padding: 0.4rem 0.6rem;
+  min-height: 36px;
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+/* hint 文字隐藏逻辑移至 GalgameSection 的样式中 */
+
+/* 移动端继续按钮 - 更显眼 */
+.mobile.continueButton {
+  padding: 0.6rem 1rem;
+  min-height: 44px;
+  font-weight: 500;
+  border-width: 1.5px;
+}
+
+/* 移动端触摸优化 */
+.mobile.hintButton:active,
+.mobile.continueButton:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+/* 桌面端样式保持不变 */
+.desktop {
+  /* 桌面端使用原有样式 */
+}

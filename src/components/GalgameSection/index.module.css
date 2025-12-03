@@ -2,7 +2,7 @@
 .galgameContainer {
   position: relative;
   width: 100%;
-  height: calc(100vh - 2rem); /* 减去 rightColumn 的底部 padding */
+  height: 100%; /* 减去 rightColumn 的底部 padding */
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -14,7 +14,7 @@
 /* 主要内容区域 */
 .mainContentArea {
   flex: 1;
-  padding: 2rem 1rem 0 1rem; /* 减少左右 padding 以给时间轴卡片更多空间 */
+  padding: 2rem 0 1rem; /* 增加底部 padding 确保滚动内容有足够空间 */
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 0; /* 允许 flex 子项缩小 */
@@ -84,9 +84,8 @@
   width: 100%;
   height: auto;
   min-height: 80px; /* 最小高度 */
-  padding: 1rem 2rem 2rem 2rem;
+  padding: 1rem 0 2rem;
   display: flex;
-  justify-content: space-between;
   align-items: flex-end;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   box-sizing: border-box;
@@ -125,16 +124,83 @@
   }
 }
 
+/* 移动端圆形继续按钮 - 与 MobileGalgamePage 的返回按钮保持一致 */
+.mobilePromptButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  cursor: pointer;
+  user-select: none;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+.mobilePromptButton:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+.mobilePromptIcon {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+/* 移动端按钮暗色主题适配 */
+:global(.dark) .mobilePromptButton {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark) .mobilePromptButton:hover {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Footer 布局容器 - 三栏 flex 布局 */
+.footerLeft {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.footerCenter {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.footerRight {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+/* 移动端页面的 Footer 布局调整 */
+.mobileFooter {
+  display: flex;
+  align-items: flex-end;
+}
+
 /* 移除暗色主题的特殊背景，使用全局主题变量 */
 
 /* 响应式设计 */
 @media (max-width: 768px) {
   .galgameContainer {
-    height: calc(100vh - 2rem); /* 移动端也计算 padding */
+    height: 100%; /* 移动端也计算 padding */
   }
 
   .mainContentArea {
-    padding: 1.5rem 0.75rem 0 0.75rem;
+    padding: 1.5rem 0.75rem 1rem 0.75rem; /* 移动端也增加底部 padding */
   }
 
   .sectionTitle {
@@ -146,11 +212,50 @@
   }
 
   .galgameFooter {
-    padding: 0.75rem 1.5rem 1.5rem 1.5rem;
+    padding: 0.75rem 0 1.5rem;
     min-height: 60px;
+    /* 移动端调整为三栏布局：左(hint)、中(continue)、右(占位) */
+    justify-content: space-between;
+    position: relative;
   }
+
 
   .hintText {
     font-size: 0.75rem;
+  }
+}
+
+/* 移动端优化 - 简化 hint 文字 */
+@media (max-width: 768px) {
+  .hintText {
+    font-size: 0.75rem;
+    /* 保留文字但简化内容，可以通过修改 GalgameSection 组件来实现 */
+  }
+
+  .hint {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+  }
+
+  .footer {
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .hintIcon {
+    font-size: 0.875rem;
+  }
+
+  .hintCloseIcon {
+    font-size: 0.75rem;
+  }
+
+  .mobilePromptButton {
+    width: 36px;
+    height: 36px;
+  }
+
+  .mobilePromptIcon {
+    font-size: 1.1rem;
   }
 }

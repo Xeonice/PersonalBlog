@@ -8,4 +8,14 @@ module.exports = {
     // Enable optimizing server components (stable in Next.js 16)
     optimizeServerReact: true,
   },
+  // Image optimization configuration
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*.public.blob.vercel-storage.com',
+        pathname: '/**',
+      },
+    ],
+  },
 };

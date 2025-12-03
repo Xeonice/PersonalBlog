@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
       enableSystem={false}
       themes={['light', 'dark']}
     >
-      <ThemeTransitionProvider duration={1000} columns={6} rows={4}>
+      <ThemeTransitionProvider columns={6} rows={4}>
         <MultiThemeProvider>
           <Component {...pageProps} />
           <Analytics />

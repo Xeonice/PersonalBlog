@@ -2,11 +2,54 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { generateSectionSEO } from '../utils/seo';
 
+interface ContactMethod {
+  type: string;
+  link: string;
+  label?: string;
+}
+
+interface Article {
+  title: string;
+  description: string;
+  link: string;
+  image?: string;
+  year: string;
+  tags?: string[];
+}
+
+interface TimelineItem {
+  period: string;
+  location?: string;
+  title: string;
+  company: string;
+  companyUrl?: string;
+  description: string;
+  achievements?: string[];
+  technologies?: string[];
+}
+
+interface ListItem {
+  title: string;
+  description: string;
+}
+
+type SectionContent =
+  | { paragraphs: string[] } // text
+  | { items: TimelineItem[] } // timeline
+  | { items: ListItem[] } // list
+  | { description: string; methods: ContactMethod[] } // contact
+  | { articles: Article[]; description?: string }; // articles
+
 interface SectionData {
   id: string;
   title: string;
   type: string;
-  content: any;
+  content: SectionContent;
+}
+
+// 扩展 Window 接口以包含 SEO 缓存
+interface WindowWithSEOCache extends Window {
+  __seoCache?: Record<string, unknown>;
 }
 
 /**
@@ -150,6 +193,10 @@ export function useSEOPreload(allSections: SectionData[]) {
     });
 
     // 将缓存存储到 window 对象中供后续使用
-    (window as any).__seoCache = seoCache;
+    const seoObject: Record<string, unknown> = {};
+    seoCache.forEach((value, key) => {
+      seoObject[key] = value;
+    });
+    (window as WindowWithSEOCache).__seoCache = seoObject;
   }, [allSections]);
 }

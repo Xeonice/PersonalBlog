@@ -2,24 +2,24 @@
 
 interface Window {
   chrome?: {
-    runtime?: any;
-    [key: string]: any;
+    runtime?: unknown;
+    [key: string]: unknown;
   };
   webdriver?: boolean;
-  callSelenium?: any;
-  _Selenium_IDE_Recorder?: any;
-  __webdriverFunc?: any;
-  _selenium?: any;
-  calledSelenium?: any;
-  $cdc_asdjflasutopfhvcZLmcfl_?: any;
+  callSelenium?: unknown;
+  _Selenium_IDE_Recorder?: unknown;
+  __webdriverFunc?: unknown;
+  _selenium?: unknown;
+  calledSelenium?: unknown;
+  $cdc_asdjflasutopfhvcZLmcfl_?: unknown;
 }
 
 interface Document {
   webdriver?: boolean;
-  callSelenium?: any;
-  _Selenium_IDE_Recorder?: any;
-  __webdriverFunc?: any;
-  _selenium?: any;
-  calledSelenium?: any;
-  $cdc_asdjflasutopfhvcZLmcfl_?: any;
+  callSelenium?: unknown;
+  _Selenium_IDE_Recorder?: unknown;
+  __webdriverFunc?: unknown;
+  _selenium?: unknown;
+  calledSelenium?: unknown;
+  $cdc_asdjflasutopfhvcZLmcfl_?: unknown;
 }

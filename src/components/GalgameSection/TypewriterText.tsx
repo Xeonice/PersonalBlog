@@ -20,18 +20,16 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
   enableSkip = true,
   skipToEnd = false,
 }) => {
+  // 使用 key 来重置组件状态，避免在 useEffect 中调用 setState
+  const textKey = `${text}-${delay}`;
   const [displayedText, setDisplayedText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const [isMounted, setIsMounted] = useState(false); // 客户端挂载状态
+  const [hasStarted, setHasStarted] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // 确保只在客户端执行动画
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const lastTextKeyRef = useRef(textKey);
 
   // 跳过动画，立即显示全部文本
   const skipAnimation = useCallback(() => {
@@ -52,6 +50,7 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
   // 开始打字动画
   const startAnimation = useCallback(() => {
     setIsAnimating(true);
+    setHasStarted(true);
     setCurrentIndex(0);
     setDisplayedText('');
 
@@ -82,40 +81,34 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
         return prevIndex;
       });
     }, speed);
-  }, [text, speed]); // 移除 onComplete 依赖
+  }, [text, speed, onComplete]);
+
+  // 使用 useEffect 来重置状态，但通过 setTimeout 异步重置
+  useEffect(() => {
+    if (lastTextKeyRef.current !== textKey) {
+      lastTextKeyRef.current = textKey;
+      // 清理旧的 timers
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+
+      // 异步重置状态
+      setTimeout(() => {
+        setDisplayedText('');
+        setCurrentIndex(0);
+        setIsComplete(false);
+        setIsAnimating(false);
+        setHasStarted(false);
+      }, 0);
+    }
+  }, [textKey]);
 
   useEffect(() => {
-    // 只在客户端挂载后才执行动画
-    if (!isMounted) return;
-
-    // 只有在文本真正改变时才重置
-    setDisplayedText('');
-    setCurrentIndex(0);
-    setIsComplete(false);
-    setIsAnimating(false);
-
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-
-    // 延迟后开始动画
-    if (delay > 0) {
-      timeoutRef.current = setTimeout(() => {
-        startAnimation();
-      }, delay);
-    } else {
-      // 使用 requestAnimationFrame 确保在下一帧开始动画
-      requestAnimationFrame(() => {
-        startAnimation();
-      });
-    }
-
     // 清理函数
     return () => {
       if (intervalRef.current) {
@@ -125,12 +118,32 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [text, isMounted, startAnimation, delay]); // 依赖 isMounted
+  }, []);
+
+  // 启动动画的 effect
+  useEffect(() => {
+    if (lastTextKeyRef.current === textKey) {
+      // 延迟后开始动画
+      if (delay > 0) {
+        timeoutRef.current = setTimeout(() => {
+          startAnimation();
+        }, delay);
+      } else {
+        // 使用 requestAnimationFrame 确保在下一帧开始动画
+        requestAnimationFrame(() => {
+          startAnimation();
+        });
+      }
+    }
+  }, [textKey, delay, startAnimation]);
 
   // 外部触发的跳过效果
   useEffect(() => {
     if (skipToEnd && isAnimating) {
-      skipAnimation();
+      // 使用 setTimeout 异步调用，避免在 effect 中同步调用 setState
+      setTimeout(() => {
+        skipAnimation();
+      }, 0);
     }
   }, [skipToEnd, isAnimating, skipAnimation]);
 
@@ -156,9 +169,9 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
         fontSize: 'inherit',
       }}
     >
-      {/* 在服务端或客户端未挂载时显示完整文本，避免水合不匹配 */}
-      {!isMounted ? text : displayedText}
-      {isMounted && isAnimating && (
+      {/* 在动画未开始时不显示任何内容，避免水合不匹配 */}
+      {!hasStarted ? null : displayedText}
+      {isAnimating && (
         <motion.span
           className="cursor"
           animate={{ opacity: [1, 0, 1] }}

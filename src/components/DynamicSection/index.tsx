@@ -3,11 +3,49 @@ import { Heading2 } from '../Typography';
 import SectionContent from '../SectionContent';
 import styles from './index.module.css';
 
+interface ContactMethod {
+  type: string;
+  link: string;
+  label?: string;
+}
+
+interface Article {
+  title: string;
+  description: string;
+  link: string;
+  image?: string;
+  year: string;
+  tags?: string[];
+}
+
+interface TimelineItem {
+  period: string;
+  location?: string;
+  title: string;
+  company: string;
+  companyUrl?: string;
+  description: string;
+  achievements?: string[];
+  technologies?: string[];
+}
+
+interface ListItem {
+  title: string;
+  description: string;
+}
+
+type SectionContent =
+  | { paragraphs: string[] } // text
+  | { items: TimelineItem[] } // timeline
+  | { items: ListItem[] } // list
+  | { description: string; methods: ContactMethod[] } // contact
+  | { articles: Article[]; description?: string }; // articles
+
 interface SectionData {
   id: string;
   title: string;
-  type: 'text' | 'timeline' | 'list' | 'contact';
-  content: any;
+  type: 'text' | 'timeline' | 'list' | 'contact' | 'articles';
+  content: SectionContent;
 }
 
 interface DynamicSectionProps {

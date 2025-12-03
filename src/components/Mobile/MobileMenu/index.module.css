@@ -1,0 +1,177 @@
+/* 遮罩适配主题系统 */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-overlay);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* 菜单容器使用主题变量 */
+.menu {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 280px;
+  padding: 0.5rem;
+}
+
+/* 简化的菜单项 */
+.menuItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  margin-bottom: 0.25rem;
+  background: none;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.menuItem:last-child {
+  margin-bottom: 0;
+}
+
+.menuItem:hover {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px) saturate(1.5);
+  -webkit-backdrop-filter: blur(10px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.menuItem.active {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px) saturate(1.8) brightness(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.8) brightness(1.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* 页码 */
+.pageNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--bg-glass);
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  border: 1px solid var(--border-color);
+}
+
+.menuItem.active .pageNumber {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border-color: var(--color-primary);
+}
+
+/* 页面标题 */
+.pageTitle {
+  flex: 1;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.menuItem.active .pageTitle {
+  color: var(--text-accent);
+  font-weight: 600;
+}
+
+/* 活跃状态点 */
+.activeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  margin-left: 0.5rem;
+}
+
+/* 响应式调整 */
+@media (max-width: 480px) {
+  .overlay {
+    padding: 1.5rem;
+  }
+
+  .menu {
+    max-width: 260px;
+    border-radius: 12px;
+  }
+
+  .menuItem {
+    padding: 0.75rem 0.875rem;
+  }
+
+  .pageNumber {
+    width: 22px;
+    height: 22px;
+    margin-right: 0.625rem;
+  }
+
+  .pageTitle {
+    font-size: 0.85rem;
+  }
+}
+
+/* 深色主题下的磨砂玻璃效果 */
+:global(.dark) .menuItem:hover {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px) saturate(1.5) brightness(0.9);
+  -webkit-backdrop-filter: blur(10px) saturate(1.5) brightness(0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark) .menuItem.active {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px) saturate(1.8) brightness(0.8);
+  -webkit-backdrop-filter: blur(12px) saturate(1.8) brightness(0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* 安全区域适配 */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .overlay {
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+  }
+
+  @media (max-width: 480px) {
+    .overlay {
+      padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+    }
+  }
+}
