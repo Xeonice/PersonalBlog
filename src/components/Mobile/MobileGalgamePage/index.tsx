@@ -53,7 +53,7 @@ const MobileGalgamePage: React.FC<MobileGalgamePageProps> = ({
     onSwipeLeft,
     onSwipeRight,
     threshold: 50, // 设置滑动阈值
-    target: contentRef // 使用内容区域作为滚动检测目标
+    target: containerRef // 使用容器作为滚动检测目标，让 useSwipeGesture 自动查找内部的 data-scrollable 元素
   });
 
   // 获取当前页面对应的内容
@@ -80,7 +80,7 @@ const MobileGalgamePage: React.FC<MobileGalgamePageProps> = ({
       {/* Three.js 背景 */}
       <ThreeJSBackground />
 
-      <div ref={containerRef} className={styles.container}>
+      <div ref={containerRef} className={styles.container} {...swipeHandlers}>
         {/* 统一的顶部栏 */}
         <div className={styles.topBar}>
           {/* 页面指示器 */}
@@ -114,7 +114,7 @@ const MobileGalgamePage: React.FC<MobileGalgamePageProps> = ({
         </div>
 
         {/* 主要内容区域 */}
-        <div ref={contentRef} className={styles.content} {...swipeHandlers}>
+        <div ref={contentRef} className={styles.content}>
           <AnimatePresence mode="wait">
             {currentSection ? (
               <motion.div

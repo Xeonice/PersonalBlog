@@ -227,7 +227,7 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
   return (
     <div className={styles.galgameContainer} onMouseDown={handleClick}>
         {/* 主要内容区域 */}
-        <div className={styles.mainContentArea} ref={scrollContainerRef}>
+        <div className={styles.mainContentArea} ref={scrollContainerRef} data-scrollable="true">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSection.id}

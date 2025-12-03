@@ -24,14 +24,39 @@ export const useSwipeGesture = ({
   // 将边界检查逻辑移到外部，避免 React Compiler 检测到 ref 访问
   const checkScrollBoundary = (direction: 'up' | 'down'): boolean => {
     const element = target?.current;
-    if (!element) return true; // 没有目标元素时，允许手势
+    if (!element) {
+      console.log('❌ No target element found, allowing gesture');
+      return true; // 没有目标元素时，允许手势
+    }
 
-    const { scrollTop, scrollHeight, clientHeight } = element;
+    // 尝试查找内部的滚动容器
+    const scrollableElement = element.querySelector('[data-scrollable="true"]') as HTMLElement;
+
+    if (!scrollableElement) {
+      console.log('⚠️ No scrollable element found, using target element directly');
+      // 如果找不到 data-scrollable 元素，使用目标元素本身
+      const { scrollTop, scrollHeight, clientHeight } = element as HTMLElement;
+      const hasScrollableContent = scrollHeight > clientHeight;
+
+      if (!hasScrollableContent) {
+        console.log('🎯 No scrollable content in target element, allowing gesture');
+        return true;
+      }
+
+      if (direction === 'up') {
+        return scrollTop <= 5;
+      } else {
+        return Math.abs(scrollTop + clientHeight - scrollHeight) <= 5;
+      }
+    }
+
+    const { scrollTop, scrollHeight, clientHeight } = scrollableElement;
 
     // 如果内容高度小于等于容器高度，说明没有滚动内容，直接允许手势
     const hasScrollableContent = scrollHeight > clientHeight;
 
     console.log('📏 Scroll position:', {
+      elementType: 'scrollable-container',
       scrollTop,
       scrollHeight,
       clientHeight,
