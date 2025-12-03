@@ -92,8 +92,11 @@ export const useSwipeGesture = ({
 
     // 检查垂直滑动是否在边界
     if (direction === 'up' || direction === 'down') {
-      if (!checkScrollBoundary(direction)) {
-        console.log(`❌ Not at ${direction} boundary, allowing normal scroll`);
+      // 向上滑动（进入下一页）：需要检查是否在底部
+      // 向下滑动（返回上一页）：需要检查是否在顶部
+      const checkDirection = direction === 'up' ? 'down' : 'up';
+      if (!checkScrollBoundary(checkDirection)) {
+        console.log(`❌ Not at boundary for ${direction} gesture, allowing normal scroll`);
         return;
       }
     }
@@ -102,13 +105,13 @@ export const useSwipeGesture = ({
 
     // 触发对应的回调
     switch (direction) {
-      case 'down':
-        console.log('✅ Triggering onSwipeDown (at bottom boundary)');
-        onSwipeDown?.();
-        break;
       case 'up':
-        console.log('✅ Triggering onSwipeUp (at top boundary)');
+        console.log('✅ Triggering onSwipeUp (swipe up at bottom - next page)');
         onSwipeUp?.();
+        break;
+      case 'down':
+        console.log('✅ Triggering onSwipeDown (swipe down at top - previous page)');
+        onSwipeDown?.();
         break;
       case 'left':
         console.log('✅ Triggering onSwipeLeft');
