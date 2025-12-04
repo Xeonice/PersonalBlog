@@ -1,0 +1,168 @@
+/* 基础按钮样式 - 通用 */
+.hintButton, .promptButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* Hint 样式 - 基于原来的 backHint */
+.hintButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Prompt 样式 - 基于原来的 mobilePromptButton */
+.promptButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* 深色主题样式 - 深色背景用浅色按钮 */
+.darkTheme {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.darkTheme:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+/* 浅色主题样式 - 浅色背景用深色按钮和主题色边框 */
+.lightTheme {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--color-primary);
+}
+
+.lightTheme:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: var(--color-primary);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 触发状态的特殊样式 */
+.darkTheme.triggered {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--color-primary);
+  box-shadow:
+    0 0 20px rgba(var(--color-primary-rgb), 0.3),
+    0 0 40px rgba(var(--color-primary-rgb), 0.1);
+}
+
+.lightTheme.triggered {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: var(--color-primary);
+  box-shadow:
+    0 0 20px rgba(var(--color-primary-rgb), 0.2),
+    0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* 按钮图标 */
+.buttonIcon {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  opacity: 0.8;
+  transition: all 0.2s ease;
+  z-index: 2;
+  position: relative;
+}
+
+/* 进度环容器 */
+.progressRing {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.progressSvg {
+  width: 100%;
+  height: 100%;
+}
+
+/* 触发效果 */
+.triggerEffect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 全局暗色主题兼容 - 保留传统用法 */
+:global(.dark) .hintButton:not(.lightTheme):not(.darkTheme),
+:global(.dark) .promptButton:not(.lightTheme):not(.darkTheme) {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark) .hintButton:not(.lightTheme):not(.darkTheme):hover,
+:global(.dark) .promptButton:not(.lightTheme):not(.darkTheme):hover {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+:global(.dark) .hintButton:not(.lightTheme):not(.darkTheme).triggered,
+:global(.dark) .promptButton:not(.lightTheme):not(.darkTheme).triggered {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: var(--color-primary);
+}
+
+/* 移动端样式简化 */
+@media (max-width: 768px) {
+  .promptButton {
+    width: 36px;
+    height: 36px;
+  }
+
+  .buttonIcon {
+    font-size: 1.1rem;
+  }
+
+  /* 移动端触摸优化 */
+  .hintButton:active,
+  .promptButton:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+  }
+}
+
+@media (max-width: 375px) {
+  .hintButton,
+  .promptButton {
+    width: 36px;
+    height: 36px;
+  }
+
+  .buttonIcon {
+    font-size: 1.1rem;
+  }
+}
+
+/* 动画优化 */
+@media (prefers-reduced-motion: reduce) {
+  .hintButton,
+  .promptButton,
+  .buttonIcon,
+  .triggerEffect {
+    transition: none !important;
+    animation: none !important;
+  }
+}

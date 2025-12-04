@@ -8,7 +8,7 @@ import { useConfig } from '../../../hooks/useConfig';
 import styles from './index.module.css';
 
 interface MobileLayoutProps {
-  defaultSection: string;
+  defaultSection: string | null;
 }
 
 // 移动端页面映射
@@ -34,13 +34,9 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({ defaultSection }) => {
     if (page) {
       console.log('📍 Found matching page:', page);
       return page.index;
-    } else if (defaultSection === 'about') {
-      // 特殊处理：about section 对应首页之后的第1页
-      console.log('📍 Setting page to 1 for about section');
-      return 1;
     } else {
       console.log('⚠️ No matching page found for defaultSection:', defaultSection);
-      // 如果没有找到匹配的页面，默认显示首页
+      // 如果没有找到匹配的页面，默认显示首页（第0页）
       return 0;
     }
   }, [defaultSection]);

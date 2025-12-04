@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef, useCallback } from 'react';
+import { motion, useMotionValue, animate } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePdf, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -14,6 +14,14 @@ interface SocialIcon {
   icon: string | IconDefinition;
   href: string;
   label: string;
+}
+
+interface SwipeProgress {
+  direction: 'up' | 'down' | 'left' | 'right' | null;
+  progress: number;
+  isActive: boolean;
+  canTrigger: boolean;
+  distance: number;
 }
 
 interface MobileFirstPageProps {
@@ -32,6 +40,19 @@ const MobileFirstPage: React.FC<MobileFirstPageProps> = ({
   const [hoveredIcon, setHoveredIcon] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  // 手势进度状态
+  const [swipeProgress, setSwipeProgress] = useState<SwipeProgress>({
+    direction: null,
+    progress: 0,
+    isActive: false,
+    canTrigger: false,
+    distance: 0
+  });
+
+  // 使用 MotionValue 来直接控制位置和透明度（更跟手）
+  const swipeHintY = useMotionValue(0);
+  const swipeHintOpacity = useMotionValue(1);
 
   // 图标映射
   const iconMap: Record<string, IconDefinition> = {
@@ -58,10 +79,44 @@ const MobileFirstPage: React.FC<MobileFirstPageProps> = ({
     onSwipeDown?.();
   };
 
+  // 处理手势进度回调
+  const handleSwipeProgress = useCallback((progress: SwipeProgress) => {
+    setSwipeProgress(progress);
+
+    // 只处理上滑手势的进度（从下往上滑动）
+    if (progress.direction === 'up' && progress.isActive) {
+      // 直接使用实际滑动距离，更跟手
+      const moveDistance = progress.distance;
+
+      // 设置位置（向上移动）
+      swipeHintY.set(-moveDistance);
+
+      // 计算透明度：滑动越远透明度越低，滑动100px时完全透明
+      const opacity = Math.max(0, 1 - (moveDistance / 100));
+      swipeHintOpacity.set(opacity);
+    } else if (!progress.isActive) {
+      // 手势结束，使用平滑动画回到原位
+      animate(swipeHintY, 0, {
+        type: "spring",
+        stiffness: 400,
+        damping: 30,
+        mass: 0.8
+      });
+
+      animate(swipeHintOpacity, 1, {
+        type: "spring",
+        stiffness: 400,
+        damping: 30,
+        mass: 0.8
+      });
+    }
+  }, [swipeHintY, swipeHintOpacity]);
+
   // 绑定手势检测（首页使用整个容器，因为没有滚动内容）
   const swipeHandlers = useSwipeGesture({
     onSwipeUp: handleSwipeUp,
     onSwipeDown: handleSwipeDown,
+    onSwipeProgress: handleSwipeProgress,
     threshold: 50, // 设置滑动阈值
     target: containerRef // 使用整个容器作为检测目标，包括提示区域
   });
@@ -98,8 +153,8 @@ const MobileFirstPage: React.FC<MobileFirstPageProps> = ({
 
           {/* 社交图标 */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 as const, y: 20 as const }}
+            animate={{ opacity: 1 as const, y: 0 as const }}
             transition={{ delay: 0.9, duration: 0.6 }}
             className={styles.socialIcons}
           >
@@ -132,24 +187,34 @@ const MobileFirstPage: React.FC<MobileFirstPageProps> = ({
 
         {/* 上滑提示 */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0 as const }}
+          animate={{ opacity: 1 as const }}
           transition={{ delay: 2, duration: 0.8 }}
           className={styles.swipeHint}
           onClick={handleSwipeUp}
+          style={{
+            y: swipeHintY,
+            opacity: swipeHintOpacity
+          }}
         >
           <motion.div
-            animate={{ y: [0, -8, 0] }}
+            animate={{
+              y: swipeProgress.direction === 'up' && swipeProgress.isActive
+                ? 0  // 上滑时停止动画
+                : [0, -8, 0]  // 正常时的上下浮动
+            }}
             transition={{
               duration: 1.5,
-              repeat: Infinity,
+              repeat: swipeProgress.direction === 'up' && swipeProgress.isActive ? 0 : Infinity,
               ease: "easeInOut"
             }}
             className={styles.swipeIndicator}
           >
             <div className={styles.arrow}>↑</div>
           </motion.div>
-          <p className={styles.swipeText}>向上滑动开始</p>
+          <p className={styles.swipeText}>
+            向上滑动开始
+          </p>
         </motion.div>
       </div>
     </>

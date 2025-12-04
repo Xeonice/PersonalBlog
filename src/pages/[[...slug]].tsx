@@ -25,43 +25,7 @@ import {
 } from '../utils/seo';
 import indexStyle from './index.module.css';
 
-// 缓动函数提取到模块级别，避免每次渲染重新创建
-const EASING: [number, number, number, number] = [0.645, 0.045, 0.355, 1];
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const leftSideVariants = {
-  hidden: { x: -30 },
-  visible: {
-    x: 0,
-    transition: {
-      duration: 0.6,
-      ease: EASING,
-    },
-  },
-};
-
-const rightSideVariants = {
-  hidden: { opacity: 0, x: 50 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.8,
-      ease: EASING,
-      delay: 0.2,
-    },
-  },
-};
+// 移除了 variants，改用直接的 initial/animate 属性以避免水合问题
 
 interface StructuredData {
   '@context': string;
@@ -74,7 +38,7 @@ interface StructuredData {
 }
 
 interface IndexPageProps {
-  defaultSection: string;
+  defaultSection: string | null;
   seo: SEOData;
   structuredData: StructuredData;
 }
@@ -90,10 +54,11 @@ const IndexPage: React.FC<IndexPageProps> = ({
   const [isHydrated, setIsHydrated] = React.useState(false);
   const { config } = useConfig();
   const isHeadless = useHeadlessDetection();
-  const { isMobile, isTablet } = useDeviceType();
+  const { isMobile, isTablet, isClient } = useDeviceType();
 
   // 默认启用 Galgame 模式，但对 headless 浏览器使用传统模式以优化 SEO
-  const isGalgameMode = !isHeadless;
+  // 为了避免水合不匹配，只有在客户端水合后才使用 headless 检测
+  const isGalgameMode = isClient ? !isHeadless : true;
 
   // 获取当前激活的导航项ID
   const currentActiveId = config?.navigation?.[currentSectionIndex]?.id;
@@ -105,7 +70,7 @@ const IndexPage: React.FC<IndexPageProps> = ({
   }, [currentActiveId, seo]);
 
   // 使用客户端 SEO 更新 Hook
-  useClientSEO(currentActiveId || defaultSection);
+  useClientSEO(currentActiveId || defaultSection || 'about');
 
   // 处理水合问题
   React.useEffect(() => {
@@ -132,8 +97,11 @@ const IndexPage: React.FC<IndexPageProps> = ({
     if (!config?.navigation) return;
 
     const initializeSection = () => {
+      // 如果 defaultSection 为 null（根路由），桌面端默认显示第一个 section
+      const targetSection = defaultSection || config.navigation[0]?.id;
+
       const navIndex = config.navigation.findIndex(
-        (item) => item.id === defaultSection
+        (item) => item.id === targetSection
       );
       if (navIndex !== -1) {
         setCurrentSectionIndex(navIndex);
@@ -212,14 +180,22 @@ const IndexPage: React.FC<IndexPageProps> = ({
           <ThemeButton />
         </div>
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
+          initial={{ opacity: 0 as const }}
+          animate={{ opacity: 1 as const }}
+          transition={{
+            staggerChildren: 0.3,
+            delayChildren: 0.2,
+          }}
           className={indexStyle.twoColumnLayout}
         >
           {/* Left Side - Fixed Personal Info */}
           <motion.div
-            variants={leftSideVariants}
+            initial={{ x: -30 as const }}
+            animate={{ x: 0 as const }}
+            transition={{
+              duration: 0.6,
+              ease: [0.645, 0.045, 0.355, 1],
+            }}
             className={indexStyle.leftColumn}
           >
             <div className={indexStyle.personalInfo}>
@@ -240,8 +216,8 @@ const IndexPage: React.FC<IndexPageProps> = ({
                 </TextRevealMotion>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 as const, y: 20 as const }}
+                  animate={{ opacity: 1 as const, y: 0 as const }}
                   transition={{ delay: 0.8, duration: 0.6 }}
                 >
                   <AnchorNavigation
@@ -253,8 +229,8 @@ const IndexPage: React.FC<IndexPageProps> = ({
               </div>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 as const, y: 20 as const }}
+                animate={{ opacity: 1 as const, y: 0 as const }}
                 transition={{ delay: 0.9, duration: 0.6 }}
                 className={indexStyle.socialIcons}
               >
@@ -290,14 +266,13 @@ const IndexPage: React.FC<IndexPageProps> = ({
           </motion.div>
 
           {/* Right Side - Scrollable Content */}
-          <motion.div
-            variants={rightSideVariants}
+          <div
             className={`${indexStyle.rightColumn} rightColumn`}
             style={
               isGalgameMode
                 ? {
-                    overflowY: 'hidden',
-                    overflowX: 'hidden',
+                    overflowY: 'hidden' as const,
+                    overflowX: 'hidden' as const,
                     maxHeight: '100vh',
                     paddingBottom: '2rem',
                   }
@@ -331,7 +306,7 @@ const IndexPage: React.FC<IndexPageProps> = ({
                 })
               )}
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </>
@@ -374,7 +349,8 @@ const IndexPage: React.FC<IndexPageProps> = ({
   }
 
   // 客户端水合后，根据设备类型条件渲染
-  if (isMobile || isTablet) {
+  // 确保服务器端和客户端渲染一致，只有在客户端水合后才使用设备检测
+  if (isClient && (isMobile || isTablet)) {
     return (
       <>
         <Head>
@@ -453,6 +429,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [
       { params: { slug: [] } },           // /
+      { params: { slug: ['about'] } },     // /about (显式添加)
       { params: { slug: ['experience'] } }, // /experience
       { params: { slug: ['principles'] } }, // /principles
       { params: { slug: ['article-links'] } }, // /article-links
@@ -464,10 +441,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<IndexPageProps> = async ({ params }) => {
   const slug = params?.slug as string[] | undefined;
-  const sectionId = slug?.[0] || 'about';
+  // 根路由 / 对应 null（移动端首页），桌面端默认显示关于我
+  // /about 显式对应 'about' section
+  const sectionId = slug?.[0] || null;
 
-  const seo = generateSectionSEO(sectionId);
-  const structuredData = generateStructuredData(sectionId);
+  // 为 SEO 生成使用默认值
+  const seoSectionId = sectionId || 'about';
+  const seo = generateSectionSEO(seoSectionId);
+  const structuredData = generateStructuredData(seoSectionId);
 
   return {
     props: {

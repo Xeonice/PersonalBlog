@@ -10,12 +10,13 @@ import {
   faLightbulb,
   faTimes,
   faPlay,
-  faArrowDown,
 } from '@fortawesome/free-solid-svg-icons';
 import TypewriterText from './TypewriterText';
 import GalgameButton from './GalgameButton';
 import SectionContent from '../SectionContent';
+import SwipeButton from '../Mobile/SwipeButton';
 import { useDeviceType } from '../../hooks/useDeviceType';
+import { useMultiTheme } from '../../context/ThemeContext';
 import styles from './index.module.css';
 
 // ScrollContainer Context 已移除，因为 useInView 不需要指定 root
@@ -78,6 +79,14 @@ interface SectionData {
   content: SectionContent;
 }
 
+interface SwipeProgress {
+  direction: 'up' | 'down' | 'left' | 'right' | null;
+  progress: number;
+  isActive: boolean;
+  canTrigger: boolean;
+  distance: number;
+}
+
 interface GalgameSectionProps {
   sections: SectionData[];
   currentSectionIndex: number;
@@ -87,6 +96,9 @@ interface GalgameSectionProps {
   currentPage?: number;
   totalPages?: number;
   onMobilePageNext?: () => void;
+  scrollContainerRef?: React.RefObject<HTMLDivElement>;
+  swipeProgress?: SwipeProgress;
+  nextPageSwipeButtonRef?: React.RefObject<HTMLDivElement>; // 下一页 SwipeButton 的 ref
 }
 
 const GalgameSection: React.FC<GalgameSectionProps> = ({
@@ -98,10 +110,17 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
   currentPage,
   totalPages,
   onMobilePageNext,
+  scrollContainerRef: externalScrollContainerRef,
+  swipeProgress,
+  nextPageSwipeButtonRef,
 }) => {
   const { isMobile } = useDeviceType();
+  const { currentTheme } = useMultiTheme();
   const contentRef = useRef<HTMLDivElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const internalScrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // 使用外部传入的 ref 或内部 ref
+  const scrollContainerRef = externalScrollContainerRef || internalScrollContainerRef;
 
   const currentSection = sections[currentSectionIndex];
 
@@ -214,6 +233,23 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
     }
   };
 
+  const handleContinueClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 阻止事件冒泡
+
+    if (isTextComplete && currentSectionIndex < sections.length - 1) {
+      // 重置滚动容器的滚动位置到顶部
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+
+      // 进入下一个章节
+      onSectionChange?.(currentSectionIndex + 1);
+    }
+  };
+
   const handleHintClose = (e: React.MouseEvent) => {
     e.stopPropagation(); // 阻止事件冒泡
     setShowHint(false);
@@ -227,7 +263,7 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
   return (
     <div className={styles.galgameContainer} onMouseDown={handleClick}>
         {/* 主要内容区域 */}
-        <div className={styles.mainContentArea} ref={scrollContainerRef}>
+        <div className={styles.mainContentArea} ref={scrollContainerRef} data-scrollable="true">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSection.id}
@@ -302,25 +338,15 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
               currentPage &&
               totalPages &&
               currentPage < totalPages && (
-                <motion.div
-                  className={styles.mobilePromptButton}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.5, duration: 0.6 }}
+                <SwipeButton
+                  ref={nextPageSwipeButtonRef}
+                  direction="down"
                   onClick={onMobilePageNext}
-                >
-                  <motion.div
-                    className={styles.mobilePromptIcon}
-                    animate={{ y: [0, 4, 0] }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faArrowDown} />
-                  </motion.div>
-                </motion.div>
+                  swipeProgress={swipeProgress}
+                  style="prompt"
+                  animationDelay={1.5}
+                  theme={currentTheme.isDark ? 'dark' : 'light'}
+                />
               )}
           </div>
 
@@ -333,6 +359,7 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
               currentSectionIndex < sections.length - 1 && (
                 <GalgameButton
                   type="continue"
+                  onClick={handleContinueClick}
                   motionProps={{
                     initial: { opacity: 0, y: 30, scale: 0.9 },
                     animate: { opacity: 1, y: 0, scale: 1 },

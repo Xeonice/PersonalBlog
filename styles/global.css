@@ -10,6 +10,33 @@ html {
   -webkit-text-size-adjust: 100%;
   box-sizing: border-box;
   line-height: 1.5;
+
+  /* 移动端：禁用上滑刷新和滚动溢出行为 */
+  overscroll-behavior: none;
+  overscroll-behavior-y: contain;
+  /* iOS Safari 特殊处理 */
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  /* 进一步确保移动端不会有上滑刷新 */
+  overscroll-behavior: none;
+  overscroll-behavior-y: contain;
+}
+
+/* 移动端特殊处理 - 仅在触摸设备上生效 */
+@media (hover: none) and (pointer: coarse) {
+  html, body {
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+    /* 防止iOS Safari的拉伸效果 */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 确保内容可滚动区域正常工作 */
+  #__next {
+    overscroll-behavior: none;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -286,4 +313,42 @@ textarea::-ms-input-placeholder,
 input::placeholder,
 textarea::placeholder {
   color: #a0aec0;
+}
+
+/* 隐藏所有滚动条 - PC端和移动端都隐藏 */
+/* Webkit浏览器 (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox */
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* 所有滚动容器 */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
