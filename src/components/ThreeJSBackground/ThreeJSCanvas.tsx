@@ -39,6 +39,7 @@ class DotMatrix {
   private animationId: number;
   private themeColors: ThemeColors;
   private themeStyle: ThemeStyle;
+  private resizeTimer: NodeJS.Timeout | null = null;
 
   constructor(container: HTMLElement, initialThemeColors: ThemeColors, themeStyle: ThemeStyle) {
     this.container = container;
@@ -95,6 +96,8 @@ class DotMatrix {
       powerPreference: 'high-performance',
       preserveDrawingBuffer: false,
       failIfMajorPerformanceCaveat: false, // 允许在低性能环境下运行
+      stencil: false, // 禁用模板缓冲区以提升性能
+      depth: false,   // 禁用深度缓冲区（2D 粒子系统不需要）
     });
     this.renderer.setSize(width, height);
     // 限制像素比，特别是在移动设备上
@@ -104,7 +107,23 @@ class DotMatrix {
     const bgColor = new THREE.Color(this.themeColors.background);
     this.renderer.setClearColor(bgColor, 1);
 
-    this.container.appendChild(this.renderer.domElement);
+    // 确保 Canvas DOM 元素的样式正确并优化滚动性能
+    const canvasElement = this.renderer.domElement;
+    canvasElement.style.position = 'absolute';
+    canvasElement.style.top = '0';
+    canvasElement.style.left = '0';
+    canvasElement.style.width = '100%';
+    canvasElement.style.height = '100%';
+    canvasElement.style.display = 'block';
+    // 优化滚动性能
+    canvasElement.style.pointerEvents = 'none';
+    canvasElement.style.touchAction = 'none';
+    canvasElement.style.userSelect = 'none';
+    // 防止重绘问题
+    canvasElement.style.backfaceVisibility = 'hidden';
+    canvasElement.style.perspective = '1000px';
+
+    this.container.appendChild(canvasElement);
   }
 
   private createDotMatrix() {
@@ -360,10 +379,13 @@ class DotMatrix {
     this.onResize = this.onResize.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseLeave = this.onMouseLeave.bind(this);
+    this.onScroll = this.onScroll.bind(this);
 
     window.addEventListener('resize', this.onResize, { passive: true });
     window.addEventListener('mousemove', this.onMouseMove, { passive: true });
     window.addEventListener('mouseleave', this.onMouseLeave, { passive: true });
+    // 添加滚动事件监听，但不做任何操作，只是防止滚动时的重绘
+    window.addEventListener('scroll', this.onScroll, { passive: true });
 
     // 处理 WebGL 上下文丢失
     if (this.renderer?.domElement) {
@@ -381,8 +403,6 @@ class DotMatrix {
       }, false);
     }
   }
-
-  private resizeTimer: NodeJS.Timeout | null = null;
 
   private onResize() {
     // 防抖处理，避免频繁重建几何体
@@ -402,6 +422,11 @@ class DotMatrix {
       this.material.uniforms.uResolution.value.set(width, height);
       this.material.uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio, 1.5);
 
+      // 确保 Canvas DOM 元素在 resize 时保持正确的样式
+      const canvasElement = this.renderer.domElement;
+      canvasElement.style.width = '100%';
+      canvasElement.style.height = '100%';
+
       this.createDotMatrix();
     }, 150); // 150ms 防抖延迟
   }
@@ -416,8 +441,17 @@ class DotMatrix {
     this.mouse.y = -10000;
   }
 
-  public updateTheme(themeColors: ThemeColors) {
+  // 滚动事件处理 - 不做任何操作，只是防止重绘
+  private onScroll() {
+    // 不做任何操作，让 canvas 保持 fixed 定位
+    // 这个空函数可以防止浏览器在滚动时的一些优化导致的问题
+  }
+
+  public updateTheme(themeColors: ThemeColors, themeStyle?: ThemeStyle) {
     this.themeColors = themeColors;
+    if (themeStyle !== undefined) {
+      this.themeStyle = themeStyle;
+    }
 
     // 更新背景色
     const bgColor = new THREE.Color(themeColors.background);
@@ -428,6 +462,12 @@ class DotMatrix {
       this.material.uniforms.uPrimaryColor.value.set(themeColors.primaryParticle);
       this.material.uniforms.uSecondaryColor.value.set(themeColors.secondaryParticle);
       this.material.uniforms.uAccentColor.value.set(themeColors.accentParticle);
+
+      // 更新主题相关的 uniforms
+      const isLightTheme = this.themeStyle === ThemeStyle.LIGHT;
+      const accentThreshold = isLightTheme ? 0.3 : 0.15;
+      this.material.uniforms.uAccentThreshold.value = accentThreshold;
+      this.material.uniforms.uIsLightTheme.value = isLightTheme ? 1.0 : 0.0;
     }
   }
 
@@ -472,6 +512,7 @@ class DotMatrix {
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('mouseleave', this.onMouseLeave);
+    window.removeEventListener('scroll', this.onScroll);
 
     // 清理 Three.js 资源
     this.geometry?.dispose();
@@ -519,6 +560,9 @@ export default function ThreeJSCanvas({ themeColors, themeStyle }: ThreeJSCanvas
 
       try {
         dotMatrixRef.current = new DotMatrix(containerRef.current, themeColors, themeStyle);
+        console.log('ThreeJS DotMatrix initialized successfully');
+        // 确保初始化后应用当前主题
+        dotMatrixRef.current.updateTheme(themeColors, themeStyle);
       } catch (error) {
         console.error('Failed to initialize Three.js:', error);
       }
@@ -526,10 +570,13 @@ export default function ThreeJSCanvas({ themeColors, themeStyle }: ThreeJSCanvas
 
     return () => {
       clearTimeout(timer);
-      dotMatrixRef.current?.dispose();
-      dotMatrixRef.current = null;
+      if (dotMatrixRef.current) {
+        console.log('Disposing ThreeJS DotMatrix');
+        dotMatrixRef.current?.dispose();
+        dotMatrixRef.current = null;
+      }
     };
-  }, [webGLSupported, themeColors, themeStyle]);
+  }, [webGLSupported]); // 只依赖 webGLSupported，避免频繁重建
 
   // 响应主题变化
   useEffect(() => {
@@ -539,7 +586,7 @@ export default function ThreeJSCanvas({ themeColors, themeStyle }: ThreeJSCanvas
     }
 
     console.log('Updating theme colors:', themeColors);
-    dotMatrixRef.current.updateTheme(themeColors);
+    dotMatrixRef.current.updateTheme(themeColors, themeStyle);
   }, [themeColors, themeStyle]);
 
   // 如果 WebGL 不可用，显示降级背景

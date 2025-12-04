@@ -1,11 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import ThemeButton from '../../ThemeButton';
 import ThreeJSBackground from '../../ThreeJSBackground';
 import GalgameSection from '../../GalgameSection';
 import MobileNavButton from '../MobileNavButton';
+import SwipeButton from '../SwipeButton';
 import { useSwipeGesture } from '../../../hooks/useSwipeGesture';
 import { useConfig } from '../../../hooks/useConfig';
 import { useMultiTheme } from '../../../context/ThemeContext';
@@ -19,6 +18,14 @@ interface MobileGalgamePageProps {
   onSwipeLeft?: () => void;
   onSwipeRight?: () => void;
   onNavigate?: (pageIndex: number) => void;
+}
+
+interface SwipeProgress {
+  direction: 'up' | 'down' | 'left' | 'right' | null;
+  progress: number;
+  isActive: boolean;
+  canTrigger: boolean;
+  distance: number;
 }
 
 const MobileGalgamePage: React.FC<MobileGalgamePageProps> = ({
@@ -35,6 +42,17 @@ const MobileGalgamePage: React.FC<MobileGalgamePageProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null); // 新增：用于 GalgameSection 内部滚动容器
+  const backSwipeButtonRef = useRef<HTMLDivElement>(null); // 返回上一页的 SwipeButton 引用
+  const nextSwipeButtonRef = useRef<HTMLDivElement>(null); // 进入下一页的 SwipeButton 引用
+
+  // 手势进度状态
+  const [swipeProgress, setSwipeProgress] = useState<SwipeProgress>({
+    direction: null,
+    progress: 0,
+    isActive: false,
+    canTrigger: false,
+    distance: 0
+  });
 
   // 处理手势回调，添加调试信息
   const handleSwipeUp = () => {
@@ -47,14 +65,37 @@ const MobileGalgamePage: React.FC<MobileGalgamePageProps> = ({
     onSwipeDown?.();
   };
 
+  // 处理手势进度回调 - 添加节流避免频繁更新
+  const handleSwipeProgress = useCallback((progress: SwipeProgress) => {
+    console.log('📱 MobileGalgamePage received swipe progress:', progress);
+
+    // 只在状态真正变化时更新
+    setSwipeProgress(prev => {
+      if (
+        prev.direction === progress.direction &&
+        prev.isActive === progress.isActive &&
+        prev.canTrigger === progress.canTrigger &&
+        Math.abs(prev.progress - progress.progress) < 0.01 &&
+        Math.abs(prev.distance - progress.distance) < 1
+      ) {
+        return prev; // 避免不必要的重新渲染
+      }
+      return progress;
+    });
+  }, []);
+
   // 绑定手势检测
   const swipeHandlers = useSwipeGesture({
     onSwipeUp: handleSwipeUp,
     onSwipeDown: handleSwipeDown,
     onSwipeLeft,
     onSwipeRight,
+    onSwipeProgress: handleSwipeProgress,
     threshold: 50, // 设置滑动阈值
-    target: scrollContainerRef // 直接使用滚动容器的 ref
+    target: scrollContainerRef, // 直接使用滚动容器的 ref
+    upSwipeButtonRef: nextSwipeButtonRef, // 上滑对应的按钮（向下箭头，进入下一页）
+    downSwipeButtonRef: backSwipeButtonRef, // 下滑对应的按钮（向上箭头，返回上一页）
+    requireSwipeButtonVisible: true // GalgameContainer 页面需要检查 SwipeButton 可见性
   });
 
   // 获取当前页面对应的内容
@@ -89,26 +130,16 @@ const MobileGalgamePage: React.FC<MobileGalgamePageProps> = ({
             <span>{currentPage}/5</span>
           </div>
 
-          {/* 简化的返回提示 */}
-          <motion.div
-            className={styles.backHint}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.5, duration: 0.6 }}
+          {/* 返回提示按钮 - 下滑手势触发返回上一页，显示向上箭头 */}
+          <SwipeButton
+            ref={backSwipeButtonRef}
+            direction="up"
             onClick={handleSwipeDown}
-          >
-            <motion.div
-              className={styles.backIcon}
-              animate={{ y: [0, -4, 0] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            >
-              <FontAwesomeIcon icon={faArrowUp} />
-            </motion.div>
-          </motion.div>
+            swipeProgress={swipeProgress}
+            style="hint"
+            animationDelay={1.5}
+            theme={currentTheme.isDark ? 'dark' : 'light'}
+          />
 
           {/* 主题切换按钮 */}
           <ThemeButton />
@@ -120,9 +151,9 @@ const MobileGalgamePage: React.FC<MobileGalgamePageProps> = ({
             {currentSection ? (
               <motion.div
                 key={`section-${currentPage}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
+                initial={{ opacity: 0 as const, y: 20 as const }}
+                animate={{ opacity: 1 as const, y: 0 as const }}
+                exit={{ opacity: 0 as const, y: -20 as const }}
                 transition={{ duration: 0.6 }}
                 className={styles.sectionContainer}
               >
@@ -134,6 +165,8 @@ const MobileGalgamePage: React.FC<MobileGalgamePageProps> = ({
                   currentPage={currentPage}
                   totalPages={5}
                   scrollContainerRef={scrollContainerRef}
+                  swipeProgress={swipeProgress}
+                  nextPageSwipeButtonRef={nextSwipeButtonRef}
                   onSectionComplete={() => {
                     // 章节内容完成，但不自动跳转页面
                     // 跳转由滑动手势或点击继续按钮触发
@@ -144,9 +177,9 @@ const MobileGalgamePage: React.FC<MobileGalgamePageProps> = ({
             ) : (
               <motion.div
                 key={`placeholder-${currentPage}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
+                initial={{ opacity: 0 as const, y: 20 as const }}
+                animate={{ opacity: 1 as const, y: 0 as const }}
+                exit={{ opacity: 0 as const, y: -20 as const }}
                 transition={{ duration: 0.6 }}
                 className={styles.placeholder}
               >
@@ -160,6 +193,7 @@ const MobileGalgamePage: React.FC<MobileGalgamePageProps> = ({
 
 
       </div>
+
 
       {/* 导航按钮 */}
       <MobileNavButton

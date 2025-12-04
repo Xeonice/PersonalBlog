@@ -1,13 +1,26 @@
 import { useSwipeable } from 'react-swipeable';
 import { useRef } from 'react';
+import { useDeviceType } from './useDeviceType';
+
+interface SwipeProgress {
+  direction: 'up' | 'down' | 'left' | 'right' | null;
+  progress: number; // 0-1 基于阈值的进度
+  isActive: boolean; // 是否在进行手势
+  canTrigger: boolean; // 是否可以触发（边界检查通过）
+  distance: number; // 实际滑动距离
+}
 
 interface UseSwipeGestureProps {
   onSwipeDown?: () => void;
   onSwipeUp?: () => void;
   onSwipeLeft?: () => void;
   onSwipeRight?: () => void;
+  onSwipeProgress?: (progress: SwipeProgress) => void; // 新增手势进度回调
   threshold?: number;
   target?: React.RefObject<HTMLElement>;
+  upSwipeButtonRef?: React.RefObject<HTMLElement>; // 上滑对应的 SwipeButton 引用（向下箭头）
+  downSwipeButtonRef?: React.RefObject<HTMLElement>; // 下滑对应的 SwipeButton 引用（向上箭头）
+  requireSwipeButtonVisible?: boolean; // 是否需要检查 SwipeButton 可见性，默认 false（第一页不需要）
 }
 
 export const useSwipeGesture = ({
@@ -15,11 +28,80 @@ export const useSwipeGesture = ({
   onSwipeUp,
   onSwipeLeft,
   onSwipeRight,
+  onSwipeProgress,
   threshold = 50, // 滑动阈值
-  target
+  target,
+  upSwipeButtonRef,
+  downSwipeButtonRef,
+  requireSwipeButtonVisible = false // 默认不需要检查，第一页不需要
 }: UseSwipeGestureProps) => {
 
-  const lastGestureTime = useRef(0);
+  const lastGestureTime = useRef(0); // 用于手势防抖
+  const lastProgressTime = useRef(0); // 用于进度更新节流
+  const { isMobile } = useDeviceType(); // 移动端检测
+
+  // 检查指定方向的 SwipeButton 是否可见
+  const isSwipeButtonVisible = (direction: 'up' | 'down'): boolean => {
+    // 根据手势方向选择对应的按钮
+    // 上滑手势 -> 检查 upSwipeButtonRef（向下箭头，进入下一页）
+    // 下滑手势 -> 检查 downSwipeButtonRef（向上箭头，返回上一页）
+    const buttonRef = direction === 'up' ? upSwipeButtonRef : downSwipeButtonRef;
+
+    if (!buttonRef?.current) {
+      console.log(`❌ SwipeButton ref for ${direction} gesture not found`);
+      return false;
+    }
+
+    const buttonElement = buttonRef.current;
+    const rect = buttonElement.getBoundingClientRect();
+    const isVisible = rect.width > 0 && rect.height > 0 &&
+                     rect.top >= 0 && rect.left >= 0 &&
+                     rect.bottom <= window.innerHeight &&
+                     rect.right <= window.innerWidth;
+
+    const computedStyle = window.getComputedStyle(buttonElement);
+    const isDisplayed = computedStyle.display !== 'none' &&
+                       computedStyle.visibility !== 'hidden' &&
+                       computedStyle.opacity !== '0';
+
+    console.log(`🔍 SwipeButton visibility check for ${direction} gesture:`, {
+      direction,
+      isVisible,
+      isDisplayed,
+      rect: {
+        width: rect.width,
+        height: rect.height,
+        top: rect.top,
+        left: rect.left
+      },
+      computedStyle: {
+        display: computedStyle.display,
+        visibility: computedStyle.visibility,
+        opacity: computedStyle.opacity
+      }
+    });
+
+    return isVisible && isDisplayed;
+  };
+
+  // 检查是否应该启用手势
+  const shouldEnableGesture = (direction: 'up' | 'down' | 'left' | 'right'): boolean => {
+    if (!isMobile) {
+      console.log('❌ Not on mobile device, disabling gesture');
+      return false;
+    }
+
+    // 只有在需要检查 SwipeButton 可见性时才进行检查（例如 GalgameContainer 页面）
+    if (requireSwipeButtonVisible && (direction === 'up' || direction === 'down')) {
+      if (!isSwipeButtonVisible(direction)) {
+        console.log(`❌ SwipeButton for ${direction} gesture not visible, disabling gesture`);
+        return false;
+      }
+    }
+
+    console.log(`✅ Mobile device + gesture requirements met for ${direction}, enabling gesture`);
+    return true;
+  };
 
   // 将边界检查逻辑移到外部，避免 React Compiler 检测到 ref 访问
   const checkScrollBoundary = (direction: 'up' | 'down'): boolean => {
@@ -109,6 +191,12 @@ export const useSwipeGesture = ({
   };
 
   const handleSwipe = (direction: 'up' | 'down' | 'left' | 'right', deltaX: number, deltaY: number) => {
+    // 首先检查是否应该启用手势
+    if (!shouldEnableGesture(direction)) {
+      console.log(`🚫 Gesture disabled for ${direction} - not on mobile or SwipeButton not visible`);
+      return;
+    }
+
     const now = Date.now();
     // 防抖动：500ms内只允许一次手势
     if (now - lastGestureTime.current < 500) {
@@ -177,25 +265,93 @@ export const useSwipeGesture = ({
         handleSwipe('right', deltaX, 0);
       }
     },
-    // 添加手势开始时的处理，用于阻止浏览器默认行为
+    // 添加手势开始时的处理，用于进度跟踪
     onSwiping: (eventData) => {
-      const { deltaY, event } = eventData;
 
-      // 如果是垂直滑动且满足边界条件，阻止浏览器默认行为
-      if (Math.abs(deltaY) > 10) { // 垂直滑动阈值
-        const direction = deltaY > 0 ? 'down' : 'up';
-        const checkDirection = direction === 'up' ? 'down' : 'up';
+      const { deltaY, deltaX } = eventData;
 
-        // 检查是否在边界，如果是则阻止默认行为
-        if (checkScrollBoundary(checkDirection)) {
-          console.log('🚫 Preventing default browser behavior for', direction, 'swipe at boundary');
-          event.preventDefault();
+      // 确定主要滑动方向和距离
+      const absY = Math.abs(deltaY);
+      const absX = Math.abs(deltaX);
+
+      if (absY > 10 || absX > 10) { // 有效滑动阈值
+        let direction: 'up' | 'down' | 'left' | 'right' | null = null;
+        let distance = 0;
+        let canTrigger = false;
+
+        // 确定主要方向
+        if (absY > absX) {
+          // 垂直滑动
+          direction = deltaY > 0 ? 'down' : 'up';
+          distance = absY;
+
+          // 首先检查是否应该启用此方向的手势
+          if (!shouldEnableGesture(direction)) {
+            return; // 如果按钮不可见，直接返回
+          }
+
+          // 检查边界条件
+          const checkDirection = direction === 'up' ? 'down' : 'up';
+          canTrigger = checkScrollBoundary(checkDirection);
+
+          if (canTrigger) {
+            console.log('🎯 Gesture detected at boundary for', direction, 'swipe');
+          }
+        } else {
+          // 水平滑动
+          direction = deltaX > 0 ? 'right' : 'left';
+          distance = absX;
+
+          // 检查是否应该启用此方向的手势
+          if (!shouldEnableGesture(direction)) {
+            return; // 如果不符合条件，直接返回
+          }
+
+          canTrigger = true; // 水平滑动暂时不需要边界检查
         }
+
+        // 计算进度
+        const progress = Math.min(distance / threshold, 1);
+
+        // 节流进度回调更新 - 避免频繁更新影响其他动画
+        if (onSwipeProgress && direction) {
+          const progressData = {
+            direction,
+            progress,
+            isActive: true,
+            canTrigger,
+            distance
+          };
+
+          // 使用 requestAnimationFrame 确保不阻塞其他动画
+          // 同时减少不必要的更新频率
+          if (!lastProgressTime.current || Date.now() - lastProgressTime.current > 16) { // ~60fps
+            lastProgressTime.current = Date.now();
+            requestAnimationFrame(() => {
+              onSwipeProgress(progressData);
+            });
+          }
+        }
+      }
+    },
+    // 手势结束时清理进度状态
+    onSwiped: () => {
+      // 重置进度状态 - 使用 requestAnimationFrame 优化性能
+      if (onSwipeProgress) {
+        requestAnimationFrame(() => {
+          onSwipeProgress({
+            direction: null,
+            progress: 0,
+            isActive: false,
+            canTrigger: false,
+            distance: 0
+          });
+        });
       }
     },
     trackMouse: false, // 禁用鼠标跟踪，只支持触摸
     trackTouch: true,  // 启用触摸跟踪
-    preventScrollOnSwipe: false, // 允许正常滚动
+    preventScrollOnSwipe: false, // 恢复为 false，让我们手动处理边界检测
     delta: threshold, // 设置触发阈值
   });
 

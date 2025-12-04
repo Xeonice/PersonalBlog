@@ -32,17 +32,17 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   return (
     <motion.div
       className={styles.overlay}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={{ opacity: 0 as const }}
+      animate={{ opacity: 1 as const }}
+      exit={{ opacity: 0 as const }}
       transition={{ duration: 0.2 }}
       onClick={onClose}
     >
       <motion.div
         className={styles.menu}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0 as const, y: 20 as const }}
+        animate={{ opacity: 1 as const, y: 0 as const }}
+        exit={{ opacity: 0 as const, y: 20 as const }}
         transition={{ duration: 0.2, ease: "easeOut" }}
         onClick={(e) => e.stopPropagation()}
       >
