@@ -87,6 +87,7 @@ interface GalgameSectionProps {
   currentPage?: number;
   totalPages?: number;
   onMobilePageNext?: () => void;
+  scrollContainerRef?: React.RefObject<HTMLDivElement>;
 }
 
 const GalgameSection: React.FC<GalgameSectionProps> = ({
@@ -98,10 +99,14 @@ const GalgameSection: React.FC<GalgameSectionProps> = ({
   currentPage,
   totalPages,
   onMobilePageNext,
+  scrollContainerRef: externalScrollContainerRef,
 }) => {
   const { isMobile } = useDeviceType();
   const contentRef = useRef<HTMLDivElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const internalScrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // 使用外部传入的 ref 或内部 ref
+  const scrollContainerRef = externalScrollContainerRef || internalScrollContainerRef;
 
   const currentSection = sections[currentSectionIndex];
 

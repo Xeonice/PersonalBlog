@@ -34,6 +34,7 @@ const MobileGalgamePage: React.FC<MobileGalgamePageProps> = ({
   const { currentTheme } = useMultiTheme();
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null); // 新增：用于 GalgameSection 内部滚动容器
 
   // 处理手势回调，添加调试信息
   const handleSwipeUp = () => {
@@ -53,7 +54,7 @@ const MobileGalgamePage: React.FC<MobileGalgamePageProps> = ({
     onSwipeLeft,
     onSwipeRight,
     threshold: 50, // 设置滑动阈值
-    target: containerRef // 使用容器作为滚动检测目标，让 useSwipeGesture 自动查找内部的 data-scrollable 元素
+    target: scrollContainerRef // 直接使用滚动容器的 ref
   });
 
   // 获取当前页面对应的内容
@@ -132,6 +133,7 @@ const MobileGalgamePage: React.FC<MobileGalgamePageProps> = ({
                   isMobilePage={true}
                   currentPage={currentPage}
                   totalPages={5}
+                  scrollContainerRef={scrollContainerRef}
                   onSectionComplete={() => {
                     // 章节内容完成，但不自动跳转页面
                     // 跳转由滑动手势或点击继续按钮触发
