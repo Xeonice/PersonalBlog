@@ -54,6 +54,7 @@ const MobileFirstPage: React.FC<MobileFirstPageProps> = ({
 
   // 处理向下滑动手势（首页没有上一页）
   const handleSwipeDown = () => {
+    debugger;
     console.log('📱 MobileFirstPage: handleSwipeDown called (no action - already at first page)');
     onSwipeDown?.();
   };

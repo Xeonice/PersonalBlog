@@ -25,9 +25,20 @@ export const useSwipeGesture = ({
   const checkScrollBoundary = (direction: 'up' | 'down'): boolean => {
     const element = target?.current;
     if (!element) {
-      console.log('❌ No target element found, allowing gesture');
+      console.log('❌ No target element found, target?.current is null, allowing gesture');
+      console.log('🔍 Target ref info:', {
+        hasTarget: !!target,
+        targetCurrent: target?.current,
+        targetType: typeof target?.current
+      });
       return true; // 没有目标元素时，允许手势
     }
+
+    console.log('✅ Target element found:', {
+      tagName: element.tagName,
+      className: element.className,
+      scrollTop: element.scrollTop
+    });
 
     // 尝试查找内部的滚动容器
     const scrollableElement = element.querySelector('[data-scrollable="true"]') as HTMLElement;
@@ -99,7 +110,6 @@ export const useSwipeGesture = ({
 
   const handleSwipe = (direction: 'up' | 'down' | 'left' | 'right', deltaX: number, deltaY: number) => {
     const now = Date.now();
-
     // 防抖动：500ms内只允许一次手势
     if (now - lastGestureTime.current < 500) {
       console.log('🚫 Gesture throttled');
