@@ -10,6 +10,33 @@ html {
   -webkit-text-size-adjust: 100%;
   box-sizing: border-box;
   line-height: 1.5;
+
+  /* 移动端：禁用上滑刷新和滚动溢出行为 */
+  overscroll-behavior: none;
+  overscroll-behavior-y: contain;
+  /* iOS Safari 特殊处理 */
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  /* 进一步确保移动端不会有上滑刷新 */
+  overscroll-behavior: none;
+  overscroll-behavior-y: contain;
+}
+
+/* 移动端特殊处理 - 仅在触摸设备上生效 */
+@media (hover: none) and (pointer: coarse) {
+  html, body {
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+    /* 防止iOS Safari的拉伸效果 */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 确保内容可滚动区域正常工作 */
+  #__next {
+    overscroll-behavior: none;
+  }
 }
 
 @media (max-width: 1200px) {

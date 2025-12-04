@@ -5,6 +5,12 @@
   flex-direction: column;
   color: var(--text-primary, #333333);
   position: relative; /* 确保正确的层叠上下文 */
+
+  /* 禁用上滑刷新和滚动溢出行为 */
+  overscroll-behavior: none;
+  overscroll-behavior-y: contain;
+  /* 防止iOS Safari的橡皮筋效果 */
+  -webkit-overflow-scrolling: touch;
 }
 
 .placeholder {

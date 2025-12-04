@@ -177,6 +177,22 @@ export const useSwipeGesture = ({
         handleSwipe('right', deltaX, 0);
       }
     },
+    // 添加手势开始时的处理，用于阻止浏览器默认行为
+    onSwiping: (eventData) => {
+      const { deltaY, event } = eventData;
+
+      // 如果是垂直滑动且满足边界条件，阻止浏览器默认行为
+      if (Math.abs(deltaY) > 10) { // 垂直滑动阈值
+        const direction = deltaY > 0 ? 'down' : 'up';
+        const checkDirection = direction === 'up' ? 'down' : 'up';
+
+        // 检查是否在边界，如果是则阻止默认行为
+        if (checkScrollBoundary(checkDirection)) {
+          console.log('🚫 Preventing default browser behavior for', direction, 'swipe at boundary');
+          event.preventDefault();
+        }
+      }
+    },
     trackMouse: false, // 禁用鼠标跟踪，只支持触摸
     trackTouch: true,  // 启用触摸跟踪
     preventScrollOnSwipe: false, // 允许正常滚动
